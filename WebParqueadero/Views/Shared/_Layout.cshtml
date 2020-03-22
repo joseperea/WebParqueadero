@@ -1,44 +1,125 @@
 ﻿<!DOCTYPE html>
+@model IEnumerable<WebParqueadero.Models.Parqueadero>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/fontawesome-free-5.12.1-web/css")
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/Content/fontawesome-free-5.12.1-web/js")
 
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+    @if (Model != null)
+    {
+        if (Model.Count() > 0)
+        {
+            <nav class="navbar navbar-expand-lg navbar-light bg-secondary">
+                <a class="navbar-brand" href="#">
+                    <img src="~/Imagenes/parking-solid.svg" width="30" height="30" class="d-inline-block align-top" />
+                    @Html.ActionLink(Model.FirstOrDefault().NombreEmpresa_Parq.ToUpper(), "Index", "Home", new { }, new { @class = "navbar-brand" })
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            @Html.ActionLink("Inicio", "Index", "Home", new { }, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("Reporte", "Index", "Reportes", new { }, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("Usuarios", "Index", "Usuarios", new { }, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("Configuracion", "Edit", "Parqueadero", new { id=Model.FirstOrDefault().Id_Parq }, new { @class = "nav-link" })
+                        </li>
+                        @*<li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                @Html.ActionLink("Usuarios", "Index", "Usuarios", new { }, new { @class = "nav-link" })
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
-                @Html.Partial("_LoginPartial")
+        </li>*@
+                        @*<li class="nav-item">
+            <a class="nav-link disabled" href="#">Disabled</a>
+        </li>*@
+                    </ul>
+                    <form class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                    @Html.Partial("_LoginPartial")
+                </div>
+            </nav>
+        }
+        else
+        {
+            <nav class="navbar navbar-expand-lg navbar-light bg-secondary">
+                <a class="navbar-brand" href="#">
+                    <img src="~/Imagenes/parking-solid.svg" width="30" height="30" class="d-inline-block align-top" />
+                    CONFIGURACION PARQUEADERO
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </nav>
+        }
+    }
+    else
+    {
+        <nav class="navbar navbar-expand-lg navbar-light bg-secondary">
+            <a class="navbar-brand" href="#">
+                <img src="~/Imagenes/parking-solid.svg" width="30" height="30" class="d-inline-block align-top" />
+                CONFIGURAR PARQUEADERO
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </nav>
+    }
+
+
+    @* <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li>@Html.ActionLink("About", "About", "Home")</li>
+                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    </ul>
+                    @Html.Partial("_LoginPartial")
+                </div>
             </div>
-        </div>
-    </div>
-    <div class="container body-content">
+        </div>*@
+    <div class="container-fluid body-content">
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - Desarrollado por Cjs</p>
         </footer>
     </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/vue")
     @RenderSection("scripts", required: false)
 </body>
 </html>

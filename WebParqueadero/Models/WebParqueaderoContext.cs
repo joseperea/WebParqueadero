@@ -17,5 +17,7 @@ namespace WebParqueadero.Models
         {
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
         }
+
+        public System.Data.Entity.DbSet<WebParqueadero.Models.Parqueadero> Parqueaderoes { get; set; }
     }
 }

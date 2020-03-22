@@ -1,0 +1,88 @@
+﻿@model IEnumerable<WebParqueadero.Models.Parqueadero>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.NombreEmpresa_Parq)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NitEmpresa_Parq)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Direccion_Parq)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Telefono_Parq)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HoraApertura_Parq)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HoraCierre_Parq)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PagoMinutos_Parq)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Valor_Parq)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.NombreEmpresa_Parq)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NitEmpresa_Parq)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Direccion_Parq)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Telefono_Parq)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HoraApertura_Parq)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HoraCierre_Parq)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PagoMinutos_Parq)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Valor_Parq)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id_Parq }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id_Parq }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id_Parq })
+        </td>
+    </tr>
+}
+
+</table>
+
+@section Scripts{
+    <script>
+        fetch('/Parqueadero/Index', {
+            method: "Get"
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+            })
+    </script>
+    }
+

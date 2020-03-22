@@ -1,0 +1,82 @@
+﻿@model WebParqueadero.Models.Parqueadero
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Parqueadero</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NombreEmpresa_Parq)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NombreEmpresa_Parq)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NitEmpresa_Parq)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NitEmpresa_Parq)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Direccion_Parq)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Direccion_Parq)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Telefono)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Telefono)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HoraApertura_Parq)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HoraApertura_Parq)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HoraCierre_Parq)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HoraCierre_Parq)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PagoMinutos_Parq)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PagoMinutos_Parq)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Valor_Parq)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Valor_Parq)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id_Parq }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
