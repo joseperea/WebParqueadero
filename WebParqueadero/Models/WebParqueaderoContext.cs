@@ -18,6 +18,11 @@ namespace WebParqueadero.Models
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
         }
 
-        public System.Data.Entity.DbSet<WebParqueadero.Models.Parqueadero> Parqueaderoes { get; set; }
+        public DbSet<Parqueadero> Parqueaderoes { get; set; }
+        public DbSet<TipoVehiculos> TipoVehiculos { get; set; }
+        public DbSet<Vehiculo> Vehiculo { get; set; }
+        public DbSet<Documento> Documento { get; set; }
+        public DbSet<DetalleDocumento> DetalleDocumento { get; set; }
+
     }
 }

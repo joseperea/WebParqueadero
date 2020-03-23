@@ -190,8 +190,10 @@
     <Compile Include="Models\TipoVehiculos.cs" />
     <Compile Include="Models\Vehiculo.cs" />
     <Compile Include="Models\WebParqueaderoContext.cs" />
+    <Compile Include="ModelViews\IngresoVehiculoView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utilidades\IngresarVehiculos.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-grid.css" />
@@ -1798,7 +1800,10 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Imagenes\B.svg" />
+    <Content Include="Imagenes\C.svg" />
     <Content Include="Imagenes\loading_transp.gif" />
+    <Content Include="Imagenes\M.svg" />
     <Content Include="Imagenes\parking-solid.svg" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />

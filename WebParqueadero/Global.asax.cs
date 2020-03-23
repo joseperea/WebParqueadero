@@ -9,19 +9,24 @@ using System.Web.Routing;
 using System.Web.Security;
 using System.Web.SessionState;
 using WebParqueadero.Models;
+using WebParqueadero.Utilidades;
 
 namespace WebParqueadero
 {
     public class MvcApplication : System.Web.HttpApplication
     {
+        private WebParqueaderoContext db = new WebParqueaderoContext();
         protected void Application_Start()
         {
+            IngresarVehiculos ingresarVehiculos = new IngresarVehiculos();
             Database.SetInitializer(new MigrateDatabaseToLatestVersion
             <WebParqueaderoContext, Migrations.Configuration>());
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            ingresarVehiculos.Ingresar(db);
+
         }
     }
 }

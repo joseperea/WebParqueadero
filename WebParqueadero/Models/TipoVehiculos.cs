@@ -13,6 +13,8 @@ namespace WebParqueadero.Models
 
         public string Nombre_TVeh { get; set; }
 
+        public string CaracterImagen_TVeh { get; set; }
+
         public string Descripcion_TVeh { get; set; }
 
         public bool Estado_TVeh { get; set; }

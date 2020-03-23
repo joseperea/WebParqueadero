@@ -15,11 +15,7 @@ namespace WebParqueadero.Models
 
         [DataType(DataType.Time)]
         [DisplayFormat(DataFormatString = "{0:hh:mm:ss}", ApplyFormatInEditMode = true)]
-        public DateTime HoraInicial_DDoc { get; set; }
-
-        [DataType(DataType.Time)]
-        [DisplayFormat(DataFormatString = "{0:hh:mm:ss}", ApplyFormatInEditMode = true)]
-        public DateTime HoraFinalizar_DDoc { get; set; }
+        public DateTime Horas_DDoc { get; set; }
 
         public bool Estado_DDoc { get; set; }
 
