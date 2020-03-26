@@ -98,6 +98,42 @@ namespace WebParqueadero.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public ActionResult Facturar() 
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult CalculoActomatico() 
+        {
+            List<Parqueadero> ltsParqueadero = new List<Parqueadero>();
+            List<TipoVehiculos> ltstiPoVehiculos = new List<TipoVehiculos>();
+            List<Documento> ltsDocumentos = new List<Documento>();
+            Vehiculo vehiculo = new Vehiculo();
+            IngresoVehiculoView ingresoVehiculoView = new IngresoVehiculoView();
+            ltsParqueadero = db.Parqueaderoes.ToList();
+            ltstiPoVehiculos = db.TipoVehiculos.ToList();
+            ingresoVehiculoView.TipoVehiculos = ltstiPoVehiculos;
+            ingresoVehiculoView.Vehiculo = vehiculo;
+            ingresoVehiculoView.Parqueadero = ltsParqueadero;
+   
+            foreach (var item in db.Documento.ToList())
+            {
+
+                decimal resultado = db.Parqueaderoes.Find(item.Id_Parq).Valor_Parq / db.Parqueaderoes.Find(item.Id_Parq).PagoMinutos_Parq;
+                resultado = resultado * Convert.ToDecimal(DateTime.Now.Subtract(item.DetalleDocumento.FirstOrDefault().Horas_DDoc).TotalMinutes);
+                item.Valor_Doc = resultado;
+                item.DetalleDocumento.FirstOrDefault().Transcurrido_DDoc = string.Format("{0}:{1}", DateTime.Now.Subtract(item.DetalleDocumento.FirstOrDefault().Horas_DDoc).Hours.ToString("D2"), DateTime.Now.Subtract(item.DetalleDocumento.FirstOrDefault().Horas_DDoc).Minutes.ToString("D2"));
+
+                ltsDocumentos.Add(item);
+            }
+
+            ingresoVehiculoView.Documento = ltsDocumentos.Where(t => t.Estado_Doc == true && t.FechaCreacion_Doc.Date == DateTime.Now.Date).ToList();
+
+            return PartialView("_CalcularValor", ingresoVehiculoView);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

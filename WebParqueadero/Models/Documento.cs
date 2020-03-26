@@ -20,7 +20,12 @@ namespace WebParqueadero.Models
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime FachaFinalizacion_Doc{ get; set; }
+        public DateTime FachaFinalizacion_Doc { get; set; }
+
+
+        [DataType(DataType.Currency)]
+        [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
+        [Display(Name = "Valor")]
         public decimal Valor_Doc { get; set; }
         public bool Estado_Doc { get; set; }
         public int Consecutivo { get; set; }
