@@ -11,7 +11,7 @@ namespace WebParqueadero.Controllers
     public class HomeController : Controller
     {
         private WebParqueaderoContext db = new WebParqueaderoContext();
-        
+
         public ActionResult Index()
         {
             List<Parqueadero> ltsParqueadero = new List<Parqueadero>();
@@ -77,6 +77,9 @@ namespace WebParqueadero.Controllers
                     documento.Estado_Doc = true;
                     documento.FechaCreacion_Doc = dateTime;
                     documento.FachaFinalizacion_Doc = DateTime.MaxValue;
+
+                    documento = GetCalculoHoraValor(documento);
+
                     db.Documento.Add(documento);
                     db.SaveChanges();
 
@@ -99,41 +102,53 @@ namespace WebParqueadero.Controllers
         }
 
         [HttpPost]
-        public ActionResult Facturar() 
+        public ActionResult Facturar()
         {
             return View();
         }
 
         [HttpGet]
-        public ActionResult CalculoActomatico() 
+        public ActionResult CalculoActomatico(Guid Id_Doc)
         {
-            List<Parqueadero> ltsParqueadero = new List<Parqueadero>();
-            List<TipoVehiculos> ltstiPoVehiculos = new List<TipoVehiculos>();
-            List<Documento> ltsDocumentos = new List<Documento>();
-            Vehiculo vehiculo = new Vehiculo();
-            IngresoVehiculoView ingresoVehiculoView = new IngresoVehiculoView();
-            ltsParqueadero = db.Parqueaderoes.ToList();
-            ltstiPoVehiculos = db.TipoVehiculos.ToList();
-            ingresoVehiculoView.TipoVehiculos = ltstiPoVehiculos;
-            ingresoVehiculoView.Vehiculo = vehiculo;
-            ingresoVehiculoView.Parqueadero = ltsParqueadero;
-   
-            foreach (var item in db.Documento.ToList())
-            {
+            Documento documento = new Documento();
+            documento = db.Documento.Find(Id_Doc);
+            documento = GetCalculoHoraValor(documento);
 
-                decimal resultado = db.Parqueaderoes.Find(item.Id_Parq).Valor_Parq / db.Parqueaderoes.Find(item.Id_Parq).PagoMinutos_Parq;
-                resultado = resultado * Convert.ToDecimal(DateTime.Now.Subtract(item.DetalleDocumento.FirstOrDefault().Horas_DDoc).TotalMinutes);
-                item.Valor_Doc = resultado;
-                item.DetalleDocumento.FirstOrDefault().Transcurrido_DDoc = string.Format("{0}:{1}", DateTime.Now.Subtract(item.DetalleDocumento.FirstOrDefault().Horas_DDoc).Hours.ToString("D2"), DateTime.Now.Subtract(item.DetalleDocumento.FirstOrDefault().Horas_DDoc).Minutes.ToString("D2"));
-
-                ltsDocumentos.Add(item);
-            }
-
-            ingresoVehiculoView.Documento = ltsDocumentos.Where(t => t.Estado_Doc == true && t.FechaCreacion_Doc.Date == DateTime.Now.Date).ToList();
-
-            return PartialView("_CalcularValor", ingresoVehiculoView);
+            return PartialView("_CalcularValorViewPartial", documento);
         }
 
+        [HttpGet]
+        public ActionResult AsignarValor(Guid Id_Doc) 
+        {
+            Documento documento = new Documento();
+            documento = db.Documento.Find(Id_Doc);
+            documento = GetCalculoHoraValor(documento);
+
+            return PartialView("_AsignarValorViewPartial", documento);
+        }
+
+        public Documento GetCalculoHoraValor(Documento documento) 
+        {
+            try
+            {
+                if (documento == null)
+                {
+                    throw new Exception("Por favor envie el un documento");
+                }
+
+                decimal resultado = db.Parqueaderoes.Find(documento.Id_Parq).Valor_Parq / db.Parqueaderoes.Find(documento.Id_Parq).PagoMinutos_Parq;
+                resultado = resultado * Convert.ToDecimal(DateTime.Now.Subtract(documento.DetalleDocumento.FirstOrDefault().Horas_DDoc).TotalMinutes);
+                documento.Valor_Doc = resultado;
+                documento.DetalleDocumento.FirstOrDefault().Transcurrido_DDoc = string.Format("{0}:{1}", DateTime.Now.Subtract(documento.DetalleDocumento.FirstOrDefault().Horas_DDoc).Hours.ToString("D2"), DateTime.Now.Subtract(documento.DetalleDocumento.FirstOrDefault().Horas_DDoc).Minutes.ToString("D2"));
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return documento;
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

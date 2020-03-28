@@ -190,6 +190,7 @@
     <Compile Include="Models\TipoVehiculos.cs" />
     <Compile Include="Models\Vehiculo.cs" />
     <Compile Include="Models\WebParqueaderoContext.cs" />
+    <Compile Include="ModelViews\FacturarView.cs" />
     <Compile Include="ModelViews\IngresoVehiculoView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -2016,9 +2017,10 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Parqueadero\_ViewCargando.cshtml" />
-    <Content Include="Views\Home\_FacturarVehiculoView.cshtml" />
-    <Content Include="Views\Home\_IngresoVehiculosView.cshtml" />
-    <Content Include="Views\Home\_CalcularValor.cshtml" />
+    <Content Include="Views\Home\_FacturarVehiculoViewPartial.cshtml" />
+    <Content Include="Views\Home\_IngresoVehiculosViewPartial.cshtml" />
+    <Content Include="Views\Home\_CalcularValorViewPartial.cshtml" />
+    <Content Include="Views\Home\_AsignarValorViewPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

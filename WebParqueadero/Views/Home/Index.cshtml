@@ -19,9 +19,9 @@
                 </div>
             </div>
         </div>
-        @Html.Partial("_FacturarVehiculoView", Model)
+        @Html.Partial("_FacturarVehiculoViewPartial", Model)
     </div>
-    @Html.Partial("_IngresoVehiculosView", Model)
+    @Html.Partial("_IngresoVehiculosViewPartial", Model)
 </div>
 
 
@@ -31,14 +31,42 @@
     <script>
         function CalculoAutomatico() {
         @*var url = '@Html.PagedListPager(Model, page => Url.Action("index", new { page, sortOrde = ViewBag.CurrentSort, currentFiltre = ViewBag.CurrentFiltre }))';*@
-            var url = '@Url.Action("CalculoActomatico", "Home")';
-            $.get(url, function (data) {
-                $("#idautoma").empty();
-                $("#idautoma").html(data);
-                console.log(data);
-        });
+            //var caption = $("#Id_Doc");
+            var caption = document.querySelectorAll('#Id_Doc');
+
+            for (var i = 0; i < caption.length; i++) {
+                var id = caption[i].value;
+                var urlCalculoActomatico = ('@Url.Action("CalculoActomatico", "Home")' + '?Id_Doc=' + id);
+
+                $.ajax({
+                    type: "GET",
+                    url: urlCalculoActomatico,
+                    async: false,
+                    success: function (data) {
+                        $("#" + id).empty();
+                        $("#" + id).html(data);
+
+                    }
+                });
+            }
         }
 
-            setInterval("CalculoAutomatico()", 2000);
+        function AsignarValor(id) {
+            var urlAsignarValor = ('@Url.Action("AsignarValor", "Home")' + '?Id_Doc=' + id);
+            console.log(urlAsignarValor);
+            $.ajax({
+                type: "GET",
+                url: urlAsignarValor,
+                async: false,
+                success: function (data) {
+                    $("#idValor-" + id).empty();
+                    $("#idValor-" + id).html(data);
+                }
+            });
+        }
+
+        setInterval("CalculoAutomatico()", 3000);
+         
+        //setInterval("AsignarValor()", 3000);
     </script>
 }

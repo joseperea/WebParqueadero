@@ -3,10 +3,32 @@
 @using (Html.BeginForm("Facturar", "Home", FormMethod.Post, new { enctype = "multipart/form-data", @class = "col-12 col-sm-12 col-md-12" }))
 {
     <div class="row" id="idautoma">
-        @Html.Partial("_CalcularValor", Model)
 
         @foreach (var item in Model.Documento.OrderBy(t => t.FechaCreacion_Doc.Hour).OrderBy(t => t.Consecutivo).ToList())
         {
+            <div class="img-thumbnail col-sm-4 col-md-3 col-lg-3 my-1 text-secondary" style="border:2px solid #808080; border-radius:5px" id="idCalculoAutomatico">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <img src="@string.Format("/Imagenes/{0}.svg", item.Vehiculo.TipoVehiculo.CaracterImagen_TVeh)" alt="Error al cargar la imagen" class="col-sm-12" style="height:200px;color:burlywood" />
+                        <div>
+
+                        </div>
+                    </div>
+                    <div class="caption col-12 col-sm-12 col-md-12">
+                        <div id="@item.Id_Doc">
+                            @Html.Partial("_CalcularValorViewPartial", item)
+                        </div>
+                        <div class="row text-center">
+                            <button type="button" id="BotonPost" class="btn btn-outline-secondary btn-block" data-backdrop="static" data-toggle="modal" data-target="@string.Format("#idFacturar_{0}",item.Vehiculo.Placa_Veh.ToUpper())" onclick="AsignarValor('@item.Id_Doc')">
+                                <i class="fas fa-address-card">
+                                </i>
+                                FACTURAR
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="modal fade" id="@string.Format("idFacturar_{0}",item.Vehiculo.Placa_Veh.ToUpper())" tabindex="-1" role="dialog" aria-labelledby="@string.Format("FacturarLabel_{0}",item.Vehiculo.Placa_Veh.ToUpper())" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
@@ -21,18 +43,8 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-horizontal">
-                                            <div class="form-group">
-                                                <div class="col-lg-12">
-                                                    Total a Pagar
-                                                </div>
-                                                <div class="input-group col-lg-12">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text" id="inputGroupPrepend">
-                                                            <i class="far fa-credit-card"></i>
-                                                        </span>
-
-                                                    </div>
-                                                </div>
+                                            <div id="idValor-@item.Id_Doc">
+                                                @Html.Partial("_AsignarValorViewPartial", item)
                                             </div>
                                         </div>
                                     </div>
