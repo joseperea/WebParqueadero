@@ -1,29 +1,66 @@
 ﻿@model WebParqueadero.Models.Documento
-
-<div class="form-group">
-    <div class="col-lg-12">
-        TIEMPO TRANSCURRIDO
-    </div>
-    <div class="input-group col-lg-12">
-        <div class="input-group-prepend">
-            <span class="input-group-text" id="inputGroupPrepend">
-                <i class="fas fa-hourglass-end"></i>
-            </span>
-            @Html.DisplayFor(m => Model.DetalleDocumento.FirstOrDefault().Transcurrido_DDoc, new { @class = "text-left" })
+@Html.HiddenFor(m => m.Valor_Doc)
+@Html.HiddenFor(m => m.Id_Doc)
+<div class="form-group col-sm-12 col-md-12 col-lg-12">
+    <div class="row">
+        <div class="col-lg-7">
+            <i class="fas fa-hourglass-start"></i>
+            HORA DE LLEGADA :
+        </div>
+        <div class="col-lg-5">
+            @Html.DisplayFor(m => Model.DetalleDocumento.FirstOrDefault().Horas_DDoc, new { @class = "text-left" })
         </div>
     </div>
 </div>
-<div class="form-group">
-    <div class="col-lg-12">
-        VALOR
+<div class="form-group col-sm-12 col-md-12 col-lg-12">
+    <div class="row">
+        <div class="col-lg-7">
+            <i class="fas fa-hourglass-end"></i>
+            TIEMPO TRANSCURRIDO :
+        </div>
+        <div class="input-group col-lg-5">
+            <div class="input-group-prepend">
+                @Html.DisplayFor(m => Model.DetalleDocumento.FirstOrDefault().Transcurrido_DDoc, new { @class = "text-left" })
+            </div>
+        </div>
     </div>
-    <div class="input-group col-lg-12">
-        <div class="input-group-prepend">
-            <span class="input-group-text" id="inputGroupPrepend">
-                <i class="fas fa-dollar-sign"></i>
-            </span>
-            @Html.EditorFor(model => model.Valor_Doc, new { htmlAttributes = new { @class = "form-control col-sm-12", placeholder = "Ingrese placa", title = "Ingrese placa" } })
-            @*@Html.DisplayFor(m => Model.Valor_Doc, new { @class = "text-left" })*@
+</div>
+<div class="form-group col-sm-12 col-md-12 col-lg-12">
+    <div class="row">
+        <div class="col-lg-7">
+            <i class="fas fa-dollar-sign"></i>
+            VALOR :
+        </div>
+        <div class="input-group col-lg-5">
+            <div class="input-group-prepend">
+                @Html.EditorFor(model => model.ValorPagado_Doc, new { htmlAttributes = new { @class = "form-control col-sm-12 col-md-12 col-lg-12", placeholder = "Ingrese placa", title = "Ingrese placa", onkeyup = "Cambio();" } })
+            </div>
+        </div>
+    </div>
+</div>
+<div class="form-group col-sm-12 col-md-12 col-lg-12">
+    <div class="row">
+        <div class="col-lg-7">
+            <i class="fas fa-dollar-sign"></i>
+            EFECTIVO :
+        </div>
+        <div class="input-group col-lg-5">
+            <div class="input-group-prepend">
+                @Html.TextBox("idEfectivo", 0, new { @class = "form-control col-sm-12 col-md-12 col-lg-12", placeholder = "Ingrese Efectivo", title = "Ingrese Efectivo", onkeyup = "Cambio();" })
+            </div>
+        </div>
+    </div>
+</div>
+<div class="form-group col-sm-12 col-md-12 col-lg-12">
+    <div class="row">
+        <div class="col-lg-7">
+            <i class="fas fa-dollar-sign"></i>
+            CAMCIO :
+        </div>
+        <div class="input-group col-lg-5">
+            <div class="input-group-prepend">
+                @Html.TextBox("idCambio", 0, new { @class = "form-control col-sm-12 col-md-12 col-lg-12", placeholder = "Cambio", title = "Cambio" })
+            </div>
         </div>
     </div>
 </div>

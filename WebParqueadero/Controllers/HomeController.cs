@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebParqueadero.Models;
 using WebParqueadero.ModelViews;
+using WebParqueadero.Utilidades;
 
 namespace WebParqueadero.Controllers
 {
@@ -21,7 +23,13 @@ namespace WebParqueadero.Controllers
             IngresoVehiculoView ingresoVehiculoView = new IngresoVehiculoView();
             ltsParqueadero = db.Parqueaderoes.ToList();
             ltstiPoVehiculos = db.TipoVehiculos.ToList();
-            ltsDocumentos = db.Documento.ToList();
+
+            foreach (Documento item in db.Documento.ToList())
+            {
+                Documento documento = GetCalculoHoraValor(item);
+                ltsDocumentos.Add(documento);
+            }
+
             ingresoVehiculoView.TipoVehiculos = ltstiPoVehiculos;
             ingresoVehiculoView.Vehiculo = vehiculo;
             ingresoVehiculoView.Parqueadero = ltsParqueadero;
@@ -78,8 +86,6 @@ namespace WebParqueadero.Controllers
                     documento.FechaCreacion_Doc = dateTime;
                     documento.FachaFinalizacion_Doc = DateTime.MaxValue;
 
-                    documento = GetCalculoHoraValor(documento);
-
                     db.Documento.Add(documento);
                     db.SaveChanges();
 
@@ -89,6 +95,21 @@ namespace WebParqueadero.Controllers
                     detalleDocumento.Id_Doc = documento.Id_Doc;
                     db.DetalleDocumento.Add(detalleDocumento);
                     db.SaveChanges();
+
+                    CrearTicket crearTicket = new CrearTicket();
+                    crearTicket.lineasAsteriscos();
+                    crearTicket.lineasAsteriscos();
+                    crearTicket.TextoCentro(documento.Parqueadero.NombreEmpresa_Parq.ToUpper());
+                    crearTicket.TextoCentro(string.Format("NIT: {0}", documento.Parqueadero.NitEmpresa_Parq.ToUpper()));
+                    crearTicket.TextoCentro(string.Format("VEHICULO: {0}", db.TipoVehiculos.Find(vehiculo.Id_TVeh).Nombre_TVeh.ToUpper()));
+                    crearTicket.TextoCentro(string.Format("PLACA: {0}", vehiculo.Placa_Veh.ToUpper()));
+                    crearTicket.TextoCentro(string.Format("FECHA: {0}", DateTime.Now.ToString("dd/MM/yyyy")));
+                    crearTicket.TextoCentro(string.Format("HORA: {0}", documento.DetalleDocumento.FirstOrDefault().Horas_DDoc.ToString("hh:mm:ss")));
+                    crearTicket.lineasAsteriscos();
+                    crearTicket.lineasAsteriscos();
+                    crearTicket.CortaTicket();
+                    crearTicket.ImprimirTicket("Microsoft XPS Document Writer");
+
 
                     transaccion.Commit();
                 }
@@ -102,9 +123,45 @@ namespace WebParqueadero.Controllers
         }
 
         [HttpPost]
-        public ActionResult Facturar()
+        public ActionResult Facturar(Documento documento)
         {
-            return View();
+            using (var transaccion = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    DateTime dateTime = DateTime.Now;
+                    Documento documento1 = db.Documento.Find(documento.Id_Doc);
+                    documento1.Valor_Doc = documento.Valor_Doc;
+                    documento1.ValorPagado_Doc = documento.ValorPagado_Doc;
+                    documento1.FachaFinalizacion_Doc = dateTime;
+                    documento1.Estado_Doc = false;
+                    db.Entry(documento1).State = EntityState.Modified;
+
+                    foreach (var item in db.DetalleDocumento.Where(t => t.Id_Doc == documento1.Id_Doc).ToList())
+                    {
+                        DetalleDocumento detalleDocumento1 = item;
+                        detalleDocumento1.Estado_DDoc = false;
+                        db.Entry(documento1).State = EntityState.Modified;
+                    }
+
+                    DetalleDocumento detalleDocumento = new DetalleDocumento();
+                    detalleDocumento.Estado_DDoc = false;
+                    detalleDocumento.Horas_DDoc = dateTime;
+                    detalleDocumento.Id_Doc = documento1.Id_Doc;
+                    detalleDocumento.Id_DDoc = Guid.NewGuid();
+                    db.DetalleDocumento.Add(detalleDocumento);
+                    db.SaveChanges();
+
+
+                    transaccion.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaccion.Rollback();
+                    throw;
+                }
+            }
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -118,13 +175,20 @@ namespace WebParqueadero.Controllers
         }
 
         [HttpGet]
-        public ActionResult AsignarValor(Guid Id_Doc) 
+        public ActionResult ViewModalFacturar(Guid Id_Doc) 
         {
             Documento documento = new Documento();
-            documento = db.Documento.Find(Id_Doc);
-            documento = GetCalculoHoraValor(documento);
+            try
+            {
+                documento = db.Documento.Find(Id_Doc);
+                documento = GetCalculoHoraValor(documento);
+            }
+            catch (Exception ex)
+            {
 
-            return PartialView("_AsignarValorViewPartial", documento);
+                throw;
+            }
+            return PartialView("_ModalFacturarViewPartial", documento);
         }
 
         public Documento GetCalculoHoraValor(Documento documento) 
@@ -139,6 +203,7 @@ namespace WebParqueadero.Controllers
                 decimal resultado = db.Parqueaderoes.Find(documento.Id_Parq).Valor_Parq / db.Parqueaderoes.Find(documento.Id_Parq).PagoMinutos_Parq;
                 resultado = resultado * Convert.ToDecimal(DateTime.Now.Subtract(documento.DetalleDocumento.FirstOrDefault().Horas_DDoc).TotalMinutes);
                 documento.Valor_Doc = resultado;
+                documento.ValorPagado_Doc = resultado;
                 documento.DetalleDocumento.FirstOrDefault().Transcurrido_DDoc = string.Format("{0}:{1}", DateTime.Now.Subtract(documento.DetalleDocumento.FirstOrDefault().Horas_DDoc).Hours.ToString("D2"), DateTime.Now.Subtract(documento.DetalleDocumento.FirstOrDefault().Horas_DDoc).Minutes.ToString("D2"));
 
             }

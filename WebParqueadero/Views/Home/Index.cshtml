@@ -22,6 +22,9 @@
         @Html.Partial("_FacturarVehiculoViewPartial", Model)
     </div>
     @Html.Partial("_IngresoVehiculosViewPartial", Model)
+    <div id="idModalFactiurar">
+        @Html.Partial("_ModalFacturarViewPartial", Model.Documento.FirstOrDefault())
+    </div>
 </div>
 
 
@@ -29,9 +32,19 @@
     @Scripts.Render("~/bundles/jqueryval")
 
     <script>
+        function Cambio() {
+            var efect = parseInt($("#idEfectivo").val());
+            var valor = parseInt($("#ValorPagado_Doc").val());
+            if (isNaN(efect) || isNaN(valor)) {
+                $("#idCambio").val(0);
+            } else {
+                var resultado = efect - valor;
+                $("#idCambio").val(resultado);
+            }
+        }
+
+
         function CalculoAutomatico() {
-        @*var url = '@Html.PagedListPager(Model, page => Url.Action("index", new { page, sortOrde = ViewBag.CurrentSort, currentFiltre = ViewBag.CurrentFiltre }))';*@
-            //var caption = $("#Id_Doc");
             var caption = document.querySelectorAll('#Id_Doc');
 
             for (var i = 0; i < caption.length; i++) {
@@ -51,22 +64,23 @@
             }
         }
 
-        function AsignarValor(id) {
-            var urlAsignarValor = ('@Url.Action("AsignarValor", "Home")' + '?Id_Doc=' + id);
+
+        function ViewModalFacturar(id) {
+            var urlAsignarValor = ('@Url.Action("ViewModalFacturar", "Home")' + '?Id_Doc=' + id);
             console.log(urlAsignarValor);
             $.ajax({
                 type: "GET",
                 url: urlAsignarValor,
                 async: false,
                 success: function (data) {
-                    $("#idValor-" + id).empty();
-                    $("#idValor-" + id).html(data);
+                    $("#idModalFactiurar").empty();
+                    $("#idModalFactiurar").html(data);
+                    $('#idFacturar').modal('show');
+                    //$("#idFacturar").css({ "padding-right": "17px", "display": "block" });
                 }
             });
         }
 
         setInterval("CalculoAutomatico()", 3000);
-         
-        //setInterval("AsignarValor()", 3000);
     </script>
 }

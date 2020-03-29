@@ -190,10 +190,10 @@
     <Compile Include="Models\TipoVehiculos.cs" />
     <Compile Include="Models\Vehiculo.cs" />
     <Compile Include="Models\WebParqueaderoContext.cs" />
-    <Compile Include="ModelViews\FacturarView.cs" />
     <Compile Include="ModelViews\IngresoVehiculoView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utilidades\CrearTicket.cs" />
     <Compile Include="Utilidades\IngresarVehiculos.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -2021,6 +2021,7 @@
     <Content Include="Views\Home\_IngresoVehiculosViewPartial.cshtml" />
     <Content Include="Views\Home\_CalcularValorViewPartial.cshtml" />
     <Content Include="Views\Home\_AsignarValorViewPartial.cshtml" />
+    <Content Include="Views\Home\_ModalFacturarViewPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

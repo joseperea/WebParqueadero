@@ -27,6 +27,10 @@ namespace WebParqueadero.Models
         [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
         [Display(Name = "Valor")]
         public decimal Valor_Doc { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
+        [Display(Name = "Valor Pagado")]
+        public decimal ValorPagado_Doc { get; set; }
         public bool Estado_Doc { get; set; }
         public int Consecutivo { get; set; }
 

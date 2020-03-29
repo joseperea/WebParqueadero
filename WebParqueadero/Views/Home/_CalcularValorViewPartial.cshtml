@@ -8,11 +8,11 @@
 </div>
 <div class="row  bg-secondary">
     <div class="col-8 col-sm-8 col-md-8"><h6 class="text-white text-left text-uppercase"><i class="fas fa-hourglass-start"></i> LLEGADA : </h6></div>
-    <div class="col-4 col-sm-4 col-md-4"><h6 class="text-white text-right text-uppercase">@Model.DetalleDocumento.FirstOrDefault().Horas_DDoc.ToString("hh:mm")</h6></div>
+    <div class="col-4 col-sm-4 col-md-4"  title="hh:mm"><h6 class="text-white text-right text-uppercase">@Html.DisplayFor(m => Model.DetalleDocumento.FirstOrDefault().Horas_DDoc)</h6></div>
 </div>
 <div class="row  bg-secondary">
     <div class="col-8 col-sm-8 col-md-8"><h6 class="text-white text-left text-uppercase"><i class="fas fa-hourglass-end"></i> TRANSCURRIDO : </h6></div>
-    <div class="col-4 col-sm-4 col-md-4"><h6 class="text-white text-right text-uppercase">@Html.DisplayFor(m => Model.DetalleDocumento.FirstOrDefault().Transcurrido_DDoc)</h6></div>
+    <div class="col-4 col-sm-4 col-md-4" title="hh:mm"><h6 class="text-white text-right text-uppercase">@Html.DisplayFor(m => Model.DetalleDocumento.FirstOrDefault().Transcurrido_DDoc)</h6></div>
 </div>
 <div class="row  bg-secondary">
     <div class="col-8 col-sm-8 col-md-8"><h6 class="text-white text-left text-uppercase"><i class="fas fa-dollar-sign"></i> Valor : </h6></div>
