@@ -2,11 +2,12 @@
 
 @using (Html.BeginForm("Facturar", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
+    string placa = string.Empty;
     <div class="modal fade" id="idFacturar" tabindex="-1" role="dialog" aria-labelledby="FacturarLabel" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-center" id="FacturarLabel">FACTURAR - @Model.Vehiculo.Placa_Veh.ToUpper()</h5>
+                    <h5 class="modal-title text-center" id="FacturarLabel">FACTURAR - @placa = Model.Vehiculo.Placa_Veh.ToUpper()</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

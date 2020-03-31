@@ -25,6 +25,7 @@ namespace WebParqueadero
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.bundle.js",
                       "~/Scripts/bootstrap.js",
+                      "~/Scripts/Site.js",
                       "~/Scripts/respond.js"));
 
             bundles.Add(new ScriptBundle("~/Content/fontawesome-free-5.12.1-web/js").Include(
@@ -41,6 +42,7 @@ namespace WebParqueadero
                       "~/Content/bootstrap-grid.css",
                       "~/Content/bootstrap-reboot.css",
                       "~/Content/bootstrap-reboot.css",
+                      //"~/Content/Login.css",
                       "~/Content/site.css"));
 
             bundles.Add(new StyleBundle("~/Content/fontawesome-free-5.12.1-web/css").Include(

@@ -1,4 +1,5 @@
 ﻿@model WebParqueadero.ModelViews.IngresoVehiculoView
+ @using WebParqueadero.Models
 @{
     ViewBag.Title = "Home Page";
 }
@@ -22,6 +23,17 @@
         @Html.Partial("_FacturarVehiculoViewPartial", Model)
     </div>
     @Html.Partial("_IngresoVehiculosViewPartial", Model)
+    @{ 
+         if (Model.Documento.Count <= 0)
+            {
+                Model.Documento.Add( new Documento {
+                    Id_Doc = Guid.NewGuid(), 
+                    Parqueadero = new Parqueadero(),
+                    DetalleDocumento = new List<DetalleDocumento>(),
+                    Vehiculo = new Vehiculo()
+                });
+            }
+    }
     <div id="idModalFactiurar">
         @Html.Partial("_ModalFacturarViewPartial", Model.Documento.FirstOrDefault())
     </div>

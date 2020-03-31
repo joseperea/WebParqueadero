@@ -8,12 +8,17 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WebParqueadero.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace WebParqueadero.Controllers
 {
     public class ParqueaderoController : Controller
     {
         private WebParqueaderoContext db = new WebParqueaderoContext();
+        private ApplicationUserManager _userManager;
+        private ApplicationSignInManager _signInManager;
 
         // GET: Parqueadero
         public async Task<ActionResult> Index()
@@ -45,6 +50,30 @@ namespace WebParqueadero.Controllers
             return View();
         }
 
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
+        public ApplicationSignInManager SignInManager
+        {
+            get
+            {
+                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            }
+            private set
+            {
+                _signInManager = value;
+            }
+        }
+
         // POST: Parqueadero/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -61,9 +90,16 @@ namespace WebParqueadero.Controllers
                         parqueadero.Id_Parq = Guid.NewGuid();
                         db.Parqueaderoes.Add(parqueadero);
                         await db.SaveChangesAsync();
-                        transacion.Commit();
-                        return RedirectToAction("Index");
-                        //return Json(parqueadero, JsonRequestBehavior.AllowGet);
+
+                        var user = new ApplicationUser { UserName = parqueadero.Correo_Parq, Email = parqueadero.Correo_Parq };
+                        var result = await UserManager.CreateAsync(user, parqueadero.CorreoContra_Parq);
+                        if (result.Succeeded)
+                        {
+                            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                            transacion.Commit();
+                            return RedirectToAction("Index", "Home");
+                        }
                     }
                     else
                     {

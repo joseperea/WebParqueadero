@@ -7,7 +7,7 @@
         @using (Html.BeginForm("Create", "Parqueadero", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
-
+            @Html.Partial("_MensajeErrorViewParial")
             <div class="col-sm-12 col-lg-12 my-lg-2">
                 <div class="col-sm-12 col-lg-12" style="margin-top: 20px">
                     <div class="row">
@@ -204,31 +204,24 @@
                 </div>
             </div>
             <div class="form-group btn-lg btn-block text-center">
-                <button type="submit" id="BotonPost" onclick="JavascriptPost()" class="btn btn-outline-success btn-lg btn-block" style="margin: 0 auto" >
+                <button type="submit" id="BotonPost" onclick="RegistrarCargando()" class="btn btn-outline-success btn-lg btn-block" style="margin: 0 auto">
                     <i class="fas fa-cogs"></i>
-                    Configurar
+                    Registrar Empresa
                 </button>
             </div>
         }
-        @Html.Partial("_ViewCargando");
+        @Html.Partial("_ViewCargando")
     </div>
 
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script>
-        function JavascriptPost() {
-            var url = '@Url.Action("Create", "Parqueadero")';
-            $("#divLoading").show();
-            $.post(url, null,
-                function (data) {
-                    $("#PID")[0].innerHTML = data;
-                    $("#divLoading").hide();
-                });
 
-            if ($("#divLoading").is(':visible')) {
-                $("#divLoading").hide();
-            }
+        var MensajeError = `@Html.ValidationSummary(true,"", new { @class = "text-danger" })`;
+        if (MensajeError != "") {
+            $("#idShowMensajeError").addClass("show");
+            $("#IdMensajeError").html(MensajeError);
         }
     </script>
     @*<script>

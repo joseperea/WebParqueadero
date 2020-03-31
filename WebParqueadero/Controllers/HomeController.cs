@@ -98,9 +98,13 @@ namespace WebParqueadero.Controllers
 
                     CrearTicket crearTicket = new CrearTicket();
                     crearTicket.lineasAsteriscos();
-                    crearTicket.lineasAsteriscos();
+                    crearTicket.TextoCentro("PARQUEADERO");
+                    crearTicket.lineasIgual();
                     crearTicket.TextoCentro(documento.Parqueadero.NombreEmpresa_Parq.ToUpper());
                     crearTicket.TextoCentro(string.Format("NIT: {0}", documento.Parqueadero.NitEmpresa_Parq.ToUpper()));
+                    crearTicket.lineasAsteriscos();
+                    crearTicket.TextoCentro("VEHICULO");
+                    crearTicket.lineasIgual();
                     crearTicket.TextoCentro(string.Format("VEHICULO: {0}", db.TipoVehiculos.Find(vehiculo.Id_TVeh).Nombre_TVeh.ToUpper()));
                     crearTicket.TextoCentro(string.Format("PLACA: {0}", vehiculo.Placa_Veh.ToUpper()));
                     crearTicket.TextoCentro(string.Format("FECHA: {0}", DateTime.Now.ToString("dd/MM/yyyy")));
@@ -168,8 +172,30 @@ namespace WebParqueadero.Controllers
         public ActionResult CalculoActomatico(Guid Id_Doc)
         {
             Documento documento = new Documento();
-            documento = db.Documento.Find(Id_Doc);
-            documento = GetCalculoHoraValor(documento);
+            try
+            {
+                List<Documento> ltsDocumentos = db.Documento.ToList();
+                documento = ltsDocumentos.Where(t => t.Id_Doc == Id_Doc && t.FechaCreacion_Doc.Date == DateTime.Now.Date).ToList().FirstOrDefault();
+                if (documento != null)
+                {
+                    documento = GetCalculoHoraValor(documento);
+                }
+                else
+                {
+                    documento = new Documento();
+                    documento.Id_Doc = Guid.NewGuid();
+                    documento.Parqueadero = new Parqueadero();
+                    documento.DetalleDocumento = new List<DetalleDocumento>();
+                    documento.Vehiculo = new Vehiculo();
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+           
 
             return PartialView("_CalcularValorViewPartial", documento);
         }
@@ -180,8 +206,21 @@ namespace WebParqueadero.Controllers
             Documento documento = new Documento();
             try
             {
-                documento = db.Documento.Find(Id_Doc);
-                documento = GetCalculoHoraValor(documento);
+                List<Documento> ltsDocumentos = db.Documento.ToList();
+                documento = ltsDocumentos.Where(t => t.Id_Doc == Id_Doc && t.FechaCreacion_Doc.Date == DateTime.Now.Date).FirstOrDefault();
+                if (documento != null)
+                {
+                    documento = GetCalculoHoraValor(documento);
+                }
+                else
+                {
+                    documento = new Documento();
+                    documento.Id_Doc = Guid.NewGuid();
+                    documento.Parqueadero = new Parqueadero();
+                    documento.DetalleDocumento = new List<DetalleDocumento>();
+                    documento.Vehiculo = new Vehiculo();
+
+                }
             }
             catch (Exception ex)
             {

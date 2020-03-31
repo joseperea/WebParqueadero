@@ -15,24 +15,11 @@ namespace WebParqueadero
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            WebParqueaderoContext db = new WebParqueaderoContext();
-
-            if (db.Parqueaderoes != null && db.Parqueaderoes.ToList().Count > 0)
-            {
-                routes.MapRoute(
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-                );
-            }
-            else
-            {
-                routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Parqueadero", action = "Create", id = UrlParameter.Optional }
-                );
-            }
+                defaults: new { controller = "Account", action = "Login", id = UrlParameter.Optional }
+            );
         }
     }
 }
