@@ -24,5 +24,7 @@ namespace WebParqueadero.Models
         public DbSet<Documento> Documento { get; set; }
         public DbSet<DetalleDocumento> DetalleDocumento { get; set; }
 
+        public DbSet<ParqueaderoUsuarioDetalle> ParqueaderoUsuarioDetalle { get; set; }
+
     }
 }

@@ -2,12 +2,12 @@
 
 @using (Html.BeginForm("Facturar", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    string placa = string.Empty;
+    string placa = (Model.Vehiculo.Placa_Veh != null ? Model.Vehiculo.Placa_Veh.ToUpper() : "XXX999") ;
     <div class="modal fade" id="idFacturar" tabindex="-1" role="dialog" aria-labelledby="FacturarLabel" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-center" id="FacturarLabel">FACTURAR - @placa = Model.Vehiculo.Placa_Veh.ToUpper()</h5>
+                    <h5 class="modal-title text-center" id="FacturarLabel">FACTURAR - @placa</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -30,7 +30,7 @@
                         <i class="fas fa-times"></i>
                         Cancelar
                     </button>
-                    <button type="submit" class="btn btn-lg btn-outline-secondary">
+                    <button type="submit" class="btn btn-lg btn-outline-secondary" onclick="FacturarVehiculoCargando()" id="idFacturarVehiculoCargandobtn">
                         <i class="fas fa-receipt"></i>
                         GENERAR FACTURA
                     </button>

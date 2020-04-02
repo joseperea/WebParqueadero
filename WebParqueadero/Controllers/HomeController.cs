@@ -4,9 +4,11 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using WebParqueadero.Models;
 using WebParqueadero.ModelViews;
 using WebParqueadero.Utilidades;
+using Microsoft.AspNet.Identity;
 
 namespace WebParqueadero.Controllers
 {
@@ -14,26 +16,75 @@ namespace WebParqueadero.Controllers
     {
         private WebParqueaderoContext db = new WebParqueaderoContext();
 
+        public IngresoVehiculoView CagarVista(IngresoVehiculoView ingresoVehiculoView) 
+        {
+            try
+            {
+                string IdUsuario = User.Identity.GetUserId();
+                Parqueadero Parqueadero = new Parqueadero();
+                List<TipoVehiculos> ltstiPoVehiculos = new List<TipoVehiculos>();
+                List<Documento> ltsDocumentos = new List<Documento>();
+                Vehiculo vehiculo = new Vehiculo();
+                ParqueaderoUsuarioDetalle parqueaderoUsuarioDetalle = new ParqueaderoUsuarioDetalle();
+                parqueaderoUsuarioDetalle = db.ParqueaderoUsuarioDetalle.Where(t => t.IdUser_PUD == IdUsuario).FirstOrDefault();
+                Parqueadero = db.Parqueaderoes.Find(parqueaderoUsuarioDetalle.Id_Parq);
+                ltstiPoVehiculos = db.TipoVehiculos.ToList();
+
+                foreach (Documento item in db.Documento.Where(t => t.Id_Parq == Parqueadero.Id_Parq).ToList())
+                {
+                    Documento documento = GetCalculoHoraValor(item);
+                    ltsDocumentos.Add(documento);
+                }
+
+                ingresoVehiculoView.TipoVehiculos = ltstiPoVehiculos;
+                ingresoVehiculoView.Vehiculo = vehiculo;
+                ingresoVehiculoView.Parqueadero = Parqueadero;
+                ingresoVehiculoView.Documento = ltsDocumentos.Where(t => t.Estado_Doc == true && t.FechaCreacion_Doc.Date == DateTime.Now.Date).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return ingresoVehiculoView;
+        }
+
+        [Authorize]
         public ActionResult Index()
         {
-            List<Parqueadero> ltsParqueadero = new List<Parqueadero>();
-            List<TipoVehiculos> ltstiPoVehiculos = new List<TipoVehiculos>();
-            List<Documento> ltsDocumentos = new List<Documento>();
-            Vehiculo vehiculo = new Vehiculo();
             IngresoVehiculoView ingresoVehiculoView = new IngresoVehiculoView();
-            ltsParqueadero = db.Parqueaderoes.ToList();
-            ltstiPoVehiculos = db.TipoVehiculos.ToList();
-
-            foreach (Documento item in db.Documento.ToList())
+            try
             {
-                Documento documento = GetCalculoHoraValor(item);
-                ltsDocumentos.Add(documento);
-            }
+                string IdUsuario = User.Identity.GetUserId();
+                Parqueadero Parqueadero = new Parqueadero();
+                List<TipoVehiculos> ltstiPoVehiculos = new List<TipoVehiculos>();
+                List<Documento> ltsDocumentos = new List<Documento>();
+                Vehiculo vehiculo = new Vehiculo();
+                ParqueaderoUsuarioDetalle parqueaderoUsuarioDetalle = new ParqueaderoUsuarioDetalle();
+                parqueaderoUsuarioDetalle = db.ParqueaderoUsuarioDetalle.Where(t => t.IdUser_PUD == IdUsuario).FirstOrDefault();
+                Parqueadero = db.Parqueaderoes.Find(parqueaderoUsuarioDetalle.Id_Parq);
+                if (string.IsNullOrEmpty(Parqueadero.Impresora_Parq))
+                {
+                    return RedirectToAction("Edit","Parqueadero", new { id = Parqueadero.Id_Parq });
+                }
+                ltstiPoVehiculos = db.TipoVehiculos.ToList();
 
-            ingresoVehiculoView.TipoVehiculos = ltstiPoVehiculos;
-            ingresoVehiculoView.Vehiculo = vehiculo;
-            ingresoVehiculoView.Parqueadero = ltsParqueadero;
-            ingresoVehiculoView.Documento = ltsDocumentos.Where(t => t.Estado_Doc == true && t.FechaCreacion_Doc.Date == DateTime.Now.Date).ToList();
+                foreach (Documento item in db.Documento.Where(t => t.Id_Parq == Parqueadero.Id_Parq).ToList())
+                {
+                    Documento documento = GetCalculoHoraValor(item);
+                    ltsDocumentos.Add(documento);
+                }
+
+                ingresoVehiculoView.TipoVehiculos = ltstiPoVehiculos;
+                ingresoVehiculoView.Vehiculo = vehiculo;
+                ingresoVehiculoView.Parqueadero = Parqueadero;
+                ingresoVehiculoView.Documento = ltsDocumentos.Where(t => t.Estado_Doc == true && t.FechaCreacion_Doc.Date == DateTime.Now.Date).ToList();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
 
             return View(ingresoVehiculoView);
         }
@@ -52,13 +103,24 @@ namespace WebParqueadero.Controllers
             return View();
         }
 
+        [Authorize]
         [HttpPost]
-        public ActionResult IngresarVehiculos(IngresoVehiculoView ingresoVehiculoView, string TipoVehiculosView, Guid p)
+        public ActionResult IngresarVehiculos(IngresoVehiculoView ingresoVehiculoView, Guid? TipoVehiculosView, Guid? p)
         {
             using (var transaccion = db.Database.BeginTransaction())
             {
                 try
                 {
+                    string IdUsuario = User.Identity.GetUserId();
+                    if (p == null || p == Guid.Empty)
+                        throw new Exception("No tiene ningun parqueadero asignado.");
+                    
+
+                    if (TipoVehiculosView == null || TipoVehiculosView == Guid.Empty)
+                        throw new Exception("Por favor seleccionar un tipo de vehiculo.");
+
+                    
+
                     DateTime dateTime = DateTime.Now;
                     Vehiculo vehiculo = new Vehiculo();
                     Parqueadero parqueadero = new Parqueadero();
@@ -69,9 +131,15 @@ namespace WebParqueadero.Controllers
 
                     if (vehiculo == null)
                     {
+                        TipoVehiculos tipoVehiculos = new TipoVehiculos();
+                        tipoVehiculos = db.TipoVehiculos.Find(TipoVehiculosView);
+                        if (tipoVehiculos == null || tipoVehiculos.Id_TVeh == Guid.Empty)
+                            throw new Exception("El tipo de vehiculo seleccionado no existe.");
+                        
+
                         ingresoVehiculoView.Vehiculo.Id_Veh = Guid.NewGuid();
                         ingresoVehiculoView.Vehiculo.Estado_veh = true;
-                        ingresoVehiculoView.Vehiculo.Id_TVeh = Guid.Parse(TipoVehiculosView);
+                        ingresoVehiculoView.Vehiculo.Id_TVeh = tipoVehiculos.Id_TVeh;
                         vehiculo = ingresoVehiculoView.Vehiculo;
                         db.Vehiculo.Add(vehiculo);
                         db.SaveChanges();
@@ -79,7 +147,7 @@ namespace WebParqueadero.Controllers
                     documento.Id_Veh = vehiculo.Id_Veh;
                     documento.Id_Parq = parqueadero.Id_Parq;
                     documento.Id_Doc = Guid.NewGuid();
-                    documento.Usuario_Doc = "cjs@hotmail.com";
+                    documento.Usuario_Doc = IdUsuario;
                     documento.Valor_Doc = 0;
                     documento.Consecutivo = db.Documento.ToList().Count + 1;
                     documento.Estado_Doc = true;
@@ -112,7 +180,7 @@ namespace WebParqueadero.Controllers
                     crearTicket.lineasAsteriscos();
                     crearTicket.lineasAsteriscos();
                     crearTicket.CortaTicket();
-                    crearTicket.ImprimirTicket("Microsoft XPS Document Writer");
+                    crearTicket.ImprimirTicket(parqueadero.Impresora_Parq);
 
 
                     transaccion.Commit();
@@ -120,21 +188,32 @@ namespace WebParqueadero.Controllers
                 catch (Exception ex)
                 {
                     transaccion.Rollback();
-                    throw;
+                    ModelState.AddModelError(string.Empty, string.Format("Error al ingresar vehiculo: {0}", ex.Message));
+                    return View("Index",CagarVista(ingresoVehiculoView));
                 }
             }
             return RedirectToAction("Index");
         }
 
+        [Authorize]
         [HttpPost]
         public ActionResult Facturar(Documento documento)
         {
             using (var transaccion = db.Database.BeginTransaction())
             {
+                IngresoVehiculoView ingresoVehiculoView = new IngresoVehiculoView();
                 try
                 {
+                    if (documento.ValorPagado_Doc <= 0)
+                        throw new Exception("Por favor ingrese un valor total valido.");
+
                     DateTime dateTime = DateTime.Now;
                     Documento documento1 = db.Documento.Find(documento.Id_Doc);
+
+
+                    if (documento1 == null || documento1.Id_Doc == Guid.Empty)
+                        throw new Exception("por favor envié un documento valido.");
+
                     documento1.Valor_Doc = documento.Valor_Doc;
                     documento1.ValorPagado_Doc = documento.ValorPagado_Doc;
                     documento1.FachaFinalizacion_Doc = dateTime;
@@ -156,22 +235,24 @@ namespace WebParqueadero.Controllers
                     db.DetalleDocumento.Add(detalleDocumento);
                     db.SaveChanges();
 
-
                     transaccion.Commit();
                 }
                 catch (Exception ex)
                 {
                     transaccion.Rollback();
-                    throw;
+                    ModelState.AddModelError(string.Empty, string.Format("Error al facturar: {0}", ex.Message));
+                    return View("Index", CagarVista(ingresoVehiculoView));
                 }
             }
             return RedirectToAction("Index");
         }
 
+        [Authorize]
         [HttpGet]
         public ActionResult CalculoActomatico(Guid Id_Doc)
         {
             Documento documento = new Documento();
+            IngresoVehiculoView ingresoVehiculoView = new IngresoVehiculoView();
             try
             {
                 List<Documento> ltsDocumentos = db.Documento.ToList();
@@ -192,18 +273,20 @@ namespace WebParqueadero.Controllers
             }
             catch (Exception ex)
             {
-
-                throw;
+                ModelState.AddModelError(string.Empty, string.Format("Error al realizar calculo automatico: {0}", ex.Message));
+                return View("Index", CagarVista(ingresoVehiculoView));
             }
            
 
             return PartialView("_CalcularValorViewPartial", documento);
         }
 
+        [Authorize]
         [HttpGet]
         public ActionResult ViewModalFacturar(Guid Id_Doc) 
         {
             Documento documento = new Documento();
+            IngresoVehiculoView ingresoVehiculoView = new IngresoVehiculoView();
             try
             {
                 List<Documento> ltsDocumentos = db.Documento.ToList();
@@ -224,8 +307,8 @@ namespace WebParqueadero.Controllers
             }
             catch (Exception ex)
             {
-
-                throw;
+                ModelState.AddModelError(string.Empty, string.Format("Error al visualizar el modal de factura: {0}", ex.Message));
+                return View("Index", CagarVista(ingresoVehiculoView));
             }
             return PartialView("_ModalFacturarViewPartial", documento);
         }
@@ -243,7 +326,7 @@ namespace WebParqueadero.Controllers
                 resultado = resultado * Convert.ToDecimal(DateTime.Now.Subtract(documento.DetalleDocumento.FirstOrDefault().Horas_DDoc).TotalMinutes);
                 documento.Valor_Doc = resultado;
                 documento.ValorPagado_Doc = resultado;
-                documento.DetalleDocumento.FirstOrDefault().Transcurrido_DDoc = string.Format("{0}:{1}", DateTime.Now.Subtract(documento.DetalleDocumento.FirstOrDefault().Horas_DDoc).Hours.ToString("D2"), DateTime.Now.Subtract(documento.DetalleDocumento.FirstOrDefault().Horas_DDoc).Minutes.ToString("D2"));
+                documento.DetalleDocumento.FirstOrDefault().Transcurrido_DDoc = string.Format("{0}:{1}:{2}", DateTime.Now.Subtract(documento.DetalleDocumento.FirstOrDefault().Horas_DDoc).Hours.ToString("D2"), DateTime.Now.Subtract(documento.DetalleDocumento.FirstOrDefault().Horas_DDoc).Minutes.ToString("D2"), DateTime.Now.Subtract(documento.DetalleDocumento.FirstOrDefault().Horas_DDoc).Seconds.ToString("D2"));
 
             }
             catch (Exception ex)

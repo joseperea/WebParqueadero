@@ -7,18 +7,18 @@
 
     <ul class="nav navbar-nav navbar-right" style="margin-left:5px">
         <li>
-            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class ="btn btn-outline-primary my-2 my-sm-0"})
+            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class ="btn btn-outline-dark my-2 my-sm-0 text-white"})
         </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()" class="btn-group btn-secondary btn-group-lg">Log off</a></li>
+        <li><a href="javascript:document.getElementById('logoutForm').submit()" class="btn btn-group btn-dark">Desconetarse</a></li>
     </ul>
     }
 }
 else
 {
     <ul class="nav navbar-nav navbar-right" style="margin-left:5px">
-        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class ="btn btn-outline-dark my-2 my-sm-0", role="group" })</li>
+        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class ="btn btn-outline-dark my-2 my-sm-0 text-white", role="group" })</li>
         <li>
-            @Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "btn btn-outline-dark my-2 my-sm-0", role="group"  })
+            @Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "btn btn-outline-dark my-2 my-sm-0 text-white", role="group"  })
         </li>
     </ul>
 }

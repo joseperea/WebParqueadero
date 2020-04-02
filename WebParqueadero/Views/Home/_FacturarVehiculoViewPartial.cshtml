@@ -2,33 +2,39 @@
 
     <div class="col-12 col-sm-12 col-md-12">
         <div class="row" id="idautoma">
-
-            @foreach (var item in Model.Documento.OrderBy(t => t.FechaCreacion_Doc.Hour).OrderBy(t => t.Consecutivo).ToList())
+            @if (Model.Documento.Count > 0)
             {
-                <div class="img-thumbnail col-sm-4 col-md-3 col-lg-3 my-1 text-secondary" style="border:2px solid #808080; border-radius:5px" id="idCalculoAutomatico" title="@string.Format("{0}{2}PLACA: {1}", item.Vehiculo.TipoVehiculo.Nombre_TVeh.ToUpper(),item.Vehiculo.Placa_Veh.ToUpper(), Environment.NewLine)">
-                    <div class="row">
-                        <h3 class="col-12 col-sm-12 col-md-12 text-uppercase text-center text-md-center text-sm-center text-lg-center text-black-50">
-                            <strong>
-                                @Html.DisplayFor(m => item.Vehiculo.Placa_Veh)
-                            </strong>
-                        </h3>
-                        <div class="col-sm-12 col-md-12 col-lg-12">
-                            <img src="@string.Format("/Imagenes/{0}.svg", item.Vehiculo.TipoVehiculo.CaracterImagen_TVeh)" alt="Error al cargar la imagen" class="col-sm-12" style="height:200px;color:burlywood" />
-                        </div>
-                        <div class="caption col-12 col-sm-12 col-md-12">
-                            <div id="@item.Id_Doc">
-                                @Html.Partial("_CalcularValorViewPartial", item)
+                foreach (var item in Model.Documento.OrderBy(t => t.Consecutivo).ToList())
+                {
+                    <div class="img-thumbnail col-sm-4 col-md-3 col-lg-3 my-1 text-secondary" style="border:2px solid #808080; border-radius:5px" id="idCalculoAutomatico" title="@string.Format("{0}{2}PLACA: {1}", item.Vehiculo.TipoVehiculo.Nombre_TVeh.ToUpper(),item.Vehiculo.Placa_Veh.ToUpper(), Environment.NewLine)">
+                        <div class="row">
+                            <h3 class="col-12 col-sm-12 col-md-12 text-uppercase text-center text-md-center text-sm-center text-lg-center text-black-50">
+                                <strong>
+                                    @Html.DisplayFor(m => item.Vehiculo.Placa_Veh)
+                                </strong>
+                            </h3>
+                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                <img src="@string.Format("/Imagenes/{0}.svg", item.Vehiculo.TipoVehiculo.CaracterImagen_TVeh)" alt="Error al cargar la imagen" class="col-sm-12" style="height:200px;color:burlywood" />
                             </div>
-                            <div class="row text-center">
-                                <button type="button" id="BotonPost" class="btn btn-outline-secondary btn-block" data-backdrop="static" data-toggle="modal" data-target="idFacturar" onclick="ViewModalFacturar('@item.Id_Doc')">
-                                    <i class="fas fa-address-card">
-                                    </i>
-                                    FACTURAR
-                                </button>
+                            <div class="caption col-12 col-sm-12 col-md-12">
+                                <div id="@item.Id_Doc">
+                                    @Html.Partial("_CalcularValorViewPartial", item)
+                                </div>
+                                <div class="row text-center">
+                                    <button type="button" id="BotonPost" class="btn btn-outline-secondary btn-block" data-backdrop="static" data-toggle="modal" data-target="idFacturar" onclick="ViewModalFacturar('@item.Id_Doc')">
+                                        <i class="fas fa-address-card">
+                                        </i>
+                                        FACTURAR
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                }
+            }
+            else
+            {
+                <h4 href="#" class="col-12 text-center text-decoration-none text-secondary my-5 text-uppercase">No hay vehiculos ingresados</h4>
             }
         </div>
     </div>

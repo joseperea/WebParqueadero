@@ -75,9 +75,17 @@ namespace WebParqueadero.Models
         [Display(Name = "Contraseña del correo")]
         public string CorreoContra_Parq { get; set; }
 
+        [Display(Name = "Impresoras")]
+        public string Impresora_Parq { get; set; }
+
+        [Display(Name = "Modificar Valor Total?")]
+        public bool ModificarValor_Parq { get; set; }
+
 
         //Relaciones
         public virtual ICollection<Documento> Documento { get; set; }
+
+        public virtual ICollection<ParqueaderoUsuarioDetalle> ParqueaderoUsuarioDetalle { get; set; }
 
     }
 }

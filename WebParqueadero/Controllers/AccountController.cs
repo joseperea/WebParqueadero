@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -58,6 +59,13 @@ namespace WebParqueadero.Controllers
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
+            //Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            //Response.Cache.SetAllowResponseInBrowserHistory(false);
+            //Response.Cache.SetNoStore();
+            if (Request.IsAuthenticated)
+            {
+                return RedirectToAction("Index","Home");
+            }
             return View();
         }
 
@@ -393,7 +401,7 @@ namespace WebParqueadero.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         //

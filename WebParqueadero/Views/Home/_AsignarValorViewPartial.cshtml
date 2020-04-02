@@ -33,7 +33,14 @@
         </div>
         <div class="input-group col-lg-5">
             <div class="input-group-prepend">
-                @Html.EditorFor(model => model.ValorPagado_Doc, new { htmlAttributes = new { @class = "form-control col-sm-12 col-md-12 col-lg-12", placeholder = "Ingrese placa", title = "Ingrese placa", onkeyup = "Cambio();" } })
+                @if (Model.Parqueadero.ModificarValor_Parq)
+                {
+                    @Html.EditorFor(model => model.ValorPagado_Doc, new { htmlAttributes = new { @class = "form-control col-sm-12 col-md-12 col-lg-12", placeholder = "Ingrese placa", title = "Ingrese placa", onkeyup = "Cambio();" } })
+                }
+                else
+                {
+                    @Html.DisplayFor(m => m.ValorPagado_Doc, new { @class = "text-left" })
+                }
             </div>
         </div>
     </div>

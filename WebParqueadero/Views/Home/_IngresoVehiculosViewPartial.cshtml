@@ -1,6 +1,6 @@
 ﻿@model WebParqueadero.ModelViews.IngresoVehiculoView
 
-@using (Html.BeginForm("IngresarVehiculos", "Home", new { p = Model.Parqueadero.FirstOrDefault().Id_Parq }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("IngresarVehiculos", "Home", new { p = Model.Parqueadero.Id_Parq }, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
@@ -51,7 +51,7 @@
                         <i class="fas fa-times"></i>
                         Cancelar
                     </button>
-                    <button type="submit" class="btn btn-lg btn-outline-secondary">
+                    <button type="submit" class="btn btn-lg btn-outline-secondary" onclick="IngresarVehiculoCargando()" id="idIngresarVehiculobtn">
                         <i class="fas fa-file-download"></i>
                         Ingresar Vehiculo
                     </button>

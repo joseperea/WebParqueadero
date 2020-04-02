@@ -11,6 +11,7 @@ using WebParqueadero.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using WebParqueadero.Utilidades;
 
 namespace WebParqueadero.Controllers
 {
@@ -87,9 +88,11 @@ namespace WebParqueadero.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-                        parqueadero.Id_Parq = Guid.NewGuid();
-                        db.Parqueaderoes.Add(parqueadero);
-                        await db.SaveChangesAsync();
+                        var ResultadoParqueadero = db.Parqueaderoes.Where(t => t.NitEmpresa_Parq == parqueadero.NitEmpresa_Parq).ToList();
+                        if (ResultadoParqueadero.Count > 0)
+                        {
+                            throw new Exception(string.Format("El parquero {0} con número nit {1} ya existe, por favor intente recordar la contraseña.", parqueadero.NombreEmpresa_Parq, parqueadero.NitEmpresa_Parq));
+                        }
 
                         var user = new ApplicationUser { UserName = parqueadero.Correo_Parq, Email = parqueadero.Correo_Parq };
                         var result = await UserManager.CreateAsync(user, parqueadero.CorreoContra_Parq);
@@ -97,39 +100,85 @@ namespace WebParqueadero.Controllers
                         {
                             await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
+                            parqueadero.Id_Parq = Guid.NewGuid();
+                            db.Parqueaderoes.Add(parqueadero);
+                            await db.SaveChangesAsync();
+
+                            ParqueaderoUsuarioDetalle parqueaderoUsuarioDetalle = new ParqueaderoUsuarioDetalle();
+
+                            parqueaderoUsuarioDetalle.Id_Parq = parqueadero.Id_Parq;
+                            parqueaderoUsuarioDetalle.Id_PUD = Guid.NewGuid();
+                            parqueaderoUsuarioDetalle.IdUser_PUD = user.Id;
+
+                            db.ParqueaderoUsuarioDetalle.Add(parqueaderoUsuarioDetalle);
+                            await db.SaveChangesAsync();
+
+
                             transacion.Commit();
                             return RedirectToAction("Index", "Home");
+                        }
+                        else
+                        {
+                            foreach (var item in result.Errors)
+                                ModelState.AddModelError(string.Empty, string.Format("Error al crear: {0}", item));   
+                            
+                            transacion.Rollback();
+                            return View(parqueadero);
                         }
                     }
                     else
                     {
-                        return Json("Error", JsonRequestBehavior.AllowGet);
+                        return View(parqueadero);
+                        //return Json("Error", JsonRequestBehavior.AllowGet);
                     }
                 }
                 catch (Exception ex)
                 {
                     transacion.Rollback();
-                    return Json(string.Format("Error: {0}",ex.Message), JsonRequestBehavior.AllowGet);
+                    ModelState.AddModelError(string.Empty, string.Format("Error al crear: {0}", ex.Message));
+                    return View(parqueadero);
+                    //return Json(string.Format("Error: {0}",ex.Message), JsonRequestBehavior.AllowGet);
                 }
             }
-            return Json(parqueadero, JsonRequestBehavior.AllowGet);
-            //return View(parqueadero);
+            //return Json(parqueadero, JsonRequestBehavior.AllowGet);
+            return View(parqueadero);
         }
 
+        [Authorize]
         // GET: Parqueadero/Edit/5
         public async Task<ActionResult> Edit(Guid? id)
         {
-            if (id == null)
+            Parqueadero parqueadero = new Parqueadero();
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                Impresoras Impresoras = new Impresoras();
+                if (id == null || id == Guid.Empty)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                parqueadero = await db.Parqueaderoes.FindAsync(id);
+                if (parqueadero == null)
+                {
+                    return HttpNotFound();
+                }
+
+                if (string.IsNullOrEmpty(parqueadero.Impresora_Parq))
+                {
+                    ViewBag.ltsImpresoras = new SelectList(Impresoras.ObtenerImpresoras().OrderBy(m => m.Id_Imp), "Nombre_Imp", "Nombre_Imp");
+                }
+                else
+                {
+                    ViewBag.ltsImpresoras = new SelectList(Impresoras.ObtenerImpresoras().OrderBy(m => m.Id_Imp), "Nombre_Imp", "Nombre_Imp", parqueadero.Impresora_Parq);
+                }
+                
             }
-            Parqueadero parqueadero = await db.Parqueaderoes.FindAsync(id);
-            if (parqueadero == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                ModelState.AddModelError(string.Empty, string.Format("Error al cargar la vista: {0}", ex.Message));
+                return View(parqueadero);
             }
-            return Json(parqueadero, JsonRequestBehavior.AllowGet);
-            //return View(parqueadero);
+            //return Json(parqueadero, JsonRequestBehavior.AllowGet);
+            return View(parqueadero);
         }
 
         // POST: Parqueadero/Edit/5
@@ -137,16 +186,46 @@ namespace WebParqueadero.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<ActionResult> Edit(Parqueadero parqueadero)
         {
-            if (ModelState.IsValid)
+            using (var transaccion = db.Database.BeginTransaction())
             {
-                db.Entry(parqueadero).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                Impresoras Impresoras = new Impresoras();
+                try
+                {
+                    if (ModelState.IsValid)
+                    {
+                        string Impresora = Request["ltsImpresoras"];
+                        if (string.IsNullOrEmpty(Impresora) || Impresora == "Seleccionar impresora")
+                        {
+                            if (string.IsNullOrEmpty(parqueadero.Impresora_Parq))
+                                ViewBag.ltsImpresoras = new SelectList(Impresoras.ObtenerImpresoras().OrderBy(m => m.Id_Imp), "Nombre_Imp", "Nombre_Imp");
+                            else
+                                ViewBag.ltsImpresoras = new SelectList(Impresoras.ObtenerImpresoras().OrderBy(m => m.Id_Imp), "Nombre_Imp", "Nombre_Imp", parqueadero.Impresora_Parq);
+
+                            throw new Exception("Por favor selecciona la impresora.");
+                        }
+                        parqueadero.Impresora_Parq = Impresora;
+                        db.Entry(parqueadero).State = EntityState.Modified;
+                        await db.SaveChangesAsync();
+                        transaccion.Commit();
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    transaccion.Rollback();
+                    if (string.IsNullOrEmpty(parqueadero.Impresora_Parq))
+                        ViewBag.ltsImpresoras = new SelectList(Impresoras.ObtenerImpresoras().OrderBy(m => m.Id_Imp), "Nombre_Imp", "Nombre_Imp");
+                    else
+                        ViewBag.ltsImpresoras = new SelectList(Impresoras.ObtenerImpresoras().OrderBy(m => m.Id_Imp), "Nombre_Imp", "Nombre_Imp", parqueadero.Impresora_Parq);
+                    ModelState.AddModelError(string.Empty, string.Format("Error al editar: {0}", ex.Message));
+                    return View(parqueadero);
+                }
             }
-            return Json(parqueadero, JsonRequestBehavior.AllowGet);
-            //return View(parqueadero);
+            //return Json(parqueadero, JsonRequestBehavior.AllowGet);
+            return View(parqueadero);
         }
 
         // GET: Parqueadero/Delete/5

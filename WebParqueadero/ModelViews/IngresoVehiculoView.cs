@@ -14,7 +14,7 @@ namespace WebParqueadero.ModelViews
 
         public List<TipoVehiculos> TipoVehiculos { get; set; }
 
-        public List<Parqueadero> Parqueadero { get; set; }
+        public Parqueadero Parqueadero { get; set; }
 
         public List<Documento> Documento { get; set; }
     }

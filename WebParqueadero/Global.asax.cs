@@ -10,6 +10,7 @@ using System.Web.Security;
 using System.Web.SessionState;
 using WebParqueadero.Models;
 using WebParqueadero.Utilidades;
+using Microsoft.AspNet.Identity;
 
 namespace WebParqueadero
 {
@@ -18,6 +19,7 @@ namespace WebParqueadero
         private WebParqueaderoContext db = new WebParqueaderoContext();
         protected void Application_Start()
         {
+
             IngresarVehiculos ingresarVehiculos = new IngresarVehiculos();
             Database.SetInitializer(new MigrateDatabaseToLatestVersion
             <WebParqueaderoContext, Migrations.Configuration>());
