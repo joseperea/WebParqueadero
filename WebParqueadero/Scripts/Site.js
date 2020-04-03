@@ -54,6 +54,6 @@ function EditarParqueaderoCargando() {
     if (Correo != "" && Contraseña != "" && NombreEmpresa != "" && NitEmpresa != "" && Telefono != "" && Direccion != "" && PagoMinutos != "" && Valor != "") {
         var cargando = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Editando...`;
         //$("button").attr('disabled', 'disabled');
-        $("button").html(cargando);
+        $("#EditarParqueaderoCargandobtn").html(cargando);
     }
 }

@@ -244,6 +244,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ParqueaderoController.cs" />
+    <Compile Include="Controllers\ReportesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -259,6 +260,7 @@
     <Compile Include="Models\Vehiculo.cs" />
     <Compile Include="Models\WebParqueaderoContext.cs" />
     <Compile Include="ModelViews\IngresoVehiculoView.cs" />
+    <Compile Include="ModelViews\Reportes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utilidades\CrearTicket.cs" />
@@ -2096,6 +2098,8 @@
     <Content Include="Views\Account\_MensajeErrorViewParial.cshtml" />
     <Content Include="Views\Parqueadero\_MensajeErrorViewParial.cshtml" />
     <Content Include="Views\Home\_MensajeErrorViewParial.cshtml" />
+    <Content Include="Views\Reportes\Index.cshtml" />
+    <Content Include="Views\Reportes\_TablaReportesViewPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

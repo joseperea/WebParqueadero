@@ -89,6 +89,26 @@
             }
         }
 
+        $("#idBuscarPlaca").keypress(function (event) {
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode == '13') {
+                BuscarPlaca();  
+            }
+        });
+
+
+        function BuscarPlaca()
+        {
+            var inputBuscarPlaca = $("#idBuscarPlaca").val();
+
+            if (inputBuscarPlaca != "") {
+                var idDocumento = $("." + inputBuscarPlaca).val();
+                if (idDocumento != "") {
+                    ViewModalFacturar(idDocumento);
+                    $("#idBuscarPlaca").val("");
+                }
+            }
+        }
 
         function ViewModalFacturar(id) {
             var urlAsignarValor = ('@Url.Action("ViewModalFacturar", "Home")' + '?Id_Doc=' + id);

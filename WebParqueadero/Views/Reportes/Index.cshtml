@@ -1,0 +1,17 @@
+﻿@model IEnumerable<WebParqueadero.ModelViews.Reportes>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12 my-2"></div>
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            @Html.Partial("_TablaReportesViewPartial", Model)
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+<script>
+    $("#idDivBuscarPlaca").hide();
+</script>
+}

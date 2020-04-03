@@ -3,254 +3,254 @@
     ViewBag.Title = "Configuración";
 }
 
-<div class="container-fluid" id="Parqueador">
-    @using (Html.BeginForm("Edit", "Parqueadero", FormMethod.Post, new { enctype = "multipart/form-data" }))
-    {
-        @Html.AntiForgeryToken()
-        @Html.Partial("_MensajeErrorViewParial")
-        @Html.HiddenFor(t => t.Id_Parq)
-        <div class="col-sm-12 col-lg-12 my-lg-2">
-            <div class="col-sm-12 col-lg-12 my-1">
-                <div class="row">
-                    <div class="col-sm-4">
-                        <div class="form-horizontal">
-                            <h4>
-                                <i class="fas fa-archway"></i>
-                                <strong>DATOS PRINCIPALES</strong>
-                            </h4>
-                            <div class="form-group">
-                                <div class="col-lg-12">
-                                    @Html.LabelFor(model => model.NombreEmpresa_Parq, htmlAttributes: new { @class = "control-label col-sm-12", style = "", title = "Nombre del parqueadero" })
-                                </div>
-                                <div class="input-group col-lg-12">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="inputGroupPrepend">
-                                            <i class="fas fa-building"></i>
-                                        </span>
+    <div class="container-fluid" id="Parqueador">
+        @using (Html.BeginForm("Edit", "Parqueadero", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Partial("_MensajeErrorViewParial")
+            @Html.HiddenFor(t => t.Id_Parq)
+            @Html.HiddenFor(t => t.CorreoContra_Parq)
+            <div class="col-sm-12 col-lg-12 my-lg-2">
+                <div class="col-sm-12 col-lg-12 my-1">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-horizontal">
+                                <h4>
+                                    <i class="fas fa-archway"></i>
+                                    <strong>DATOS PRINCIPALES</strong>
+                                </h4>
+                                <div class="form-group">
+                                    <div class="col-lg-12">
+                                        @Html.LabelFor(model => model.NombreEmpresa_Parq, htmlAttributes: new { @class = "control-label col-sm-12", style = "", title = "Nombre del parqueadero" })
                                     </div>
-                                    @Html.EditorFor(model => model.NombreEmpresa_Parq, new { htmlAttributes = new { @class = "form-control col-sm-12", placeholder = "Nombre del parqueadero", title = "Nombre del parqueadero" } })
-                                    @Html.ValidationMessageFor(model => model.NombreEmpresa_Parq, "", new { @class = "text-danger col-sm-12" })
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-lg-12">
-                                    @Html.LabelFor(model => model.NitEmpresa_Parq, htmlAttributes: new { @class = "control-label col-sm-12", style = "", title = "Nit del parqueadero" })
-                                </div>
-                                <div class="input-group col-lg-12">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="inputGroupPrepend">
-                                            <i class="fas fa-bookmark"></i>
-                                        </span>
+                                    <div class="input-group col-lg-12">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroupPrepend">
+                                                <i class="fas fa-building"></i>
+                                            </span>
+                                        </div>
+                                        @Html.EditorFor(model => model.NombreEmpresa_Parq, new { htmlAttributes = new { @class = "form-control col-sm-12", placeholder = "Nombre del parqueadero", title = "Nombre del parqueadero" } })
+                                        @Html.ValidationMessageFor(model => model.NombreEmpresa_Parq, "", new { @class = "text-danger col-sm-12" })
                                     </div>
-                                    @Html.EditorFor(model => model.NitEmpresa_Parq, new { htmlAttributes = new { @class = "form-control col-sm-12", placeholder = "Nit del parqueadero", title = "Nit del parqueadero" } })
-                                    @Html.ValidationMessageFor(model => model.NitEmpresa_Parq, "", new { @class = "text-danger col-sm-12" })
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-lg-12">
-                                    @Html.LabelFor(model => model.Telefono_Parq, htmlAttributes: new { @class = "control-label col-sm-12", style = "", title = "Telefono del parqueadero" })
-                                </div>
-                                <div class="input-group col-lg-12">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="inputGroupPrepend">
-                                            <i class="fas fa-phone-alt"></i>
-                                        </span>
+                                <div class="form-group">
+                                    <div class="col-lg-12">
+                                        @Html.LabelFor(model => model.NitEmpresa_Parq, htmlAttributes: new { @class = "control-label col-sm-12", style = "", title = "Nit del parqueadero" })
                                     </div>
-                                    @Html.EditorFor(model => model.Telefono_Parq, new { htmlAttributes = new { @class = "form-control col-sm-12", placeholder = "Telefono del parqueadero", title = "Telefono del parqueadero" } })
-                                    @Html.ValidationMessageFor(model => model.Telefono_Parq, "", new { @class = "text-danger col-sm-12" })
+                                    <div class="input-group col-lg-12">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroupPrepend">
+                                                <i class="fas fa-bookmark"></i>
+                                            </span>
+                                        </div>
+                                        @Html.EditorFor(model => model.NitEmpresa_Parq, new { htmlAttributes = new { @class = "form-control col-sm-12", placeholder = "Nit del parqueadero", title = "Nit del parqueadero" } })
+                                        @Html.ValidationMessageFor(model => model.NitEmpresa_Parq, "", new { @class = "text-danger col-sm-12" })
+                                    </div>
                                 </div>
-                            </div>
+                                <div class="form-group">
+                                    <div class="col-lg-12">
+                                        @Html.LabelFor(model => model.Telefono_Parq, htmlAttributes: new { @class = "control-label col-sm-12", style = "", title = "Telefono del parqueadero" })
+                                    </div>
+                                    <div class="input-group col-lg-12">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroupPrepend">
+                                                <i class="fas fa-phone-alt"></i>
+                                            </span>
+                                        </div>
+                                        @Html.EditorFor(model => model.Telefono_Parq, new { htmlAttributes = new { @class = "form-control col-sm-12", placeholder = "Telefono del parqueadero", title = "Telefono del parqueadero" } })
+                                        @Html.ValidationMessageFor(model => model.Telefono_Parq, "", new { @class = "text-danger col-sm-12" })
+                                    </div>
+                                </div>
 
-                            <div class="form-group">
-                                <div class="col-lg-12">
-                                    @Html.LabelFor(model => model.Direccion_Parq, htmlAttributes: new { @class = "control-label col-sm-12", style = "" })
-                                </div>
-                                <div class="input-group col-lg-12">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="inputGroupPrepend">
-                                            <i class="fas fa-address-card"></i>
-                                        </span>
+                                <div class="form-group">
+                                    <div class="col-lg-12">
+                                        @Html.LabelFor(model => model.Direccion_Parq, htmlAttributes: new { @class = "control-label col-sm-12", style = "" })
                                     </div>
-                                    @Html.EditorFor(model => model.Direccion_Parq, new { htmlAttributes = new { @class = "form-control col-sm-12", placeholder = "Dirección del parqueadero", title = "Dirección del parqueadero" } })
-                                    @Html.ValidationMessageFor(model => model.Direccion_Parq, "", new { @class = "text-danger col-sm-12" })
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-4">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="form-horizontal">
-                                    <h4>
-                                        <i class="fas fa-mail-bulk"></i>
-                                        <strong>INFORMACIÓN DEL CORREO</strong>
-                                    </h4>
-
-                                    <div class="form-group">
-                                        <div class="col-lg-12">
-                                            @Html.LabelFor(model => model.Correo_Parq, htmlAttributes: new { @class = "control-label col-sm-12", style = "", title = "Correo del parqueadero" })
+                                    <div class="input-group col-lg-12">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroupPrepend">
+                                                <i class="fas fa-address-card"></i>
+                                            </span>
                                         </div>
-                                        <div class="input-group col-lg-12">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="inputGroupPrepend">
-                                                    <i class="fas fa-envelope"></i>
-                                                </span>
-                                            </div>
-                                            @Html.EditorFor(model => model.Correo_Parq, new { htmlAttributes = new { @class = "form-control col-sm-12", placeholder = "Correo del parqueadero", title = "Correo del parqueadero" } })
-                                            @Html.ValidationMessageFor(model => model.Correo_Parq, "", new { @class = "text-danger col-sm-12" })
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-lg-12">
-                                            @Html.LabelFor(model => model.CorreoContra_Parq, htmlAttributes: new { @class = "control-label col-sm-12", style = "", title = "Contraseña del parqueadero" })
-                                        </div>
-                                        <div class="input-group col-lg-12">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="inputGroupPrepend">
-                                                    <i class="fas fa-lock"></i>
-                                                </span>
-                                            </div>
-                                            @Html.EditorFor(model => model.CorreoContra_Parq, new { htmlAttributes = new { @class = "form-control col-sm-12", placeholder = "Contraseña del parqueadero", title = "Contraseña del parqueadero" } })
-                                            @Html.ValidationMessageFor(model => model.CorreoContra_Parq, "", new { @class = "text-danger col-sm-12" })
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-12">
-                                <div class="form-horizontal">
-                                    <h4>
-                                        <i class="fas fa-user-clock"></i>
-                                        <strong>HORARIOS</strong>
-                                    </h4>
-                                    <div class="form-group">
-                                        <div class="col-lg-12">
-                                            @Html.LabelFor(model => model.HoraApertura_Parq, htmlAttributes: new { @class = "control-label col-sm-12", style = "", title = "Hora de apertura del parqueadero" })
-                                        </div>
-                                        <div class="input-group col-lg-12">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="inputGroupPrepend">
-                                                    <i class="far fa-clock"></i>
-                                                </span>
-                                            </div>
-                                            @Html.EditorFor(model => model.HoraApertura_Parq, new { htmlAttributes = new { @class = "form-control col-sm-12", title = "Hora de apertura del parqueadero" } })
-                                            @Html.ValidationMessageFor(model => model.HoraApertura_Parq, "", new { @class = "text-danger col-sm-12" })
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-lg-12">
-                                            @Html.LabelFor(model => model.HoraCierre_Parq, htmlAttributes: new { @class = "control-label col-sm-12", style = "", title = "Hora de cierre del parqueadero" })
-                                        </div>
-                                        <div class="input-group col-lg-12">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="inputGroupPrepend">
-                                                    <i class="fas fa-clock"></i>
-                                                </span>
-                                            </div>
-                                            @Html.EditorFor(model => model.HoraCierre_Parq, new { htmlAttributes = new { @class = "form-control col-sm-12", title = "Hora de cierre del parqueadero" } })
-                                            @Html.ValidationMessageFor(model => model.HoraCierre_Parq, "", new { @class = "text-danger col-sm-12" })
-                                        </div>
+                                        @Html.EditorFor(model => model.Direccion_Parq, new { htmlAttributes = new { @class = "form-control col-sm-12", placeholder = "Dirección del parqueadero", title = "Dirección del parqueadero" } })
+                                        @Html.ValidationMessageFor(model => model.Direccion_Parq, "", new { @class = "text-danger col-sm-12" })
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-sm-4">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-horizontal">
+                                        <h4>
+                                            <i class="fas fa-mail-bulk"></i>
+                                            <strong>INFORMACIÓN DEL CORREO</strong>
+                                        </h4>
+
+                                        <div class="form-group">
+                                            <div class="col-lg-12">
+                                                @Html.LabelFor(model => model.Correo_Parq, htmlAttributes: new { @class = "control-label col-sm-12", style = "", title = "Correo del parqueadero" })
+                                            </div>
+                                            <div class="input-group col-lg-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="inputGroupPrepend">
+                                                        <i class="fas fa-envelope"></i>
+                                                    </span>
+                                                </div>
+                                                @Html.EditorFor(model => model.Correo_Parq, new { htmlAttributes = new { @class = "form-control col-sm-12", placeholder = "Correo del parqueadero", title = "Correo del parqueadero" } })
+                                                @Html.ValidationMessageFor(model => model.Correo_Parq, "", new { @class = "text-danger col-sm-12" })
+                                            </div>
+                                        </div>
+                                        @*<div class="form-group">
+                    <div class="col-lg-12">
+                        @Html.LabelFor(model => model.CorreoContra_Parq, htmlAttributes: new { @class = "control-label col-sm-12", style = "", title = "Contraseña del parqueadero" })
                     </div>
-
-                    <div class="col-sm-4">
-                        <div class="form-horizontal">
-                            <h4>
-                                <i class="fas fa-money-bill-alt"></i>
-                                <strong>INFORMACION DE TARIFA</strong>
-                            </h4>
-                            <p class="font-italic text-justify text-muted text-break">
-                                Para realizar la configuracion de la tarifa es neceario manejar el tiempo de cobro por
-                                minutos, Ej: 60min que equivale a 1h tiene un precio de 1 peso.
-                            </p>
-
-                            <div class="form-group">
-                                <div class="col-lg-12">
-                                    @Html.LabelFor(model => model.PagoMinutos_Parq, htmlAttributes: new { @class = "control-label col-sm-12", style = "", title = "Minutos" })
-                                </div>
-                                <div class="input-group col-lg-12">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="inputGroupPrepend">
-                                            <i class="fas fa-hourglass-half"></i>
-                                        </span>
-                                    </div>
-                                    @Html.EditorFor(model => model.PagoMinutos_Parq, new { htmlAttributes = new { @class = "form-control col-sm-12", placeholder = "Minutos", title = "Minutos" } })
-                                    @Html.ValidationMessageFor(model => model.PagoMinutos_Parq, "", new { @class = "text-danger col-sm-12" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-lg-12">
-                                    @Html.LabelFor(model => model.Valor_Parq, htmlAttributes: new { @class = "control-label col-sm-12", style = "", title = "Valor" })
-                                </div>
-                                <div class="input-group col-lg-12">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="inputGroupPrepend">
-                                            <i class="fas fa-dollar-sign"></i>
-                                        </span>
-                                    </div>
-                                    @Html.EditorFor(model => model.Valor_Parq, new { htmlAttributes = new { @class = "form-control col-sm-12" } })
-                                    @Html.ValidationMessageFor(model => model.Valor_Parq, "", new { @class = "text-danger col-sm-12" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-lg-12">
-                                    @Html.LabelFor(model => model.ModificarValor_Parq, htmlAttributes: new { @class = "control-label col-sm-12", style = "", title = "Modificar valor del parqueadero ?" })
-                                </div>
-                                <div class="input-group col-lg-12">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="inputGroupPrepend">
-                                            <i class="fas fa-money-check-alt"></i>
-                                        </span>
-                                    </div>
-                                    @Html.EditorFor(model => model.ModificarValor_Parq, new { htmlAttributes = new { @class = "form-control col-sm-12" } })
-                                    @Html.ValidationMessageFor(model => model.ModificarValor_Parq, "", new { @class = "text-danger col-sm-12" })
-                                </div>
-                            </div>
-
+                    <div class="input-group col-lg-12">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroupPrepend">
+                                <i class="fas fa-lock"></i>
+                            </span>
                         </div>
+                        @Html.EditorFor(model => model.CorreoContra_Parq, new { htmlAttributes = new { @class = "form-control col-sm-12", placeholder = "Contraseña del parqueadero", title = "Contraseña del parqueadero" } })
+                        @Html.ValidationMessageFor(model => model.CorreoContra_Parq, "", new { @class = "text-danger col-sm-12" })
                     </div>
-
-                </div>
-            </div>
-            <div class="col-sm-12 col-md-12 col-lg-12 my-1">
-                <div class="row">
-                    <div class="col-sm-4">
-                        <div class="form-horizontal">
-                            <h4>
-                                <i class="fas fa-archway"></i>
-                                <strong>CONFIGURAR IMPRESORAS</strong>
-                            </h4>
-                            <div class="form-group">
-                                <div class="col-lg-12">
-                                    @Html.LabelFor(model => model.Impresora_Parq, htmlAttributes: new { @class = "control-label col-sm-12", style = "", title = "Impresora del parqueadero" })
+                </div>*@
+                                    </div>
                                 </div>
-                                <div class="input-group col-lg-12">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="inputGroupPrepend">
+                                <div class="col-sm-12">
+                                    <div class="form-horizontal">
+                                        <h4>
+                                            <i class="fas fa-user-clock"></i>
+                                            <strong>HORARIOS</strong>
+                                        </h4>
+                                        <div class="form-group">
+                                            <div class="col-lg-12">
+                                                @Html.LabelFor(model => model.HoraApertura_Parq, htmlAttributes: new { @class = "control-label col-sm-12", style = "", title = "Hora de apertura del parqueadero" })
+                                            </div>
+                                            <div class="input-group col-lg-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="inputGroupPrepend">
+                                                        <i class="far fa-clock"></i>
+                                                    </span>
+                                                </div>
+                                                @Html.EditorFor(model => model.HoraApertura_Parq, new { htmlAttributes = new { @class = "form-control col-sm-12", title = "Hora de apertura del parqueadero" } })
+                                                @Html.ValidationMessageFor(model => model.HoraApertura_Parq, "", new { @class = "text-danger col-sm-12" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-12">
+                                                @Html.LabelFor(model => model.HoraCierre_Parq, htmlAttributes: new { @class = "control-label col-sm-12", style = "", title = "Hora de cierre del parqueadero" })
+                                            </div>
+                                            <div class="input-group col-lg-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="inputGroupPrepend">
+                                                        <i class="fas fa-clock"></i>
+                                                    </span>
+                                                </div>
+                                                @Html.EditorFor(model => model.HoraCierre_Parq, new { htmlAttributes = new { @class = "form-control col-sm-12", title = "Hora de cierre del parqueadero" } })
+                                                @Html.ValidationMessageFor(model => model.HoraCierre_Parq, "", new { @class = "text-danger col-sm-12" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-horizontal">
+                                        <h4>
                                             <i class="fas fa-print"></i>
-                                        </span>
+                                            <strong>CONFIGURAR IMPRESORAS</strong>
+                                        </h4>
+                                        <div class="form-group">
+                                            <div class="col-lg-12">
+                                                @Html.LabelFor(model => model.Impresora_Parq, htmlAttributes: new { @class = "control-label col-sm-12", style = "", title = "Impresora del parqueadero" })
+                                            </div>
+                                            <div class="input-group col-lg-12">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="inputGroupPrepend">
+                                                        <i class="fas fa-print"></i>
+                                                    </span>
+                                                </div>
+                                                @Html.DropDownList("ltsImpresoras", null, htmlAttributes: new { @class = "form-control col-sm-12" })
+                                            </div>
+                                        </div>
                                     </div>
-                                    @Html.DropDownList("ltsImpresoras", null, htmlAttributes: new { @class = "form-control col-sm-12" })
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-sm-4">
+                            <div class="form-horizontal">
+                                <h4>
+                                    <i class="fas fa-money-bill-alt"></i>
+                                    <strong>INFORMACION DE TARIFA</strong>
+                                </h4>
+                                <p class="font-italic text-justify text-muted text-break">
+                                    Para realizar la configuracion de la tarifa es neceario manejar el tiempo de cobro por
+                                    minutos, Ej: 60min que equivale a 1h tiene un precio de 1 peso.
+                                </p>
+
+                                <div class="form-group">
+                                    <div class="col-lg-12">
+                                        @Html.LabelFor(model => model.PagoMinutos_Parq, htmlAttributes: new { @class = "control-label col-sm-12", style = "", title = "Minutos" })
+                                    </div>
+                                    <div class="input-group col-lg-12">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroupPrepend">
+                                                <i class="fas fa-hourglass-half"></i>
+                                            </span>
+                                        </div>
+                                        @Html.EditorFor(model => model.PagoMinutos_Parq, new { htmlAttributes = new { @class = "form-control col-sm-12", placeholder = "Minutos", title = "Minutos" } })
+                                        @Html.ValidationMessageFor(model => model.PagoMinutos_Parq, "", new { @class = "text-danger col-sm-12" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-lg-12">
+                                        @Html.LabelFor(model => model.Valor_Parq, htmlAttributes: new { @class = "control-label col-sm-12", style = "", title = "Valor" })
+                                    </div>
+                                    <div class="input-group col-lg-12">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroupPrepend">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </span>
+                                        </div>
+                                        @Html.EditorFor(model => model.Valor_Parq, new { htmlAttributes = new { @class = "form-control col-sm-12" } })
+                                        @Html.ValidationMessageFor(model => model.Valor_Parq, "", new { @class = "text-danger col-sm-12" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-lg-12">
+                                        @Html.LabelFor(model => model.ModificarValor_Parq, htmlAttributes: new { @class = "control-label col-sm-12", style = "", title = "Modificar valor del parqueadero ?" })
+                                    </div>
+                                    <div class="input-group col-lg-12">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroupPrepend">
+                                                <i class="fas fa-money-check-alt"></i>
+                                            </span>
+                                        </div>
+                                        @Html.EditorFor(model => model.ModificarValor_Parq, new { htmlAttributes = new { @class = "form-control col-sm-12" } })
+                                        @Html.ValidationMessageFor(model => model.ModificarValor_Parq, "", new { @class = "text-danger col-sm-12" })
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="form-group btn-lg btn-block text-center">
-            <button type="submit" id="BotonPost" onclick="EditarParqueaderoCargando()" class="btn btn-outline-success btn-lg btn-block" style="margin: 0 auto">
-                <i class="fas fa-wrench"></i>
-                Editar Configuracion
-            </button>
-        </div>
-    }
-</div>
+            <div class="form-group btn-group btn-lg btn-block text-center">
+                <a class="btn btn-outline-warning btn-lg" href="/Home/Index" style="margin: 0 auto" title="Volver">
+                    <i class="fas fa-angle-double-left"></i>
+                </a>
+                <button type="submit" id="EditarParqueaderoCargandobtn" onclick="EditarParqueaderoCargando()" class="btn btn-outline-success btn-lg btn-block" style="margin: 0 auto">
+                    <i class="fas fa-wrench"></i>
+                    Editar Configuracion
+                </button>
+            </div>
+        }
+    </div>
 
 
 @section Scripts {
@@ -270,6 +270,11 @@
         if (impresora === 'Seleccionar impresora') {
             $("#ltsImpresoras").scrollTop($("#ltsImpresoras").scrollTop());
         }
+
+        var Valor = parseInt($("#Valor_Parq").val());
+        $("#Valor_Parq").val(Valor);
+
+        $("#idDivBuscarPlaca").hide();
     </script>
     @*<script>
             var boton = document.getElementById('BotonPost');
