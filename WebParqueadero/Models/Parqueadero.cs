@@ -15,23 +15,23 @@ namespace WebParqueadero.Models
 
         [Display(Name = "Nombre")]
         [Required(ErrorMessage = "Por favor ingrese {0} del parqueadero")]
-        [StringLength(30, MinimumLength = 3, ErrorMessage = "Maximo {1} y Menor a {2} carateres")]
+        [StringLength(30, MinimumLength = 3, ErrorMessage = "Maximo {1} y Menor a {2} caracteres")]
         [JsonProperty(PropertyName = "NombreEmpresa_Parq")]
         public string NombreEmpresa_Parq { get; set; }
 
         [Display(Name = "Nit")]
         [Required(ErrorMessage = "Por favor ingrese {0} del parqueadero")]
-        [StringLength(18, MinimumLength = 3, ErrorMessage = "Maximo {1} y Menor a {2} carateres")]
+        [StringLength(18, MinimumLength = 3, ErrorMessage = "Maximo {1} y Menor a {2} caracteres")]
         [JsonProperty(PropertyName = "NitEmpresa_Parq")]
         public string NitEmpresa_Parq { get; set; }
 
-        [StringLength(30, MinimumLength = 6, ErrorMessage = "Maximo {1} y Menor a {2} carateres")]
+        [StringLength(30, MinimumLength = 6, ErrorMessage = "Maximo {1} y Menor a {2} caracteres")]
         [Required(ErrorMessage = "Ingrese {0} del restaurante")]
         [Display(Name = "Dirección")]
         [JsonProperty(PropertyName = "Direccion_Parq")]
         public string Direccion_Parq { get; set; }
 
-        [StringLength(30, MinimumLength = 6, ErrorMessage = "Maximo {1} y Menor a {2} carateres")]
+        [StringLength(30, MinimumLength = 6, ErrorMessage = "Maximo {1} y Menor a {2} caracteres")]
         [Required(ErrorMessage = "Por favor ingrese {0} del parqueadero")]
         [DataType(DataType.PhoneNumber)]
         [Display(Name = "Telefono")]
@@ -63,13 +63,13 @@ namespace WebParqueadero.Models
         [Display(Name = "Valor")]
         public decimal Valor_Parq { set; get; }
 
-        [StringLength(30, MinimumLength = 6, ErrorMessage = "Maximo {1} y Menor a {2} carateres")]
+        [StringLength(30, MinimumLength = 6, ErrorMessage = "Maximo {1} y Menor a {2} caracteres")]
         [Required(ErrorMessage = "Por favor ingrese {0} del parqueadero")]
         [DataType(DataType.EmailAddress, ErrorMessage = "Por favor ingrese un correo valido")]
         [Display(Name = "Correo")]
         public string Correo_Parq { get; set; }
 
-        [StringLength(30, MinimumLength = 6, ErrorMessage = "Maximo {1} y Menor a {2} carateres")]
+        [StringLength(30, MinimumLength = 6, ErrorMessage = "Maximo {1} y Menor a {2} caracteres")]
         [Required(ErrorMessage = "Por favor ingrese {0} del parqueadero")]
         [DataType(DataType.Password)]
         [Display(Name = "Contraseña del correo")]

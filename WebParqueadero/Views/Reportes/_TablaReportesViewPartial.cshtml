@@ -31,11 +31,14 @@
                 <th scope="col">
                     @Html.DisplayNameFor(model => model.ValorTotal)
                 </th>
-                @if (Model.FirstOrDefault().ModificarValor)
+                @if (Model.ToList().Count > 0)
                 {
-                    <th scope="col">
-                        @Html.DisplayNameFor(model => model.ValorTotalModificado)
-                    </th>
+                    if (Model.FirstOrDefault().ModificarValor)
+                    {
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.ValorTotalModificado)
+                        </th>
+                    }
                 }
                 @*<th></th>*@
             </tr>

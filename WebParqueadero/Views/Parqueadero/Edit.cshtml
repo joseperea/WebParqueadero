@@ -1,9 +1,9 @@
 ﻿@model WebParqueadero.Models.Parqueadero
 @{
-    ViewBag.Title = "Configuración";
+    ViewBag.Title = "Editar configuración";
 }
 
-    <div class="container-fluid" id="Parqueador">
+    <div class="container-fluid text-dark" id="Parqueador">
         @using (Html.BeginForm("Edit", "Parqueadero", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
@@ -233,7 +233,16 @@
                                         @Html.ValidationMessageFor(model => model.ModificarValor_Parq, "", new { @class = "text-danger col-sm-12" })
                                     </div>
                                 </div>
-
+                                <div class="form-group">
+                                    <p class="font-italic text-justify text-muted text-break">
+                                        La configuración de las tarifas por vehiculos se realizo de forma
+                                        automática deacuerdo a la configuracion general.
+                                    </p>
+                                    <a class="btn btn-secondary btn-lg" href="/TipoVehiculos/Index" style="margin: 0 auto" title="Modificar Valor por tipo de vhiculos">
+                                        Modificar tarifa por tipo de vhiculos
+                                        <i class="fas fa-angle-double-right"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
 
@@ -246,7 +255,7 @@
                 </a>
                 <button type="submit" id="EditarParqueaderoCargandobtn" onclick="EditarParqueaderoCargando()" class="btn btn-outline-success btn-lg btn-block" style="margin: 0 auto">
                     <i class="fas fa-wrench"></i>
-                    Editar Configuracion
+                    <span class="text">Editar Configuracion</span>
                 </button>
             </div>
         }
@@ -262,9 +271,11 @@
             $("#idShowMensajeError").addClass("show");
             $("#IdMensajeError").html(MensajeError);
         } else {
-            $('#idShowMensajeError').alert('close');
+            //$('#idShowMensajeError').alert('close');
+            $('#idShowMensajeError').hide();
         }
 
+        $("#idConfiguracionNav").addClass("active");
         var impresora = $("#ltsImpresoras").val();
 
         if (impresora === 'Seleccionar impresora') {
@@ -276,53 +287,4 @@
 
         $("#idDivBuscarPlaca").hide();
     </script>
-    @*<script>
-            var boton = document.getElementById('BotonPost');
-            var NombreEmpresa = document.getElementById('NombreEmpresa_Parq');
-            var NitEmpresa = document.getElementById('NitEmpresa_Parq');
-
-            new Vue({
-                el: "#Parqueador",
-                data: {
-                    NombreEmpresa_Parq: "",
-                    NitEmpresa_Parq: ""
-                },
-                methods: {
-                    sendToServer: function () {
-
-                        axios({
-                            method: 'post',
-                            url: '/Parqueadero/Create',
-                            data: {
-                                "NombreEmpresa_Parq": NombreEmpresa.innerHTML,
-                                "NitEmpresa_Parq": NitEmpresa.innerHTML
-                            }
-                        })
-                        .then(function (response) {
-                            console.log(response);
-                        })
-                        .catch(function (error) {
-                            console.log(error);
-                        });
-
-                    }
-                }
-            });
-
-            function JavascriptPost() {
-                var url = '@Url.Action("Create", "Parqueadero")';
-                console.log('me diste un click');
-                //var modelConfiguracion = new FormData(boton);
-                //console.log(modelConfiguracion);
-                fetch(url, {
-                    method: 'POST'
-                })
-                    .then(res => res.json())
-                    .then(data => {
-                        console.log(data);
-                    })
-            }
-
-
-        </script>*@
 }

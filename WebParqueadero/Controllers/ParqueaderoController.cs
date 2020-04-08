@@ -104,6 +104,13 @@ namespace WebParqueadero.Controllers
                             db.Parqueaderoes.Add(parqueadero);
                             await db.SaveChangesAsync();
 
+                            foreach (TipoVehiculos item in db.TipoVehiculos.ToList())
+                            {
+                                item.Valor_TVeh = parqueadero.Valor_Parq;
+                                db.Entry(item).State = EntityState.Modified;
+                                await db.SaveChangesAsync();
+                            }
+
                             ParqueaderoUsuarioDetalle parqueaderoUsuarioDetalle = new ParqueaderoUsuarioDetalle();
 
                             parqueaderoUsuarioDetalle.Id_Parq = parqueadero.Id_Parq;

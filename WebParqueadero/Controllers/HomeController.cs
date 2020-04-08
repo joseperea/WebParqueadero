@@ -322,7 +322,7 @@ namespace WebParqueadero.Controllers
                     throw new Exception("Por favor envie el un documento");
                 }
 
-                decimal resultado = db.Parqueaderoes.Find(documento.Id_Parq).Valor_Parq / db.Parqueaderoes.Find(documento.Id_Parq).PagoMinutos_Parq;
+                decimal resultado = documento.Vehiculo.TipoVehiculo.Valor_TVeh / db.Parqueaderoes.Find(documento.Id_Parq).PagoMinutos_Parq;
                 resultado = resultado * Convert.ToDecimal(DateTime.Now.Subtract(documento.DetalleDocumento.FirstOrDefault().Horas_DDoc).TotalMinutes);
                 documento.Valor_Doc = resultado;
                 documento.ValorPagado_Doc = resultado;

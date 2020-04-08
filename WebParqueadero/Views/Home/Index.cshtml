@@ -1,46 +1,48 @@
 ﻿@model WebParqueadero.ModelViews.IngresoVehiculoView
  @using WebParqueadero.Models
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = string.Format("{0} - Inicio", Model.Parqueadero.NombreEmpresa_Parq.ToUpper());
 }
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-12 container my-2">
-            <div class="row">
-                <div class="col-8 col-sm-8 col-md-10 my-2">
-                    <button type="button" class="btn btn-sm btn-dark">
-                        Total Vehiculos <span class="badge badge-light">@Model.Documento.Count</span>
-                    </button>
-                </div>
-                <div class="offset-1 offset-sm-2 offset-md-1" title="Ingresar Vehiculo">
-                    <button type="submit" class="btn btn-lg btn-outline-dark rounded-circle" data-backdrop="static" data-toggle="modal" data-target="#IngresoVehiculo">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                </div>
-                <div class="col-12 col-sm-12 col-md-12">
-                    @Html.Partial("_MensajeErrorViewParial")
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 container my-2">
+                <div class="row">
+                    <div class="col-8 col-sm-8 col-md-10 my-2">
+                        <button type="button" class="btn btn-dark">
+                            Cantidad Vehiculos <span class="badge badge-light">@Model.Documento.Count</span>
+                            <span class="sr-only">unread messages</span>
+                        </button>
+                    </div>
+                    <div class="offset-1 offset-sm-2 offset-md-1" title="Ingresar Vehiculo">
+                        <button type="submit" class="btn btn-lg btn-dark rounded-circle" data-backdrop="static" data-toggle="modal" data-target="#IngresoVehiculo">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12">
+                        @Html.Partial("_MensajeErrorViewParial")
+                    </div>
                 </div>
             </div>
+            @Html.Partial("_FacturarVehiculoViewPartial", Model)
         </div>
-        @Html.Partial("_FacturarVehiculoViewPartial", Model)
-    </div>
-    @Html.Partial("_IngresoVehiculosViewPartial", Model)
-    @{ 
-         if (Model.Documento.Count <= 0)
+        @Html.Partial("_IngresoVehiculosViewPartial", Model)
+        @{
+            if (Model.Documento.Count <= 0)
             {
-                Model.Documento.Add( new Documento {
-                    Id_Doc = Guid.NewGuid(), 
+                Model.Documento.Add(new Documento
+                {
+                    Id_Doc = Guid.NewGuid(),
                     Parqueadero = Model.Parqueadero,
                     DetalleDocumento = new List<DetalleDocumento>(),
                     Vehiculo = new Vehiculo()
                 });
             }
-    }
-    <div id="idModalFactiurar">
-        @Html.Partial("_ModalFacturarViewPartial", Model.Documento.FirstOrDefault())
+        }
+        <div id="idModalFactiurar">
+            @Html.Partial("_ModalFacturarViewPartial", Model.Documento.FirstOrDefault())
+        </div>
     </div>
-</div>
 
 
 @section Scripts {
@@ -54,7 +56,8 @@
             $("#idShowMensajeError").addClass("show");
             $("#IdMensajeError").html(MensajeError);
         } else {
-            $('#idShowMensajeError').alert('close');
+            //$('#idShowMensajeError').alert('close');
+            $('#idShowMensajeError').hide();
         }
 
         function Cambio() {

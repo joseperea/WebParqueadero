@@ -37,6 +37,21 @@ namespace WebParqueadero
                         "~/Content/fontawesome-free-5.12.1-web/js/v4-shims.js",
                        "~/Content/fontawesome-free-5.12.1-web/js/all.js"));
 
+            bundles.Add(new ScriptBundle("~/SBAdmin/js").Include(
+                "~/Scripts/jsSBAdmin/jquery-easing/jquery.easing.min.js",
+                "~/Scripts/jsSBAdmin/sb-admin-2.min.js",
+                "~/Scripts/jsSBAdmin/datatables/jquery.dataTables.min.js",
+                "~/Scripts/jsSBAdmin/datatables/dataTables.bootstrap4.min.js",
+                "~/Scripts/jsSBAdmin/demo/datatables-demo.js"
+                ));
+
+            bundles.Add(new StyleBundle("~/SBAdmin/css").Include(
+                //"~/Content/cssSBAdmin/sb-admin-2.css",
+                "~/Content/cssSBAdmin/sb-admin-2.min.css",
+                //"~/Content/jsSBAdmin/datatables/dataTable.bootstrap4.css",
+                "~/Content/jsSBAdmin/datatables/dataTable.bootstrap4.min.css"
+                ));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/bootstrap-grid.css",

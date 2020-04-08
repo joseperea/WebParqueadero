@@ -1,9 +1,9 @@
 ﻿@model WebParqueadero.Models.Parqueadero
 @{
-    ViewBag.Title = "Configuración";
+    ViewBag.Title = "Crear configuración";
 }
 
-    <div class="container-fluid" id="Parqueador">
+    <div class="container-fluid text-dark" id="Parqueador">
         @using (Html.BeginForm("Create", "Parqueadero", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
@@ -160,7 +160,7 @@
                             <div class="form-horizontal">
                                 <h4>
                                     <i class="fas fa-money-bill-alt"></i>
-                                    <strong>INFORMACION DE TARIFA</strong>
+                                    <strong>INFORMACION GENERAL DE TARIFA</strong>
                                 </h4>
                                 <p class="font-italic text-justify text-muted text-break">
                                     Para realizar la configuracion de la tarifa es neceario manejar el tiempo de cobro por
@@ -226,7 +226,8 @@
             $("#idShowMensajeError").addClass("show");
             $("#IdMensajeError").html(MensajeError);
         } else {
-            $('#idShowMensajeError').alert('close');
+            //$('#idShowMensajeError').alert('close');
+             $('#idShowMensajeError').hide();
         }
     </script>
     @*<script>

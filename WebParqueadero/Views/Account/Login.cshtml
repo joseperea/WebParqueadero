@@ -25,7 +25,7 @@
                                     <i class="fas fa-envelope"></i>
                                 </span>
                             </div>
-                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control col-12 col-sm-12 col-md-12 col-lg-12", placeholder = "Correo" })
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-user col-12 col-sm-12 col-md-12 col-lg-12", placeholder = "Correo", type ="email", aria_describedby="emailHelp" })
                             @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger col-12 col-sm-12 col-md-12 col-lg-12" })
                         </div>
                     </div>
@@ -37,13 +37,13 @@
                                     <i class="fas fa-key"></i>
                                 </span>
                             </div>
-                            @Html.PasswordFor(m => m.Password, new { @class = "form-control col-12 col-sm-12 col-md-12 col-lg-12" })
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control form-control-user col-12 col-sm-12 col-md-12 col-lg-12" })
                             @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger col-12 col-sm-12 col-md-12 col-lg-12", placeholder = "Contraseña" })
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="checkbox">
+                            <div class="checkbox custom-control custom-checkbox">
                                 @Html.CheckBoxFor(m => m.RememberMe)
                                 @Html.LabelFor(m => m.RememberMe)
                             </div>
@@ -56,7 +56,7 @@
                         </button>
                     </div>
                     <div class="form-group">
-                        @Html.ActionLink("Registrar Paqueadero", "Create", "Parqueadero")
+                        @Html.ActionLink("Registrar paqueadero", "Create", "Parqueadero")
                     </div>
                     @*//Enable this once you have account confirmation enabled for password reset functionality
                     <div class="form-group">
@@ -81,7 +81,8 @@
         $("#idShowMensajeError").addClass("show");
         $("#IdMensajeError").html(MensajeError);
     } else {
-        $('#idShowMensajeError').alert('close');
+        //$('#idShowMensajeError').alert('close');
+         $('#idShowMensajeError').hide();
     }
 
     // location.replace(history.forward(1));

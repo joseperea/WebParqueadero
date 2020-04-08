@@ -50,7 +50,12 @@ namespace WebParqueadero.Utilidades
                             tipoVehiculos.Nombre_TVeh = item.ToUpper();
                             tipoVehiculos.Descripcion_TVeh = string.Format("Descripción {0}", item);
                             tipoVehiculos.Estado_TVeh = true;
-                            tipoVehiculos.CaracterImagen_TVeh = tipoVehiculos.Nombre_TVeh.Substring(0,1).ToUpper();
+                            tipoVehiculos.Valor_TVeh = 0;
+                            tipoVehiculos.CaracterImagen_TVeh = tipoVehiculos.Nombre_TVeh.Trim().Substring(0,1).ToUpper();
+                            if (db.TipoVehiculos.Where(t => t.CaracterImagen_TVeh == tipoVehiculos.CaracterImagen_TVeh).ToList().Count > 0)
+                            {
+                                tipoVehiculos.CaracterImagen_TVeh = tipoVehiculos.Nombre_TVeh.Trim().Substring(0, 2).ToUpper();
+                            }
                             db.TipoVehiculos.Add(tipoVehiculos);
                             db.SaveChanges();
                         }

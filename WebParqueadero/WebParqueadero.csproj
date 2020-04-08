@@ -245,6 +245,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ParqueaderoController.cs" />
     <Compile Include="Controllers\ReportesController.cs" />
+    <Compile Include="Controllers\TipoVehiculosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -274,6 +275,8 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\cssSBAdmin\sb-admin-2.css" />
+    <Content Include="Content\cssSBAdmin\sb-admin-2.min.css" />
     <Content Include="Content\fontawesome-free-5.12.1-web\css\all.css" />
     <Content Include="Content\fontawesome-free-5.12.1-web\css\all.min.css" />
     <Content Include="Content\fontawesome-free-5.12.1-web\css\brands.css" />
@@ -1878,6 +1881,8 @@
     <Content Include="Imagenes\loading_transp.gif" />
     <Content Include="Imagenes\M.svg" />
     <Content Include="Imagenes\parking-solid.svg" />
+    <Content Include="Imagenes\D2.svg" />
+    <Content Include="Imagenes\CA.svg" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -1961,10 +1966,33 @@
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jsSBAdmin\chart\Chart.bundle.js" />
+    <Content Include="Scripts\jsSBAdmin\chart\Chart.bundle.min.js" />
+    <Content Include="Scripts\jsSBAdmin\chart\Chart.js" />
+    <Content Include="Scripts\jsSBAdmin\chart\Chart.min.js" />
+    <Content Include="Scripts\jsSBAdmin\datatables\dataTables.bootstrap4.css" />
+    <Content Include="Scripts\jsSBAdmin\datatables\dataTables.bootstrap4.js" />
+    <Content Include="Scripts\jsSBAdmin\datatables\dataTables.bootstrap4.min.css" />
+    <Content Include="Scripts\jsSBAdmin\datatables\dataTables.bootstrap4.min.js" />
+    <Content Include="Scripts\jsSBAdmin\datatables\jquery.dataTables.js" />
+    <Content Include="Scripts\jsSBAdmin\datatables\jquery.dataTables.min.js" />
+    <Content Include="Scripts\jsSBAdmin\demo\chart-area-demo.js" />
+    <Content Include="Scripts\jsSBAdmin\demo\chart-bar-demo.js" />
+    <Content Include="Scripts\jsSBAdmin\demo\chart-pie-demo.js" />
+    <Content Include="Scripts\jsSBAdmin\demo\datatables-demo.js" />
+    <Content Include="Scripts\jsSBAdmin\jquery-easing\jquery.easing.compatibility.js" />
+    <Content Include="Scripts\jsSBAdmin\jquery-easing\jquery.easing.js" />
+    <Content Include="Scripts\jsSBAdmin\jquery-easing\jquery.easing.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jsSBAdmin\jquery\jquery.js" />
+    <Content Include="Scripts\jsSBAdmin\jquery\jquery.min.js" />
+    <Content Include="Scripts\jsSBAdmin\jquery\jquery.slim.js" />
+    <Content Include="Scripts\jsSBAdmin\jquery\jquery.slim.min.js" />
+    <Content Include="Scripts\jsSBAdmin\sb-admin-2.js" />
+    <Content Include="Scripts\jsSBAdmin\sb-admin-2.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
@@ -2100,6 +2128,16 @@
     <Content Include="Views\Home\_MensajeErrorViewParial.cshtml" />
     <Content Include="Views\Reportes\Index.cshtml" />
     <Content Include="Views\Reportes\_TablaReportesViewPartial.cshtml" />
+    <Content Include="Views\TipoVehiculos\Create.cshtml" />
+    <Content Include="Views\TipoVehiculos\Delete.cshtml" />
+    <Content Include="Views\TipoVehiculos\Details.cshtml" />
+    <Content Include="Views\TipoVehiculos\Edit.cshtml" />
+    <Content Include="Views\TipoVehiculos\Index.cshtml" />
+    <Content Include="Views\TipoVehiculos\_ModalEditarViewPartial.cshtml" />
+    <Content Include="Views\TipoVehiculos\_MensajeErrorViewParial.cshtml" />
+    <Content Include="Views\TipoVehiculos\_ModalCrearViewPartial.cshtml" />
+    <Content Include="Scripts\jsSBAdmin\jquery\jquery.min.map" />
+    <Content Include="Scripts\jsSBAdmin\jquery\jquery.slim.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

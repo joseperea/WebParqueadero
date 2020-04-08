@@ -15,7 +15,7 @@ namespace WebParqueadero.Models
 
         [Required(ErrorMessage = "Por ingrese la placa")]
         [Display(Name = "Placa")]
-        [StringLength(8, MinimumLength = 5, ErrorMessage = "Maximo {1} y mayor igual a {2} carateres")]
+        [StringLength(8, MinimumLength = 5, ErrorMessage = "Maximo {1} y mayor igual a {2} caracteres")]
         public string Placa_Veh { get; set; }
 
         public bool Estado_veh { get; set; }
