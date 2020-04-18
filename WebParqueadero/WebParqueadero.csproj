@@ -48,11 +48,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.6.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
+      <HintPath>..\packages\Portable.BouncyCastle.1.8.6\lib\net40\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=1.2.0.246, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.1.2.0\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="IdentityModel, Version=4.2.0.0, Culture=neutral, PublicKeyToken=e7877f4675df049f, processorArchitecture=MSIL">
       <HintPath>..\packages\IdentityModel.4.2.0\lib\net472\IdentityModel.dll</HintPath>
@@ -135,6 +141,18 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI, Version=2.5.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.5.1\lib\net45\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML, Version=2.5.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.5.1\lib\net45\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net, Version=2.5.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.5.1\lib\net45\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats, Version=2.5.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.5.1\lib\net45\NPOI.OpenXmlFormats.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -260,11 +278,15 @@
     <Compile Include="Models\TipoVehiculos.cs" />
     <Compile Include="Models\Vehiculo.cs" />
     <Compile Include="Models\WebParqueaderoContext.cs" />
+    <Compile Include="ModelViews\GenerarReportes.cs" />
+    <Compile Include="ModelViews\Imprimir.cs" />
     <Compile Include="ModelViews\IngresoVehiculoView.cs" />
     <Compile Include="ModelViews\Reportes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utilidades\CrearTicket.cs" />
+    <Compile Include="Utilidades\Export.cs" />
+    <Compile Include="Utilidades\ImprimirTicket.cs" />
     <Compile Include="Utilidades\IngresarVehiculos.cs" />
     <Compile Include="Utilidades\ObtenerListaImpresoras.cs" />
   </ItemGroup>
@@ -1960,6 +1982,7 @@
     <Content Include="Content\fontawesome-free-5.12.1-web\webfonts\fa-solid-900.ttf" />
     <Content Include="Content\fontawesome-free-5.12.1-web\webfonts\fa-solid-900.woff" />
     <Content Include="Content\fontawesome-free-5.12.1-web\webfonts\fa-solid-900.woff2" />
+    <Content Include="Archivos\NPOI.xls" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -2138,6 +2161,7 @@
     <Content Include="Views\TipoVehiculos\_ModalCrearViewPartial.cshtml" />
     <Content Include="Scripts\jsSBAdmin\jquery\jquery.min.map" />
     <Content Include="Scripts\jsSBAdmin\jquery\jquery.slim.min.map" />
+    <Content Include="Views\Reportes\_ModalGenerarRoportesViewPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -78,6 +78,12 @@ namespace WebParqueadero.Models
         [Display(Name = "Impresoras")]
         public string Impresora_Parq { get; set; }
 
+        [Display(Name = "Imprimir Ingreso Vehiculo")]
+        public bool ImprimirIngreso_Parq { get; set; }
+
+        [Display(Name = "Imprimir Factura")]
+        public bool ImprimirFactura_Parq { get; set; }
+
         [Display(Name = "Modificar Valor Total?")]
         public bool ModificarValor_Parq { get; set; }
 

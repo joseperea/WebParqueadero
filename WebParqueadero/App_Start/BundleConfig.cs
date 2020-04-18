@@ -46,10 +46,8 @@ namespace WebParqueadero
                 ));
 
             bundles.Add(new StyleBundle("~/SBAdmin/css").Include(
-                //"~/Content/cssSBAdmin/sb-admin-2.css",
                 "~/Content/cssSBAdmin/sb-admin-2.min.css",
-                //"~/Content/jsSBAdmin/datatables/dataTable.bootstrap4.css",
-                "~/Content/jsSBAdmin/datatables/dataTable.bootstrap4.min.css"
+                "~/Scripts/jsSBAdmin/datatables/dataTables.bootstrap4.min.css"
                 ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(

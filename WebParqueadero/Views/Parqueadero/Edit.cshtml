@@ -154,7 +154,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-12">
+                                @*<div class="col-sm-12">
                                     <div class="form-horizontal">
                                         <h4>
                                             <i class="fas fa-print"></i>
@@ -174,7 +174,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div>*@
                             </div>
                         </div>
 
@@ -233,7 +233,7 @@
                                         @Html.ValidationMessageFor(model => model.ModificarValor_Parq, "", new { @class = "text-danger col-sm-12" })
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                @*<div class="form-group">
                                     <p class="font-italic text-justify text-muted text-break">
                                         La configuración de las tarifas por vehiculos se realizo de forma
                                         automática deacuerdo a la configuracion general.
@@ -242,11 +242,63 @@
                                         Modificar tarifa por tipo de vhiculos
                                         <i class="fas fa-angle-double-right"></i>
                                     </a>
+                                </div>*@
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <div class="form-horizontal">
+                                <h4>
+                                    <i class="fas fa-print"></i>
+                                    <strong>CONFIGURACION IMPRESORAS</strong>
+                                </h4>
+                                <div class="row form-group">
+                                    <div class="col-sm-5">
+                                        <div class="col-lg-12">
+                                            @Html.LabelFor(model => model.Impresora_Parq, htmlAttributes: new { @class = "control-label col-sm-12", style = "", title = "Impresora del parqueadero" })
+                                        </div>
+                                        <div class="input-group col-lg-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="inputGroupPrepend">
+                                                    <i class="fas fa-print"></i>
+                                                </span>
+                                            </div>
+                                            @Html.DropDownList("ltsImpresoras", null, htmlAttributes: new { @class = "form-control col-sm-12" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="col-lg-12">
+                                            @Html.LabelFor(model => model.ImprimirIngreso_Parq, htmlAttributes: new { @class = "control-label col-sm-12", style = "", title = "Imprimir ticket de ingresos" })
+                                        </div>
+                                        <div class="input-group col-lg-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="inputGroupPrepend">
+                                                    <i class="fas fa-ticket-alt"></i>
+                                                </span>
+                                            </div>
+                                            @Html.EditorFor(model => model.ImprimirIngreso_Parq, new { htmlAttributes = new { @class = "form-control col-sm-12", title = "Imprimir ticket de ingresos" } })
+                                            @Html.ValidationMessageFor(model => model.ImprimirIngreso_Parq, "", new { @class = "text-danger col-sm-12" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="col-lg-12">
+                                            @Html.LabelFor(model => model.ImprimirFactura_Parq, htmlAttributes: new { @class = "control-label col-sm-12", style = "", title = "Imprimir ticket de factura" })
+                                        </div>
+                                        <div class="input-group col-lg-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="inputGroupPrepend">
+                                                    <i class="fas fa-clipboard-list"></i>
+                                                </span>
+                                            </div>
+                                            @Html.EditorFor(model => model.ImprimirFactura_Parq, new { htmlAttributes = new { @class = "form-control col-sm-12", title = "Imprimir ticket de factura" } })
+                                            @Html.ValidationMessageFor(model => model.ImprimirFactura_Parq, "", new { @class = "text-danger col-sm-12" })
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                    </div>
+                        </div>
                 </div>
             </div>
             <div class="form-group btn-group btn-lg btn-block text-center">

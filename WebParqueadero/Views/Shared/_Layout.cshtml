@@ -9,8 +9,8 @@
         <meta http-equiv="Pragma" content="no-cache" />*@
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
-    @Styles.Render("~/SBAdmin/css")
     @Styles.Render("~/Content/fontawesome-free-5.12.1-web/css")
+    @Styles.Render("~/SBAdmin/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/Content/fontawesome-free-5.12.1-web/js")
 
@@ -26,77 +26,77 @@
             var ltsDocumentos = db.Documento.ToList();
             ltsDocumentos = ltsDocumentos.Where(t => t.Id_Parq == parqueadero.Id_Parq && t.FechaCreacion_Doc.Date == DateTime.Now.Date && t.Estado_Doc == true).ToList();
 
-        <ul class="navbar-nav bg-gradient-secondary sidebar sidebar-dark accordion" id="accordionSidebar">
+            <ul class="navbar-nav bg-gradient-secondary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="~/Home/Index" title="PARQUEADERO - @parqueadero.NombreEmpresa_Parq.ToUpper()">
-                <div class="sidebar-brand-icon">
-                    <img src="~/Imagenes/parking-solid.svg" width="50" height="50" class="d-inline-block align-top" />
+                <!-- Sidebar - Brand -->
+                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="~/Home/Index" title="PARQUEADERO - @parqueadero.NombreEmpresa_Parq.ToUpper()">
+                    <div class="sidebar-brand-icon">
+                        <img src="~/Imagenes/parking-solid.svg" width="50" height="50" class="d-inline-block align-top" />
+                    </div>
+                    <div class="sidebar-brand-text mx-3" style="font-size: 100%">@parqueadero.NombreEmpresa_Parq.ToUpper()</div>
+                </a>
+
+
+                <hr class="sidebar-divider my-0">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index","Home")">
+                        <i class="fas fa-building"></i>
+                        <span>Inicio</span>
+                    </a>
+                </li>
+
+
+                <!-- Divider -->
+                <hr class="sidebar-divider my-0">
+
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    <i class="fas fa-tools"></i>
+                    Configurar
                 </div>
-                <div class="sidebar-brand-text mx-3" style="font-size: 100%">@parqueadero.NombreEmpresa_Parq.ToUpper()</div>
-            </a>
 
+                <!-- Nav Item - Dashboard -->
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Edit","Parqueadero", new { id = parqueadero.Id_Parq})">
+                        <i class="fas fa-fw fa-cog"></i>
+                        <span>Parqueadero</span>
+                    </a>
+                </li>
 
-            <hr class="sidebar-divider my-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index","TipoVehiculos")">
+                        <i class="fas fa-tractor"></i>
+                        <span>Tipos Vehiculos</span>
+                    </a>
+                </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="@Url.Action("Index","Home")">
-                    <i class="fas fa-building"></i>
-                    <span>Inicio</span>
-                </a>
-            </li>
+                <!-- Divider -->
+                <hr class="sidebar-divider my-0">
 
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    <i class="fas fa-chart-line"></i>
+                    Reportes
+                </div>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
+                <!-- Nav Item - Charts -->
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index","Reportes", new { id = parqueadero.Id_Parq})">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Ventas</span>
+                    </a>
+                </li>
 
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                <i class="fas fa-tools"></i>
-                Configurar
-            </div>
+                <!-- Divider -->
+                <hr class="sidebar-divider d-none d-md-block">
 
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
-                <a class="nav-link" href="@Url.Action("Edit","Parqueadero", new { id = parqueadero.Id_Parq})">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Parqueadero</span>
-                </a>
-            </li>
+                <!-- Sidebar Toggler (Sidebar) -->
+                <div class="text-center d-none d-md-inline">
+                    <button class="rounded-circle border-0" id="sidebarToggle"></button>
+                </div>
 
-            <li class="nav-item">
-                <a class="nav-link" href="~/TipoVehiculos/Index">
-                    <i class="fas fa-tractor"></i>
-                    <span>Tipos Vehiculos</span>
-                </a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                <i class="fas fa-chart-line"></i>
-                Reportes
-            </div>
-
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="~/Reportes/Index">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Ventas</span>
-                </a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
-
-        </ul>
+            </ul>
 
             <div id="content-wrapper" class="d-flex flex-column">
                 <div id="content">
@@ -109,7 +109,7 @@
                         @if (ltsDocumentos.Count > 0)
                         {
                             <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                                <div class="input-group">
+                                <div class="input-group" id="idDivBuscarPlaca">
                                     <input type="text" class="form-control bg-light border-0 small" id="idBuscarPlaca" placeholder="Buscar Vehiculos..." aria-label="Search" aria-describedby="basic-addon2" title="Ingrese placa para buscar">
                                     <div class="input-group-append">
                                         <button class="btn btn-outline-primary" type="button" onclick="BuscarPlaca()">
@@ -173,7 +173,9 @@
             </div>
         }
     </div>
-
+    <a class="scroll-to-top rounded" href="#page-top" style="display: inline;">
+        <i class="fas fa-angle-up"></i>
+    </a>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/vue")

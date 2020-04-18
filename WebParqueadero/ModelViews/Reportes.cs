@@ -11,6 +11,8 @@ namespace WebParqueadero.ModelViews
         [Key]
         public Guid Id_Doc { get; set; }
 
+        public Guid Id_Parq { get; set; }
+
         [Display(Name = "#")]
         public int Contador { get; set; }
 

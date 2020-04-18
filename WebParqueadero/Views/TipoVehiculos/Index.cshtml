@@ -4,8 +4,7 @@
 @{
     ViewBag.Title = "Lista tipo de vehiuclos";
 }
-<link href="~/Content/cssSBAdmin/sb-admin-2.min.css" rel="stylesheet" />
-<link href="~/Scripts/jsSBAdmin/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
+
 <div class="container-fluid">
     <div class="card shadow mb-4 my-2">
         <div class="card-header py-3">
@@ -18,9 +17,6 @@
             </div>
         </div>
         <div class="card-body">
-            @*<div class="col-12 col-sm-12 col-md-12">
-                    @Html.Partial("_MensajeErrorViewParial")
-                </div>*@
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
@@ -145,7 +141,7 @@
             $('#idCrearTipoVehiculo').modal("show");
         }
 
-
+        $("#idDivBuscarPlaca").hide();
     </script>
 
 }

@@ -3,7 +3,7 @@
     var Contraseña = $("#Password").val();
     if (Correo != "" && Contraseña != "") {
         var cargando = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Iniciando...`;
-        $("button").html(cargando);
+        $("#IdbuttonLogin").html(cargando);
         //$("button").attr('disabled', 'disabled');
     }
 }

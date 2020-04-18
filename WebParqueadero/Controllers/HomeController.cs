@@ -16,7 +16,7 @@ namespace WebParqueadero.Controllers
     {
         private WebParqueaderoContext db = new WebParqueaderoContext();
 
-        public IngresoVehiculoView CagarVista(IngresoVehiculoView ingresoVehiculoView) 
+        public IngresoVehiculoView CagarVista(IngresoVehiculoView ingresoVehiculoView)
         {
             try
             {
@@ -30,16 +30,20 @@ namespace WebParqueadero.Controllers
                 Parqueadero = db.Parqueaderoes.Find(parqueaderoUsuarioDetalle.Id_Parq);
                 ltstiPoVehiculos = db.TipoVehiculos.ToList();
 
-                foreach (Documento item in db.Documento.Where(t => t.Id_Parq == Parqueadero.Id_Parq).ToList())
+                foreach (Documento item in db.Documento.Where(t => t.Id_Parq == Parqueadero.Id_Parq && t.Estado_Doc == true).ToList())
                 {
                     Documento documento = GetCalculoHoraValor(item);
+
+                    if (documento.FechaCreacion_Doc.Date == DateTime.Now.Date)
+                        documento.VehiculosHoy = true;
+
                     ltsDocumentos.Add(documento);
                 }
 
                 ingresoVehiculoView.TipoVehiculos = ltstiPoVehiculos;
                 ingresoVehiculoView.Vehiculo = vehiculo;
                 ingresoVehiculoView.Parqueadero = Parqueadero;
-                ingresoVehiculoView.Documento = ltsDocumentos.Where(t => t.Estado_Doc == true && t.FechaCreacion_Doc.Date == DateTime.Now.Date).ToList();
+                ingresoVehiculoView.Documento = ltsDocumentos.ToList();
             }
             catch (Exception ex)
             {
@@ -54,37 +58,40 @@ namespace WebParqueadero.Controllers
             IngresoVehiculoView ingresoVehiculoView = new IngresoVehiculoView();
             try
             {
-                string IdUsuario = User.Identity.GetUserId();
-                Parqueadero Parqueadero = new Parqueadero();
-                List<TipoVehiculos> ltstiPoVehiculos = new List<TipoVehiculos>();
-                List<Documento> ltsDocumentos = new List<Documento>();
-                Vehiculo vehiculo = new Vehiculo();
-                ParqueaderoUsuarioDetalle parqueaderoUsuarioDetalle = new ParqueaderoUsuarioDetalle();
-                parqueaderoUsuarioDetalle = db.ParqueaderoUsuarioDetalle.Where(t => t.IdUser_PUD == IdUsuario).FirstOrDefault();
-                Parqueadero = db.Parqueaderoes.Find(parqueaderoUsuarioDetalle.Id_Parq);
-                if (string.IsNullOrEmpty(Parqueadero.Impresora_Parq))
-                {
-                    return RedirectToAction("Edit","Parqueadero", new { id = Parqueadero.Id_Parq });
-                }
-                ltstiPoVehiculos = db.TipoVehiculos.ToList();
+                //string IdUsuario = User.Identity.GetUserId();
+                //Parqueadero Parqueadero = new Parqueadero();
+                //List<TipoVehiculos> ltstiPoVehiculos = new List<TipoVehiculos>();
+                //List<Documento> ltsDocumentos = new List<Documento>();
+                //Vehiculo vehiculo = new Vehiculo();
+                //ParqueaderoUsuarioDetalle parqueaderoUsuarioDetalle = new ParqueaderoUsuarioDetalle();
+                //parqueaderoUsuarioDetalle = db.ParqueaderoUsuarioDetalle.Where(t => t.IdUser_PUD == IdUsuario).FirstOrDefault();
+                //Parqueadero = db.Parqueaderoes.Find(parqueaderoUsuarioDetalle.Id_Parq);
 
-                foreach (Documento item in db.Documento.Where(t => t.Id_Parq == Parqueadero.Id_Parq).ToList())
-                {
-                    Documento documento = GetCalculoHoraValor(item);
-                    ltsDocumentos.Add(documento);
-                }
+                //ltstiPoVehiculos = db.TipoVehiculos.ToList();
 
-                ingresoVehiculoView.TipoVehiculos = ltstiPoVehiculos;
-                ingresoVehiculoView.Vehiculo = vehiculo;
-                ingresoVehiculoView.Parqueadero = Parqueadero;
-                ingresoVehiculoView.Documento = ltsDocumentos.Where(t => t.Estado_Doc == true && t.FechaCreacion_Doc.Date == DateTime.Now.Date).ToList();
+                //foreach (Documento item in db.Documento.Where(t => t.Id_Parq == Parqueadero.Id_Parq).ToList())
+                //{
+                //    Documento documento = GetCalculoHoraValor(item);
+                //    ltsDocumentos.Add(documento);
+                //}
+
+                //ingresoVehiculoView.TipoVehiculos = ltstiPoVehiculos;
+                //ingresoVehiculoView.Vehiculo = vehiculo;
+                //ingresoVehiculoView.Parqueadero = Parqueadero;
+                //ingresoVehiculoView.Documento = ltsDocumentos.Where(t => t.Estado_Doc == true && t.FechaCreacion_Doc.Date == DateTime.Now.Date).ToList();
+                ingresoVehiculoView = CagarVista(ingresoVehiculoView);
+
+                if (string.IsNullOrEmpty(ingresoVehiculoView.Parqueadero.Impresora_Parq))
+                {
+                    return RedirectToAction("Edit", "Parqueadero", new { id = ingresoVehiculoView.Parqueadero.Id_Parq });
+                }
             }
             catch (Exception)
             {
 
                 throw;
             }
-            
+
 
             return View(ingresoVehiculoView);
         }
@@ -114,12 +121,12 @@ namespace WebParqueadero.Controllers
                     string IdUsuario = User.Identity.GetUserId();
                     if (p == null || p == Guid.Empty)
                         throw new Exception("No tiene ningun parqueadero asignado.");
-                    
+
 
                     if (TipoVehiculosView == null || TipoVehiculosView == Guid.Empty)
                         throw new Exception("Por favor seleccionar un tipo de vehiculo.");
 
-                    
+
 
                     DateTime dateTime = DateTime.Now;
                     Vehiculo vehiculo = new Vehiculo();
@@ -135,7 +142,7 @@ namespace WebParqueadero.Controllers
                         tipoVehiculos = db.TipoVehiculos.Find(TipoVehiculosView);
                         if (tipoVehiculos == null || tipoVehiculos.Id_TVeh == Guid.Empty)
                             throw new Exception("El tipo de vehiculo seleccionado no existe.");
-                        
+
 
                         ingresoVehiculoView.Vehiculo.Id_Veh = Guid.NewGuid();
                         ingresoVehiculoView.Vehiculo.Estado_veh = true;
@@ -164,23 +171,18 @@ namespace WebParqueadero.Controllers
                     db.DetalleDocumento.Add(detalleDocumento);
                     db.SaveChanges();
 
-                    CrearTicket crearTicket = new CrearTicket();
-                    crearTicket.lineasAsteriscos();
-                    crearTicket.TextoCentro("PARQUEADERO");
-                    crearTicket.lineasIgual();
-                    crearTicket.TextoCentro(documento.Parqueadero.NombreEmpresa_Parq.ToUpper());
-                    crearTicket.TextoCentro(string.Format("NIT: {0}", documento.Parqueadero.NitEmpresa_Parq.ToUpper()));
-                    crearTicket.lineasAsteriscos();
-                    crearTicket.TextoCentro("VEHICULO");
-                    crearTicket.lineasIgual();
-                    crearTicket.TextoCentro(string.Format("VEHICULO: {0}", db.TipoVehiculos.Find(vehiculo.Id_TVeh).Nombre_TVeh.ToUpper()));
-                    crearTicket.TextoCentro(string.Format("PLACA: {0}", vehiculo.Placa_Veh.ToUpper()));
-                    crearTicket.TextoCentro(string.Format("FECHA: {0}", DateTime.Now.ToString("dd/MM/yyyy")));
-                    crearTicket.TextoCentro(string.Format("HORA: {0}", documento.DetalleDocumento.FirstOrDefault().Horas_DDoc.ToString("hh:mm:ss")));
-                    crearTicket.lineasAsteriscos();
-                    crearTicket.lineasAsteriscos();
-                    crearTicket.CortaTicket();
-                    crearTicket.ImprimirTicket(parqueadero.Impresora_Parq);
+                    ImprimirTicket imprimirTicket = new ImprimirTicket();
+                    Imprimir imprimir = new Imprimir();
+                    imprimir.NombreParqueadero = documento.Parqueadero.NombreEmpresa_Parq.ToUpper();
+                    imprimir.Direccion = documento.Parqueadero.Direccion_Parq.ToUpper();
+                    imprimir.NitParqueadero = documento.Parqueadero.NitEmpresa_Parq.ToUpper();
+                    imprimir.TipoVehiculo = db.TipoVehiculos.Find(vehiculo.Id_TVeh).Nombre_TVeh.ToUpper();
+                    imprimir.Placa = vehiculo.Placa_Veh.ToUpper();
+                    imprimir.Fecha = DateTime.Now.Date;
+                    imprimir.Horas = documento.DetalleDocumento.FirstOrDefault().Horas_DDoc;
+                    imprimir.Impresora = documento.Parqueadero.Impresora_Parq;
+                    imprimir.Transcurrido = GetCalculoHoraValor(documento).DetalleDocumento.FirstOrDefault().Transcurrido_DDoc;
+                    imprimirTicket.Generar(imprimir, documento.Parqueadero.ImprimirIngreso_Parq, false);
 
 
                     transaccion.Commit();
@@ -189,7 +191,7 @@ namespace WebParqueadero.Controllers
                 {
                     transaccion.Rollback();
                     ModelState.AddModelError(string.Empty, string.Format("Error al ingresar vehiculo: {0}", ex.Message));
-                    return View("Index",CagarVista(ingresoVehiculoView));
+                    return View("Index", CagarVista(ingresoVehiculoView));
                 }
             }
             return RedirectToAction("Index");
@@ -235,6 +237,21 @@ namespace WebParqueadero.Controllers
                     db.DetalleDocumento.Add(detalleDocumento);
                     db.SaveChanges();
 
+                    ImprimirTicket imprimirTicket = new ImprimirTicket();
+                    Imprimir imprimir = new Imprimir();
+                    imprimir.NombreParqueadero = documento1.Parqueadero.NombreEmpresa_Parq.ToUpper();
+                    imprimir.Direccion = documento1.Parqueadero.Direccion_Parq.ToUpper();
+                    imprimir.NitParqueadero = documento1.Parqueadero.NitEmpresa_Parq.ToUpper();
+                    imprimir.TipoVehiculo = db.TipoVehiculos.Find(documento1.Vehiculo.TipoVehiculo.Id_TVeh).Nombre_TVeh.ToUpper();
+                    imprimir.Placa = documento1.Vehiculo.Placa_Veh.ToUpper();
+                    imprimir.Fecha = DateTime.Now.Date;
+                    imprimir.Horas = documento1.DetalleDocumento.FirstOrDefault().Horas_DDoc;
+                    imprimir.Impresora = documento1.Parqueadero.Impresora_Parq;
+                    imprimir.ValotTotal = documento1.ValorPagado_Doc;
+                    imprimir.Transcurrido = GetCalculoHoraValor(documento1).DetalleDocumento.FirstOrDefault().Transcurrido_DDoc;
+                    imprimirTicket.Generar(imprimir, documento1.Parqueadero.ImprimirFactura_Parq, true);
+
+
                     transaccion.Commit();
                 }
                 catch (Exception ex)
@@ -256,7 +273,7 @@ namespace WebParqueadero.Controllers
             try
             {
                 List<Documento> ltsDocumentos = db.Documento.ToList();
-                documento = ltsDocumentos.Where(t => t.Id_Doc == Id_Doc && t.FechaCreacion_Doc.Date == DateTime.Now.Date).ToList().FirstOrDefault();
+                documento = ltsDocumentos.Where(t => t.Id_Doc == Id_Doc && t.FechaCreacion_Doc.Date <= DateTime.Now.Date).ToList().FirstOrDefault();
                 if (documento != null)
                 {
                     documento = GetCalculoHoraValor(documento);
@@ -268,7 +285,7 @@ namespace WebParqueadero.Controllers
                     documento.Parqueadero = new Parqueadero();
                     documento.DetalleDocumento = new List<DetalleDocumento>();
                     documento.Vehiculo = new Vehiculo();
-                    
+
                 }
             }
             catch (Exception ex)
@@ -276,21 +293,21 @@ namespace WebParqueadero.Controllers
                 ModelState.AddModelError(string.Empty, string.Format("Error al realizar calculo automatico: {0}", ex.Message));
                 return View("Index", CagarVista(ingresoVehiculoView));
             }
-           
+
 
             return PartialView("_CalcularValorViewPartial", documento);
         }
 
         [Authorize]
         [HttpGet]
-        public ActionResult ViewModalFacturar(Guid Id_Doc) 
+        public ActionResult ViewModalFacturar(Guid Id_Doc)
         {
             Documento documento = new Documento();
             IngresoVehiculoView ingresoVehiculoView = new IngresoVehiculoView();
             try
             {
                 List<Documento> ltsDocumentos = db.Documento.ToList();
-                documento = ltsDocumentos.Where(t => t.Id_Doc == Id_Doc && t.FechaCreacion_Doc.Date == DateTime.Now.Date).FirstOrDefault();
+                documento = ltsDocumentos.Where(t => t.Id_Doc == Id_Doc && t.FechaCreacion_Doc.Date <= DateTime.Now.Date).FirstOrDefault();
                 if (documento != null)
                 {
                     documento = GetCalculoHoraValor(documento);
@@ -313,7 +330,7 @@ namespace WebParqueadero.Controllers
             return PartialView("_ModalFacturarViewPartial", documento);
         }
 
-        public Documento GetCalculoHoraValor(Documento documento) 
+        public Documento GetCalculoHoraValor(Documento documento)
         {
             try
             {
@@ -322,11 +339,26 @@ namespace WebParqueadero.Controllers
                     throw new Exception("Por favor envie el un documento");
                 }
 
-                decimal resultado = documento.Vehiculo.TipoVehiculo.Valor_TVeh / db.Parqueaderoes.Find(documento.Id_Parq).PagoMinutos_Parq;
-                resultado = resultado * Convert.ToDecimal(DateTime.Now.Subtract(documento.DetalleDocumento.FirstOrDefault().Horas_DDoc).TotalMinutes);
+                decimal valorTipoVehiculo = documento.Vehiculo.TipoVehiculo.Valor_TVeh;
+                decimal tiempoPagoMinutos = db.Parqueaderoes.Find(documento.Id_Parq).PagoMinutos_Parq;
+                decimal resultado = 0;
+                TimeSpan timeSpan = new TimeSpan();
+                timeSpan = DateTime.Now.Subtract(documento.DetalleDocumento.FirstOrDefault().Horas_DDoc);
+                decimal totalMinutos = Convert.ToDecimal(timeSpan.TotalMinutes);
+                int m = timeSpan.Days / 30;
+
+                resultado = valorTipoVehiculo / tiempoPagoMinutos;
+                resultado = resultado * totalMinutos;
+
                 documento.Valor_Doc = resultado;
                 documento.ValorPagado_Doc = resultado;
-                documento.DetalleDocumento.FirstOrDefault().Transcurrido_DDoc = string.Format("{0}:{1}:{2}", DateTime.Now.Subtract(documento.DetalleDocumento.FirstOrDefault().Horas_DDoc).Hours.ToString("D2"), DateTime.Now.Subtract(documento.DetalleDocumento.FirstOrDefault().Horas_DDoc).Minutes.ToString("D2"), DateTime.Now.Subtract(documento.DetalleDocumento.FirstOrDefault().Horas_DDoc).Seconds.ToString("D2"));
+
+                if (timeSpan.Days > 0 && timeSpan.Days <= 30)
+                    documento.DetalleDocumento.FirstOrDefault().Transcurrido_DDoc = string.Format("{0} Día(s)", timeSpan.Days);
+                else if (timeSpan.Days > 30)
+                    documento.DetalleDocumento.FirstOrDefault().Transcurrido_DDoc = string.Format("{0} Mes(es)", m);
+                else
+                    documento.DetalleDocumento.FirstOrDefault().Transcurrido_DDoc = string.Format("{0}:{1}:{2}", DateTime.Now.Subtract(documento.DetalleDocumento.FirstOrDefault().Horas_DDoc).Hours.ToString("D2"), DateTime.Now.Subtract(documento.DetalleDocumento.FirstOrDefault().Horas_DDoc).Minutes.ToString("D2"), DateTime.Now.Subtract(documento.DetalleDocumento.FirstOrDefault().Horas_DDoc).Seconds.ToString("D2"));
 
             }
             catch (Exception ex)
