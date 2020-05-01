@@ -23,24 +23,16 @@ namespace WebParqueadero.ModelViews
         public string TipoVehiculo { get; set; }
 
         [Display(Name = "Fecha Ingreso")]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
-        [DataType(DataType.Date)]
-        public DateTime FechaIngreso { get; set; }
+        public string FechaIngreso { get; set; }
 
         [Display(Name = "Fecha Salida")]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
-        [DataType(DataType.Date)]
-        public DateTime FechaSalida { get; set; }
+        public string FechaSalida { get; set; }
 
         [Display(Name = "Hora Ingreso")]
-        [DisplayFormat(DataFormatString = "{0:hh:mm:ss}", ApplyFormatInEditMode = true)]
-        [DataType(DataType.Time)]
-        public DateTime HoraIngreso { get; set; }
+        public string HoraIngreso { get; set; }
 
         [Display(Name = "Hora Salida")]
-        [DisplayFormat(DataFormatString = "{0:hh:mm:ss}", ApplyFormatInEditMode = true)]
-        [DataType(DataType.Time)]
-        public DateTime HoraSalida { get; set; }
+        public string HoraSalida { get; set; }
 
 
         [Display(Name = "Duración")]

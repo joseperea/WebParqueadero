@@ -1,0 +1,95 @@
+﻿@model WebParqueadero.Models.TipoVehiculos
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(t => t.CaracterImagen_TVeh);
+    @Html.HiddenFor(t => t.Estado_TVeh);
+    <div class="modal fade" id="idEditarTipoVehiculo" tabindex="-1" role="dialog" aria-labelledby="EditarTipoVehiculoLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center" id="EditarTipoVehiculoLabel">EDITAR - @Model.Nombre_TVeh</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-sm-12 col-lg-12 my-lg-1">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-horizontal">
+                                    <div id="idEditar">
+                                        @Html.AntiForgeryToken()
+
+                                        <div class="form-horizontal">
+                                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                            @Html.HiddenFor(model => model.Id_TVeh)
+
+                                            <div class="form-group">
+                                                <div class="col-sm-12 col-md-12">
+                                                    @Html.LabelFor(model => model.Nombre_TVeh, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                </div>
+                                                <div class="input-group col-sm-12 col-md-12">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="inputGroupPrepend">
+                                                            <i class="fas fa-signature"></i>
+                                                        </span>
+                                                    </div>
+                                                    @Html.EditorFor(model => model.Nombre_TVeh, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.Nombre_TVeh, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="col-sm-12 col-md-12">
+                                                    @Html.LabelFor(model => model.Descripcion_TVeh, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                </div>
+                                                <div class="input-group col-sm-12 col-md-12">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="inputGroupPrepend">
+                                                            <i class="fas fa-pen"></i>
+                                                        </span>
+                                                    </div>
+                                                    @Html.EditorFor(model => model.Descripcion_TVeh, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.Descripcion_TVeh, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="col-sm-12 col-md-12">
+                                                    @Html.LabelFor(model => model.Valor_TVeh, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                </div>
+                                                <div class="input-group col-sm-12 col-md-12">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="inputGroupPrepend">
+                                                            <i class="fas fa-dollar-sign"></i>
+                                                        </span>
+                                                    </div>
+                                                    @Html.EditorFor(model => model.Valor_TVeh, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.Valor_TVeh, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-lg btn-outline-danger" data-dismiss="modal">
+                        <i class="fas fa-times"></i>
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-lg btn-outline-secondary" onclick="EditarTipoVehiculoCargando()" id="idEditarTipoVehiculoCargandobtn">
+                        <i class="fas fa-edit"></i>
+                        EDITAR
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -19,6 +19,48 @@ namespace WebParqueadero.Controllers
         private WebParqueaderoContext db = new WebParqueaderoContext();
         // GET: Resportes
 
+        public Documento GetCalculoHoraValor(Documento documento)
+        {
+            Documento documento1 = new Documento();
+            try
+            {
+                documento1 = documento;
+                if (documento1 == null)
+                {
+                    throw new Exception("Por favor envie el un documento");
+                }
+
+                List<DetalleDocumento> detalleDocumentos = documento.DetalleDocumento.ToList();
+                decimal valorTipoVehiculo = documento1.Vehiculo.TipoVehiculo.Valor_TVeh;
+                decimal tiempoPagoMinutos = db.Parqueaderoes.Find(documento1.Id_Parq).PagoMinutos_Parq;
+                decimal resultado = 0;
+                TimeSpan timeSpan = new TimeSpan();
+                timeSpan = detalleDocumentos[0].Horas_DDoc.Subtract(detalleDocumentos[1].Horas_DDoc);
+                decimal totalMinutos = Convert.ToDecimal(timeSpan.TotalMinutes);
+                int m = timeSpan.Days / 30;
+
+                resultado = valorTipoVehiculo / tiempoPagoMinutos;
+                resultado = resultado * totalMinutos;
+
+                documento1.Valor_Doc = resultado;
+                documento1.ValorPagado_Doc = resultado;
+
+                if (timeSpan.Days > 0 && timeSpan.Days <= 30)
+                    documento1.DetalleDocumento.FirstOrDefault().Transcurrido_DDoc = string.Format("{0} Día(s)", timeSpan.Days);
+                else if (timeSpan.Days > 30)
+                    documento1.DetalleDocumento.FirstOrDefault().Transcurrido_DDoc = string.Format("{0} Mes(es)", m);
+                else
+                    documento1.DetalleDocumento.FirstOrDefault().Transcurrido_DDoc = string.Format("{0}:{1}:{2}", detalleDocumentos[0].Horas_DDoc.Subtract(detalleDocumentos[1].Horas_DDoc).Hours.ToString("D2"), detalleDocumentos[0].Horas_DDoc.Subtract(detalleDocumentos[1].Horas_DDoc).Minutes.ToString("D2"), detalleDocumentos[0].Horas_DDoc.Subtract(detalleDocumentos[1].Horas_DDoc).Seconds.ToString("D2"));
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return documento1;
+        }
+
         public List<Reportes> reportes(DateTime Desde, DateTime Hasta, Guid id) 
         {
             List<Reportes> ltsReportes = new List<Reportes>();
@@ -29,19 +71,36 @@ namespace WebParqueadero.Controllers
             {
                 Reportes reportes = new Reportes();
                 reportes.Id_Doc = item.Id_Doc;
-                reportes.Placa = item.Vehiculo.Placa_Veh;
+                reportes.Placa = item.Vehiculo.Placa_Veh.ToUpper();
                 reportes.TipoVehiculo = item.Vehiculo.TipoVehiculo.Nombre_TVeh;
                 reportes.ValorTotal = item.Valor_Doc;
                 reportes.ValorTotalModificado = item.ValorPagado_Doc;
                 List<DetalleDocumento> detalleDocumentos = item.DetalleDocumento.ToList();
-                reportes.HoraIngreso = detalleDocumentos[0].Horas_DDoc;
-                reportes.HoraSalida = detalleDocumentos[1].Horas_DDoc;
-                reportes.TiempoTranscurrido = string.Format("{0}:{1}:{2}", reportes.HoraSalida.Subtract(reportes.HoraIngreso).Hours.ToString("D2"), reportes.HoraSalida.Subtract(reportes.HoraIngreso).Minutes.ToString("D2"), reportes.HoraSalida.Subtract(reportes.HoraIngreso).Seconds.ToString("D2")); ;
-                reportes.FechaIngreso = item.FechaCreacion_Doc;
-                reportes.FechaSalida = item.FachaFinalizacion_Doc;
+                reportes.HoraIngreso = detalleDocumentos[0].Horas_DDoc.ToShortTimeString();
+                reportes.HoraSalida = detalleDocumentos[1].Horas_DDoc.ToShortTimeString();
+                reportes.FechaIngreso = item.FechaCreacion_Doc.ToShortDateString();
+                reportes.FechaSalida = item.FachaFinalizacion_Doc.ToShortDateString();
                 reportes.ModificarValor = item.Parqueadero.ModificarValor_Parq;
                 reportes.Contador = i + 1;
                 reportes.Id_Parq = id;
+
+                TimeSpan timeSpan = new TimeSpan();
+                timeSpan = detalleDocumentos[1].Horas_DDoc.Subtract(detalleDocumentos[0].Horas_DDoc);
+                decimal totalMinutos = Convert.ToDecimal(timeSpan.TotalMinutes);
+                int meses = timeSpan.Days / 30;
+                
+
+                string Transcurrido_DDoc = string.Empty;
+
+                if (timeSpan.Days > 0 && timeSpan.Days <= 30)
+                    Transcurrido_DDoc = string.Format("{0} Día(s)", timeSpan.Days);
+                else if (timeSpan.Days > 30)
+                    Transcurrido_DDoc = string.Format("{0} Mes(es)", meses);
+                else
+                    Transcurrido_DDoc = string.Format("{0}:{1}:{2}", timeSpan.Hours.ToString("D2"), timeSpan.Minutes.ToString("D2"), timeSpan.Seconds.ToString("D2"));
+
+                reportes.TiempoTranscurrido = Transcurrido_DDoc;
+
                 ltsReportes.Add(reportes);
                 i++;
             }
@@ -65,6 +124,7 @@ namespace WebParqueadero.Controllers
 
                 throw;
             }
+            ViewBag.Id_Parq = id;
             return View(ltsReportes);
         }
 
@@ -76,10 +136,11 @@ namespace WebParqueadero.Controllers
             {
                 Utilidades.Export export = new Utilidades.Export();
                 FileStream fs = new FileStream(Server.MapPath(@"\Archivos\NPOI.xls"), FileMode.Open, FileAccess.Read);
+                Parqueadero parqueadero = db.Parqueaderoes.Find(Id_Parq);
                 // Getting the complete workbook...
                 HSSFWorkbook templateWorkbook = new HSSFWorkbook(fs, true);
                 NPOI.HPSF.DocumentSummaryInformation dsi = NPOI.HPSF.PropertySetFactory.CreateDocumentSummaryInformation();
-                dsi.Company = "HOSPITAL SAN JUAN DE DIOS CALI"; dsi.Manager = "SEGURIDAD DEL PACIENTE";
+                dsi.Company = parqueadero.NombreEmpresa_Parq; dsi.Manager = parqueadero.NombreEmpresa_Parq;
                 templateWorkbook.DocumentSummaryInformation = dsi;
 
                 // Getting the worksheet by its name...
@@ -92,7 +153,7 @@ namespace WebParqueadero.Controllers
                 {
                     dtb = dts.Tables[0];
                 }
-                int fila = 12, columna = 0, i = 0;
+                int fila = 11, columna = 0, i = 0;
                 foreach (DataRow item in dtb.Rows)
                 {
                     HSSFRow dataRow = null;
@@ -115,7 +176,7 @@ namespace WebParqueadero.Controllers
                                 row.CreateCell(columna);
 
                             if (!string.IsNullOrEmpty(item1.ToString()))
-                                dataRow.GetCell(columna).SetCellValue(string.Format("IEA " + item1.ToString()));
+                                dataRow.GetCell(columna).SetCellValue(string.Format(item1.ToString()));
                             else
                                 dataRow.GetCell(columna).SetCellValue(string.Format("N/A"));
                         }

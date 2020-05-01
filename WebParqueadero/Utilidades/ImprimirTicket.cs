@@ -26,9 +26,12 @@ namespace WebParqueadero.Utilidades
                     crearTicket.lineasIgual();
                     crearTicket.TextoCentro(string.Format("VEHICULO: {0}", imprimir.TipoVehiculo));
                     crearTicket.TextoCentro(string.Format("PLACA: {0}", imprimir.Placa));
-                    crearTicket.TextoCentro(string.Format("FECHA: {0}", imprimir.Fecha.ToString("dd/MM/yyyy")));
-                    crearTicket.TextoCentro(string.Format("HORA: {0}", imprimir.Horas.ToString("hh:mm:ss")));
-                    crearTicket.TextoCentro(string.Format("DURACIÓN: {0}", imprimir.Transcurrido));
+                    crearTicket.TextoCentro(string.Format("FECHA: {0}", imprimir.Fecha.ToShortDateString()));
+                    crearTicket.TextoCentro(string.Format("HORA: {0}", imprimir.Horas.ToShortTimeString()));
+
+                    if (Factura)
+                        crearTicket.TextoCentro(string.Format("DURACIÓN: {0}", imprimir.Transcurrido));
+
                     crearTicket.lineasAsteriscos();
                     crearTicket.lineasAsteriscos();
                     if (Factura)

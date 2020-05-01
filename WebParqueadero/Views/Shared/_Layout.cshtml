@@ -9,13 +9,28 @@
         <meta http-equiv="Pragma" content="no-cache" />*@
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
-    @Styles.Render("~/Content/fontawesome-free-5.12.1-web/css")
+    @*@Styles.Render("~/Content/fontawesome-free-5.12.1-web/css")*@
     @Styles.Render("~/SBAdmin/css")
+    <link href="~/Content/fontawesome-free-5.12.1-web/css/brands.css" rel="stylesheet" />
+    <link href="~/Content/fontawesome-free-5.12.1-web/css/svg-with-js.css" rel="stylesheet" />
+    <link href="~/Content/fontawesome-free-5.12.1-web/css/fontawesome.css" rel="stylesheet" />
+    <link href="~/Content/fontawesome-free-5.12.1-web/css/regular.css" rel="stylesheet" />
+    <link href="~/Content/fontawesome-free-5.12.1-web/css/solid.css" rel="stylesheet" />
+    <link href="~/Content/fontawesome-free-5.12.1-web/css/all.css" rel="stylesheet" />
+    <link href="~/Content/fontawesome-free-5.12.1-web/css/v4-shims.min.css" rel="stylesheet" />
+    <script src="~/Content/fontawesome-free-5.12.1-web/js/brands.js"></script>
+    <script src="~/Content/fontawesome-free-5.12.1-web/js/conflict-detection.js"></script>
+    <script src="~/Content/fontawesome-free-5.12.1-web/js/fontawesome.js"></script>
+    <script src="~/Content/fontawesome-free-5.12.1-web/js/regular.js"></script>
+    <script src="~/Content/fontawesome-free-5.12.1-web/js/solid.js"></script>
+    <script src="~/Content/fontawesome-free-5.12.1-web/js/v4-shims.js"></script>
+    <script src="~/Content/fontawesome-free-5.12.1-web/js/all.js"></script>
+
     @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/Content/fontawesome-free-5.12.1-web/js")
+    @*@Scripts.Render("~/Content/fontawesome-free-5.12.1-web/js")*@
 
 </head>
-<body id="page-top">
+<body id="page-top" class="sidebar-toggled">
     <div id="wrapper">
         @if (Request.IsAuthenticated)
         {
@@ -24,9 +39,9 @@
             ParqueaderoUsuarioDetalle parqueaderoUsuarioDetalle = db.ParqueaderoUsuarioDetalle.Where(t => t.IdUser_PUD == idUsuario).FirstOrDefault();
             Parqueadero parqueadero = db.Parqueaderoes.Find(parqueaderoUsuarioDetalle.Id_Parq);
             var ltsDocumentos = db.Documento.ToList();
-            ltsDocumentos = ltsDocumentos.Where(t => t.Id_Parq == parqueadero.Id_Parq && t.FechaCreacion_Doc.Date == DateTime.Now.Date && t.Estado_Doc == true).ToList();
+            ltsDocumentos = ltsDocumentos.Where(t => t.Id_Parq == parqueadero.Id_Parq && t.FechaCreacion_Doc.Date <= DateTime.Now.Date && t.Estado_Doc == true).ToList();
 
-            <ul class="navbar-nav bg-gradient-secondary sidebar sidebar-dark accordion" id="accordionSidebar">
+            <ul class="navbar-nav bg-gradient-secondary sidebar sidebar-dark accordion toggled" id="accordionSidebar">
 
                 <!-- Sidebar - Brand -->
                 <a class="sidebar-brand d-flex align-items-center justify-content-center" href="~/Home/Index" title="PARQUEADERO - @parqueadero.NombreEmpresa_Parq.ToUpper()">
@@ -112,7 +127,7 @@
                                 <div class="input-group" id="idDivBuscarPlaca">
                                     <input type="text" class="form-control bg-light border-0 small" id="idBuscarPlaca" placeholder="Buscar Vehiculos..." aria-label="Search" aria-describedby="basic-addon2" title="Ingrese placa para buscar">
                                     <div class="input-group-append">
-                                        <button class="btn btn-outline-primary" type="button" onclick="BuscarPlaca()">
+                                        <button class="btn btn-outline-secondary" type="button" onclick="BuscarPlaca()">
                                             <i class="fas fa-search fa-sm"></i>
                                         </button>
                                     </div>
@@ -180,6 +195,7 @@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/vue")
     @Scripts.Render("~/SBAdmin/js")
+
     @RenderSection("scripts", required: false)
 </body>
 

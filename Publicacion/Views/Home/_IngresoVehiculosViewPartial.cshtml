@@ -1,0 +1,62 @@
+﻿@model WebParqueadero.ModelViews.IngresoVehiculoView
+
+@using (Html.BeginForm("IngresarVehiculos", "Home", new { p = Model.Parqueadero.Id_Parq }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="modal fade" id="IngresoVehiculo" tabindex="-1" role="dialog" aria-labelledby="IngresoVehiculoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="IngresoVehiculoLabel">INGRESO DE VEHICULO</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-sm-12 col-lg-12 my-lg-2">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <div class="col-lg-12">
+                                            @Html.LabelFor(model => model.Vehiculo.Placa_Veh, htmlAttributes: new { @class = "control-label col-sm-12", style = "", title = "Ingrese placa" })
+                                        </div>
+                                        <div class="input-group col-lg-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="inputGroupPrepend">
+                                                    <i class="far fa-credit-card"></i>
+                                                </span>
+                                            </div>
+                                            @Html.EditorFor(model => model.Vehiculo.Placa_Veh, new { htmlAttributes = new { @class = "form-control col-sm-12", placeholder = "Ingrese placa", title = "Ingrese placa" } })
+                                            @Html.ValidationMessageFor(model => model.Vehiculo.Placa_Veh, "", new { @class = "text-danger col-sm-12" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                @foreach (var item in Model.TipoVehiculos.OrderBy(t => t.Nombre_TVeh).ToList())
+                                {
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="TipoVehiculosView" id="@string.Format("id{0}",item.Nombre_TVeh)" value="@item.Id_TVeh">
+                                        <label class="form-check-label" for="@string.Format("for{0}",item.Nombre_TVeh)">@item.Nombre_TVeh</label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-lg btn-outline-danger" data-dismiss="modal">
+                        <i class="fas fa-times"></i>
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-lg btn-outline-secondary" onclick="IngresarVehiculoCargando()" id="idIngresarVehiculobtn">
+                        <i class="fas fa-file-download"></i>
+                        Ingresar Vehiculo
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

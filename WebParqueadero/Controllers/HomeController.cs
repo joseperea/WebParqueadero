@@ -151,6 +151,15 @@ namespace WebParqueadero.Controllers
                         db.Vehiculo.Add(vehiculo);
                         db.SaveChanges();
                     }
+
+                    if (vehiculo.Documento != null)
+                    {
+                        if (vehiculo.Documento.Where(t => t.Estado_Doc == true && t.Id_Parq == p).Count() > 0)
+                        {
+                            throw new Exception(string.Format("El vehiculo de tipo {0} con placa {1} ya tiene un ingreso en el parqueadero", vehiculo.TipoVehiculo.Nombre_TVeh, vehiculo.Placa_Veh.ToUpper()));
+                        }
+                    }
+
                     documento.Id_Veh = vehiculo.Id_Veh;
                     documento.Id_Parq = parqueadero.Id_Parq;
                     documento.Id_Doc = Guid.NewGuid();

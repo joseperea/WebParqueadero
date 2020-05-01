@@ -1,0 +1,135 @@
+﻿@model IEnumerable<WebParqueadero.ModelViews.Reportes>
+
+<div class="table-responsive">
+    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.Contador)
+                </th>
+                <th scope="col" >
+                    @Html.DisplayNameFor(model => model.TipoVehiculo)
+                </th>
+                <th scope="col" >
+                    @Html.DisplayNameFor(model => model.Placa)
+                </th>
+                <th scope="col" >
+                    @Html.DisplayNameFor(model => model.FechaIngreso)
+                </th>
+                <th scope="col" >
+                    @Html.DisplayNameFor(model => model.FechaSalida)
+                </th>
+                <th scope="col" >
+                    @Html.DisplayNameFor(model => model.HoraIngreso)
+                </th>
+                <th scope="col" >
+                    @Html.DisplayNameFor(model => model.HoraSalida)
+                </th>
+                <th scope="col" >
+                    @Html.DisplayNameFor(model => model.TiempoTranscurrido)
+                </th>
+                <th scope="col" >
+                    @Html.DisplayNameFor(model => model.ValorTotal)
+                </th>
+                @if (Model.ToList().Count > 0)
+                {
+                    if (Model.FirstOrDefault().ModificarValor)
+                    {
+                        <th scope="col" >
+                            @Html.DisplayNameFor(model => model.ValorTotalModificado)
+                        </th>
+                    }
+                }
+                @*<th></th>*@
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Contador)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TipoVehiculo)
+                </th>
+                <th >
+                    @Html.DisplayNameFor(model => model.Placa)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FechaIngreso)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FechaSalida)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.HoraIngreso)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.HoraSalida)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TiempoTranscurrido)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ValorTotal)
+                </th>
+                @if (Model.ToList().Count > 0)
+                {
+                    if (Model.FirstOrDefault().ModificarValor)
+                    {
+                        <th>
+                            @Html.DisplayNameFor(model => model.ValorTotalModificado)
+                        </th>
+                    }
+                }
+                @*<th></th>*@
+            </tr>
+        </tfoot>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th scope="row">
+                        @Html.DisplayFor(modelItem => item.Contador)
+                    </th>
+                    <td>
+                        <p style="width: 100%">@Html.DisplayFor(modelItem => item.TipoVehiculo)</p>
+                    </td>
+                    <td class="text-uppercase">
+                        <p style="width: 100%"> @Html.DisplayFor(modelItem => item.Placa)</p> 
+                    </td>
+                    <td>
+                        <p style="width: 100%">@Html.DisplayFor(modelItem => item.FechaIngreso)</p>
+                    </td>
+                    <td>
+                        <p style="width: 100%">@Html.DisplayFor(modelItem => item.FechaSalida)</p>
+                    </td>
+                    <td>
+                        <p style="width: 100%">@Html.DisplayFor(modelItem => item.HoraIngreso)</p>
+                    </td>
+                    <td>
+                        <p style="width: 100%">@Html.DisplayFor(modelItem => item.HoraSalida)</p>
+                    </td>
+                    <td>
+                        <p style="width: 100%">@Html.DisplayFor(modelItem => item.TiempoTranscurrido)</p>
+                    </td>
+                    <td>
+                        <p style="width: 100%">@Html.DisplayFor(modelItem => item.ValorTotal)</p>
+                    </td>
+                    @if (item.ModificarValor)
+                    {
+                <td>
+                    <p style="width: 100%">@Html.DisplayFor(modelItem => item.ValorTotalModificado)</p>
+                </td>
+                    }
+                    @*<td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id_Doc }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.Id_Doc }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id_Doc })
+                    </td>*@
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+

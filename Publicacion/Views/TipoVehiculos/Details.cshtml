@@ -1,0 +1,58 @@
+﻿@model WebParqueadero.Models.TipoVehiculos
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TipoVehiculos</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre_TVeh)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre_TVeh)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CaracterImagen_TVeh)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CaracterImagen_TVeh)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Descripcion_TVeh)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descripcion_TVeh)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Valor_TVeh)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Valor_TVeh)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Estado_TVeh)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Estado_TVeh)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id_TVeh }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

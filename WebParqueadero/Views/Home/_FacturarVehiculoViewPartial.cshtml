@@ -7,7 +7,7 @@
             int CantidaVehiculos = Model.Documento.Where(t => t.VehiculosHoy == false).ToList().Count;
             if (CantidaVehiculos > 0)
             {
-                <div class="col-sm-12 card shadow mb-4 border-left-danger">
+                <div class="col-sm-12 card shadow mb-4 border-left-danger border-bottom-danger">
                     <a href="#VehiculosAnteriores" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="VehiculosAnteriores">
                         <h6 class="m-0 font-weight-bold text-danger">
                             Vehiculos de anteriores <span class="badge badge-light" title="@string.Format("Cantidad de vehiculos {0}", CantidaVehiculos)">@CantidaVehiculos</span>
@@ -26,7 +26,7 @@
                                             </strong>
                                         </h3>
                                         <div class="col-sm-12 col-md-12 col-lg-12">
-                                            <img src="@string.Format("/Imagenes/{0}.svg", item.Vehiculo.TipoVehiculo.CaracterImagen_TVeh)" alt="Error al cargar la imagen" class="col-sm-12" style="height:200px;color:burlywood" />
+                                            <img src="~/@string.Format("Imagenes/{0}.svg", item.Vehiculo.TipoVehiculo.CaracterImagen_TVeh)" alt="Error al cargar la imagen" class="col-sm-12" style="height:200px;color:burlywood" />
                                         </div>
                                         <div class="caption col-12 col-sm-12 col-md-12">
                                             <div id="@item.Id_Doc">
@@ -58,7 +58,7 @@
                             </strong>
                         </h3>
                         <div class="col-sm-12 col-md-12 col-lg-12">
-                            <img src="@string.Format("/Imagenes/{0}.svg", item.Vehiculo.TipoVehiculo.CaracterImagen_TVeh)" alt="Error al cargar la imagen" class="col-sm-12" style="height:200px;color:burlywood" />
+                            <img src="~/@string.Format("Imagenes/{0}.svg", item.Vehiculo.TipoVehiculo.CaracterImagen_TVeh)" alt="Error al cargar la imagen" class="col-sm-12" style="height:200px;color:burlywood" />
                         </div>
                         <div class="caption col-12 col-sm-12 col-md-12">
                             <div id="@item.Id_Doc">

@@ -281,6 +281,7 @@
     <Compile Include="ModelViews\GenerarReportes.cs" />
     <Compile Include="ModelViews\Imprimir.cs" />
     <Compile Include="ModelViews\IngresoVehiculoView.cs" />
+    <Compile Include="ModelViews\Mensaje.cs" />
     <Compile Include="ModelViews\Reportes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -1983,6 +1984,7 @@
     <Content Include="Content\fontawesome-free-5.12.1-web\webfonts\fa-solid-900.woff" />
     <Content Include="Content\fontawesome-free-5.12.1-web\webfonts\fa-solid-900.woff2" />
     <Content Include="Archivos\NPOI.xls" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -2162,6 +2164,7 @@
     <Content Include="Scripts\jsSBAdmin\jquery\jquery.min.map" />
     <Content Include="Scripts\jsSBAdmin\jquery\jquery.slim.min.map" />
     <Content Include="Views\Reportes\_ModalGenerarRoportesViewPartial.cshtml" />
+    <Content Include="Views\Home\_MensajeViewPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
