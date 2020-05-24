@@ -1896,6 +1896,7 @@
     <Content Include="Content\fontawesome-free-5.12.1-web\webfonts\fa-regular-400.svg" />
     <Content Include="Content\fontawesome-free-5.12.1-web\webfonts\fa-solid-900.svg" />
     <Content Include="Content\Login.css" />
+    <Content Include="Content\Paginas.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -2165,6 +2166,7 @@
     <Content Include="Scripts\jsSBAdmin\jquery\jquery.slim.min.map" />
     <Content Include="Views\Reportes\_ModalGenerarRoportesViewPartial.cshtml" />
     <Content Include="Views\Home\_MensajeViewPartial.cshtml" />
+    <Content Include="Views\Home\_FacturaViewPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

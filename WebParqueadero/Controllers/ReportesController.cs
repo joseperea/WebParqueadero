@@ -135,7 +135,7 @@ namespace WebParqueadero.Controllers
             try
             {
                 Utilidades.Export export = new Utilidades.Export();
-                FileStream fs = new FileStream(Server.MapPath(@"\Archivos\NPOI.xls"), FileMode.Open, FileAccess.Read);
+                FileStream fs = new FileStream(Server.MapPath(@"~\Archivos\NPOI.xls"), FileMode.Open, FileAccess.Read);
                 Parqueadero parqueadero = db.Parqueaderoes.Find(Id_Parq);
                 // Getting the complete workbook...
                 HSSFWorkbook templateWorkbook = new HSSFWorkbook(fs, true);

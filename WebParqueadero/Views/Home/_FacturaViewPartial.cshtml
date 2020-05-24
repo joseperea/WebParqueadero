@@ -1,0 +1,33 @@
+﻿@model WebParqueadero.ModelViews.Imprimir
+@using System.Globalization;
+
+<div id="dvContents" style="border: 1px dotted black; padding: 5px; width: 50px; visibility:hidden ">
+    <span style="font-size: 10pt; font-weight: bold; font-family: Arial" class="text-center">
+        <samp>****************************************</samp><br />
+        <samp class="text-center">PARQUEADERO</samp><br />
+        <samp>========================================</samp><br />
+        <samp class="text-left">NOMBRE: @Model.NombreParqueadero</samp><br />
+        <samp class="text-left">NIT: @Model.NitParqueadero</samp><br />
+        <samp class="text-left">DIRECCIÓN: @Model.Direccion</samp><br />
+        <samp>****************************************</samp><br />
+        <samp class="text-center">VEHICULO</samp><br />
+        <samp>========================================</samp><br />
+        <samp class="text-left">VEHICULO: @Model.TipoVehiculo</samp><br />
+        <samp class="text-left">PLACA: @Model.Placa</samp><br />
+        <samp class="text-left">FECHA: @Model.Fecha.ToShortDateString()</samp><br />
+        <samp class="text-left">HORA: @Model.Horas.ToShortTimeString()</samp><br />
+        @if (Model.Transcurrido != "Inicio")
+        {
+            <samp class="text-left">DURACIÓN: @Model.Transcurrido</samp><br />
+        }
+        <samp>****************************************</samp><br />
+        <samp>****************************************</samp><br />
+        @if (Model.ValotTotal > 0)
+        {
+            <samp class="text-left">TOTAL: @Model.ValotTotal.ToString("C2", CultureInfo.CurrentCulture)</samp><br />
+            <samp>****************************************</samp><br />
+            <samp>****************************************</samp>
+        }
+    </span>
+</div>
+

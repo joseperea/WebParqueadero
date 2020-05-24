@@ -1,7 +1,7 @@
 ﻿@model WebParqueadero.ModelViews.IngresoVehiculoView
 
-@using (Html.BeginForm("IngresarVehiculos", "Home", new { p = Model.Parqueadero.Id_Parq }, FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
+@*@using (Html.BeginForm("IngresarVehiculos", "Home", new { p = Model.Parqueadero.Id_Parq }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{*@
     @Html.AntiForgeryToken()
 
     <div class="modal fade" id="IngresoVehiculo" tabindex="-1" role="dialog" aria-labelledby="IngresoVehiculoLabel" aria-hidden="true">
@@ -47,11 +47,11 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-lg btn-outline-danger" data-dismiss="modal">
+                    <button type="button" class="btn btn-lg btn-outline-danger" data-dismiss="modal" onclick="location.reload();"  id="idTerminarIngresoVehiculobtn">
                         <i class="fas fa-times"></i>
                         Cancelar
                     </button>
-                    <button type="submit" class="btn btn-lg btn-outline-secondary" onclick="IngresarVehiculoCargando()" id="idIngresarVehiculobtn">
+                    <button type="submit" class="btn btn-lg btn-outline-secondary" onclick="IngresarVehiculoCargando('@Model.Parqueadero.Id_Parq')" id="idIngresarVehiculobtn">
                         <i class="fas fa-file-download"></i>
                         Ingresar Vehiculo
                     </button>
@@ -59,4 +59,4 @@
             </div>
         </div>
     </div>
-}
+@*}*@

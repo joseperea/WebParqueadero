@@ -112,20 +112,23 @@ namespace WebParqueadero.Controllers
 
         [Authorize]
         [HttpPost]
-        public ActionResult IngresarVehiculos(IngresoVehiculoView ingresoVehiculoView, Guid? TipoVehiculosView, Guid? p)
+        public ActionResult IngresarVehiculos(Guid? TipoVehiculosView, Guid? Id_Parq, string Placa)
         {
             using (var transaccion = db.Database.BeginTransaction())
             {
+                IngresoVehiculoView ingresoVehiculoView = new IngresoVehiculoView();
                 try
                 {
                     string IdUsuario = User.Identity.GetUserId();
-                    if (p == null || p == Guid.Empty)
+                    if (Id_Parq == null || Id_Parq == Guid.Empty)
                         throw new Exception("No tiene ningun parqueadero asignado.");
 
 
                     if (TipoVehiculosView == null || TipoVehiculosView == Guid.Empty)
                         throw new Exception("Por favor seleccionar un tipo de vehiculo.");
 
+                    if (string.IsNullOrWhiteSpace(Placa))
+                        throw new Exception("Por favor ingrese la placa del vehiculo.");
 
 
                     DateTime dateTime = DateTime.Now;
@@ -133,8 +136,8 @@ namespace WebParqueadero.Controllers
                     Parqueadero parqueadero = new Parqueadero();
                     Documento documento = new Documento();
                     DetalleDocumento detalleDocumento = new DetalleDocumento();
-                    vehiculo = db.Vehiculo.Where(t => t.Placa_Veh.ToLower() == ingresoVehiculoView.Vehiculo.Placa_Veh.ToLower()).FirstOrDefault();
-                    parqueadero = db.Parqueaderoes.Find(p);
+                    vehiculo = db.Vehiculo.Where(t => t.Placa_Veh.ToLower() == Placa.ToLower()).FirstOrDefault();
+                    parqueadero = db.Parqueaderoes.Find(Id_Parq);
 
                     if (vehiculo == null)
                     {
@@ -143,10 +146,11 @@ namespace WebParqueadero.Controllers
                         if (tipoVehiculos == null || tipoVehiculos.Id_TVeh == Guid.Empty)
                             throw new Exception("El tipo de vehiculo seleccionado no existe.");
 
-
+                        ingresoVehiculoView.Vehiculo = new Vehiculo();
                         ingresoVehiculoView.Vehiculo.Id_Veh = Guid.NewGuid();
                         ingresoVehiculoView.Vehiculo.Estado_veh = true;
                         ingresoVehiculoView.Vehiculo.Id_TVeh = tipoVehiculos.Id_TVeh;
+                        ingresoVehiculoView.Vehiculo.Placa_Veh = Placa;
                         vehiculo = ingresoVehiculoView.Vehiculo;
                         db.Vehiculo.Add(vehiculo);
                         db.SaveChanges();
@@ -154,7 +158,7 @@ namespace WebParqueadero.Controllers
 
                     if (vehiculo.Documento != null)
                     {
-                        if (vehiculo.Documento.Where(t => t.Estado_Doc == true && t.Id_Parq == p).Count() > 0)
+                        if (vehiculo.Documento.Where(t => t.Estado_Doc == true && t.Id_Parq == Id_Parq).Count() > 0)
                         {
                             throw new Exception(string.Format("El vehiculo de tipo {0} con placa {1} ya tiene un ingreso en el parqueadero", vehiculo.TipoVehiculo.Nombre_TVeh, vehiculo.Placa_Veh.ToUpper()));
                         }
@@ -190,11 +194,12 @@ namespace WebParqueadero.Controllers
                     imprimir.Fecha = DateTime.Now.Date;
                     imprimir.Horas = documento.DetalleDocumento.FirstOrDefault().Horas_DDoc;
                     imprimir.Impresora = documento.Parqueadero.Impresora_Parq;
-                    imprimir.Transcurrido = GetCalculoHoraValor(documento).DetalleDocumento.FirstOrDefault().Transcurrido_DDoc;
-                    imprimirTicket.Generar(imprimir, documento.Parqueadero.ImprimirIngreso_Parq, false);
-
+                    //imprimir.Transcurrido = GetCalculoHoraValor(documento).DetalleDocumento.FirstOrDefault().Transcurrido_DDoc;
+                    imprimir.Transcurrido = "Inicio";
+                    //imprimirTicket.Generar(imprimir, documento.Parqueadero.ImprimirIngreso_Parq, false);
 
                     transaccion.Commit();
+                    return PartialView("_FacturaViewPartial", imprimir);
                 }
                 catch (Exception ex)
                 {
@@ -208,25 +213,29 @@ namespace WebParqueadero.Controllers
 
         [Authorize]
         [HttpPost]
-        public ActionResult Facturar(Documento documento)
+        public ActionResult Facturar(Guid? Id_Doc, decimal ValorPagado_Doc, decimal Valor_Doc)
         {
+            IngresoVehiculoView ingresoVehiculoView = new IngresoVehiculoView();
+            ImprimirTicket imprimirTicket = new ImprimirTicket();
+            Imprimir imprimir = new Imprimir();
             using (var transaccion = db.Database.BeginTransaction())
             {
-                IngresoVehiculoView ingresoVehiculoView = new IngresoVehiculoView();
+
                 try
                 {
-                    if (documento.ValorPagado_Doc <= 0)
+
+                    if (ValorPagado_Doc <= 0)
                         throw new Exception("Por favor ingrese un valor total valido.");
 
                     DateTime dateTime = DateTime.Now;
-                    Documento documento1 = db.Documento.Find(documento.Id_Doc);
+                    Documento documento1 = db.Documento.Find(Id_Doc);
 
 
                     if (documento1 == null || documento1.Id_Doc == Guid.Empty)
                         throw new Exception("por favor envié un documento valido.");
 
-                    documento1.Valor_Doc = documento.Valor_Doc;
-                    documento1.ValorPagado_Doc = documento.ValorPagado_Doc;
+                    documento1.Valor_Doc = Valor_Doc;
+                    documento1.ValorPagado_Doc = ValorPagado_Doc;
                     documento1.FachaFinalizacion_Doc = dateTime;
                     documento1.Estado_Doc = false;
                     db.Entry(documento1).State = EntityState.Modified;
@@ -246,8 +255,7 @@ namespace WebParqueadero.Controllers
                     db.DetalleDocumento.Add(detalleDocumento);
                     db.SaveChanges();
 
-                    ImprimirTicket imprimirTicket = new ImprimirTicket();
-                    Imprimir imprimir = new Imprimir();
+            
                     imprimir.NombreParqueadero = documento1.Parqueadero.NombreEmpresa_Parq.ToUpper();
                     imprimir.Direccion = documento1.Parqueadero.Direccion_Parq.ToUpper();
                     imprimir.NitParqueadero = documento1.Parqueadero.NitEmpresa_Parq.ToUpper();
@@ -258,19 +266,21 @@ namespace WebParqueadero.Controllers
                     imprimir.Impresora = documento1.Parqueadero.Impresora_Parq;
                     imprimir.ValotTotal = documento1.ValorPagado_Doc;
                     imprimir.Transcurrido = GetCalculoHoraValor(documento1).DetalleDocumento.FirstOrDefault().Transcurrido_DDoc;
-                    imprimirTicket.Generar(imprimir, documento1.Parqueadero.ImprimirFactura_Parq, true);
-
+                    //imprimirTicket.Generar(imprimir, documento1.Parqueadero.ImprimirFactura_Parq, true);
 
                     transaccion.Commit();
+                    return PartialView("_FacturaViewPartial", imprimir);
                 }
                 catch (Exception ex)
                 {
                     transaccion.Rollback();
                     ModelState.AddModelError(string.Empty, string.Format("Error al facturar: {0}", ex.Message));
-                    return View("Index", CagarVista(ingresoVehiculoView));
+                    return Json(new { data = ex.Message }, JsonRequestBehavior.AllowGet);
+                    //return View("Index", CagarVista(ingresoVehiculoView));
                 }
             }
-            return RedirectToAction("Index");
+            return Json(new { data = imprimir }, JsonRequestBehavior.AllowGet);
+            //return View("Index", CagarVista(ingresoVehiculoView));
         }
 
         [Authorize]

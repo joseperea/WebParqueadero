@@ -1,8 +1,9 @@
 ﻿@model WebParqueadero.ModelViews.IngresoVehiculoView
- @using WebParqueadero.Models
+@using WebParqueadero.Models
 @{
     ViewBag.Title = string.Format("{0} - Inicio", Model.Parqueadero.NombreEmpresa_Parq.ToUpper());
 }
+    <link href="~/Content/Paginas.css" rel="stylesheet" />
 
     <div class="container-fluid">
         <div class="row">
@@ -43,27 +44,22 @@
             @Html.Partial("_ModalFacturarViewPartial", Model.Documento.FirstOrDefault())
         </div>
 
-        @*<div class="modal show" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="alert alert-success" role="alert">
-                    <h4 class="alert-heading">Well done!</h4>
-                    <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
-                    <hr>
-                    <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
-                </div>
-            </div>
+        <div id="ImprimirFactura">
+
         </div>
-    </div>*@
+        <div id="ImprimirIngreso">
+
+        </div>
+
     </div>
 
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
-    <script>
+<script>
 
-        var MensajeError = `@Html.ValidationSummary(true,"", new { @class = "text-danger" })`;
+    var MensajeError = `@Html.ValidationSummary(true,"", new { @class = "text-danger" })`;
 
         if (MensajeError != "") {
             $("#idShowMensajeError").addClass("show");
@@ -71,6 +67,41 @@
         } else {
             //$('#idShowMensajeError').alert('close');
             $('#idShowMensajeError').hide();
+        }
+
+    function IngresarVehiculoCargando(IdParqueadero) {
+            var cargando = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Ingresando...`;
+            var terminar = `<i class="fas fa-check-square"></i> Finalizar Ingreso`;
+            $("#idIngresarVehiculobtn").html(cargando);
+            var urlIngresar = '@Url.Action("IngresarVehiculos", "Home")';
+        var RadioTipoVehiculo = $("input[name='TipoVehiculosView']:checked").val();
+        var placa = $("#Vehiculo_Placa_Veh").val();
+
+        $.post(urlIngresar, { Id_Parq: IdParqueadero, TipoVehiculosView: RadioTipoVehiculo, Placa: placa ,messmessage: false },
+                function (data) {
+                    $("#ImprimirIngreso").append(data);
+                    PrintDiv();
+                    $("#idIngresarVehiculobtn").hide();
+                    $("#idTerminarIngresoVehiculobtn").html(terminar);
+                    
+                });
+
+        }
+
+
+        function Facturar(IdDocumento, ValorPagado_Doc, Valor_Doc) {
+            var cargando = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Generando factura...`;
+            var terminar = `<i class="fas fa-check-square"></i> Finalizar Factura`;
+            $("#idFacturarVehiculoCargandobtn").html(cargando);
+            var urlFacturar = '@Url.Action("Facturar", "Home")';
+
+            $.post(urlFacturar, { Id_Doc: IdDocumento, ValorPagado_Doc: ValorPagado_Doc, Valor_Doc: Valor_Doc, messmessage: false },
+                function (data) {
+                    $("#ImprimirFactura").append(data);
+                    PrintDiv();
+                    $("#idFacturarVehiculoCargandobtn").hide();
+                    $("#idTerminarFacturarVehiculobtn").html(terminar);
+                });
         }
 
         function Cambio() {
@@ -108,7 +139,7 @@
         $("#idBuscarPlaca").keypress(function (event) {
             var keycode = (event.keyCode ? event.keyCode : event.which);
             if (keycode == '13') {
-                BuscarPlaca();  
+                BuscarPlaca();
             }
         });
 
@@ -143,5 +174,29 @@
         }
 
         setInterval("CalculoAutomatico()", 10000);
-    </script>
+
+        function PrintDiv() {
+            var contents = document.getElementById("dvContents").innerHTML;
+            var frame1 = document.createElement('iframe');
+            frame1.name = "frame1";
+            frame1.style.position = "absolute";
+            frame1.style.top = "-1000000px";
+            document.body.appendChild(frame1);
+            var frameDoc = frame1.contentWindow ? frame1.contentWindow : frame1.contentDocument.document ? frame1.contentDocument.document : frame1.contentDocument;
+            frameDoc.document.open();
+            frameDoc.document.write('<html><head style="width:110px;height:200px;"><title>DIV Contents</title>');
+            frameDoc.document.write('</head><body>');
+            frameDoc.document.write(contents);
+            frameDoc.document.write('</body></html>');
+            frameDoc.document.close();
+            setTimeout(function () {
+                window.frames["frame1"].focus();
+                window.frames["frame1"].print();
+                document.body.removeChild(frame1);
+            }, 300);
+
+            return false;
+        }
+
+</script>
 }

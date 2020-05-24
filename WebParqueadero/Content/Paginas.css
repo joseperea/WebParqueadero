@@ -1,0 +1,7 @@
+﻿
+@media print {
+    @page {
+        size: 15mm 30mm;
+        margin: 0;
+    }
+}

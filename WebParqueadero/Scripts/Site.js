@@ -8,18 +8,6 @@
     }
 }
 
-function IngresarVehiculoCargando() {
-    var cargando = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Ingresando...`;
-    //$("button").attr('disabled', 'disabled');
-    $("#idIngresarVehiculobtn").html(cargando);
-}
-
-function FacturarVehiculoCargando() {
-    var cargando = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Generando factura...`;
-    //$("button").attr('disabled', 'disabled');
-    $("#idFacturarVehiculoCargandobtn").html(cargando);
-}
-
 function EditarTipoVehiculoCargando() {
     var Nombre = $("Nombre_TVeh").val();
     var descripcion = $("Descripcion_TVeh").val();
@@ -80,3 +68,4 @@ function EditarParqueaderoCargando() {
         $("#EditarParqueaderoCargandobtn").html(cargando);
     }
 }
+
