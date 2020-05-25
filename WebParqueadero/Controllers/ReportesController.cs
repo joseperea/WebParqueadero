@@ -35,7 +35,13 @@ namespace WebParqueadero.Controllers
                 decimal tiempoPagoMinutos = db.Parqueaderoes.Find(documento1.Id_Parq).PagoMinutos_Parq;
                 decimal resultado = 0;
                 TimeSpan timeSpan = new TimeSpan();
-                timeSpan = detalleDocumentos[0].Horas_DDoc.Subtract(detalleDocumentos[1].Horas_DDoc);
+
+                int diferencia = DateTime.Compare(detalleDocumentos[1].Horas_DDoc, detalleDocumentos[0].Horas_DDoc);
+                if (diferencia < 0)
+                    timeSpan = detalleDocumentos[0].Horas_DDoc.Subtract(detalleDocumentos[1].Horas_DDoc);
+                else
+                    timeSpan = detalleDocumentos[1].Horas_DDoc.Subtract(detalleDocumentos[0].Horas_DDoc);
+                
                 decimal totalMinutos = Convert.ToDecimal(timeSpan.TotalMinutes);
                 int m = timeSpan.Days / 30;
 
@@ -85,7 +91,14 @@ namespace WebParqueadero.Controllers
                 reportes.Id_Parq = id;
 
                 TimeSpan timeSpan = new TimeSpan();
-                timeSpan = detalleDocumentos[1].Horas_DDoc.Subtract(detalleDocumentos[0].Horas_DDoc);
+
+                int diferencia = DateTime.Compare(detalleDocumentos[1].Horas_DDoc, detalleDocumentos[0].Horas_DDoc);
+                if (diferencia < 0)
+                    timeSpan = detalleDocumentos[0].Horas_DDoc.Subtract(detalleDocumentos[1].Horas_DDoc);
+                else
+                    timeSpan = detalleDocumentos[1].Horas_DDoc.Subtract(detalleDocumentos[0].Horas_DDoc);
+                
+
                 decimal totalMinutos = Convert.ToDecimal(timeSpan.TotalMinutes);
                 int meses = timeSpan.Days / 30;
                 

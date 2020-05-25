@@ -117,6 +117,7 @@ namespace WebParqueadero.Controllers
             using (var transaccion = db.Database.BeginTransaction())
             {
                 IngresoVehiculoView ingresoVehiculoView = new IngresoVehiculoView();
+                Mensaje mensaje = new Mensaje();
                 try
                 {
                     string IdUsuario = User.Identity.GetUserId();
@@ -130,6 +131,9 @@ namespace WebParqueadero.Controllers
                     if (string.IsNullOrWhiteSpace(Placa))
                         throw new Exception("Por favor ingrese la placa del vehiculo.");
 
+                    if (Placa.Length <= 4)
+                        throw new Exception("Por favor la placa del vehiculo debe tener mas de 4 caracteres.");
+                    
 
                     DateTime dateTime = DateTime.Now;
                     Vehiculo vehiculo = new Vehiculo();
@@ -204,8 +208,10 @@ namespace WebParqueadero.Controllers
                 catch (Exception ex)
                 {
                     transaccion.Rollback();
-                    ModelState.AddModelError(string.Empty, string.Format("Error al ingresar vehiculo: {0}", ex.Message));
-                    return View("Index", CagarVista(ingresoVehiculoView));
+                    mensaje.DescripcionMensaje = string.Format("Error al ingresar vehiculo: {0}", ex.Message);
+                    //ModelState.AddModelError(string.Empty, string.Format("Error al ingresar vehiculo: {0}", ex.Message));
+                    return PartialView("AlertMensajerViewPartial", mensaje);
+                    //return View("Index", CagarVista(ingresoVehiculoView));
                 }
             }
             return RedirectToAction("Index");
@@ -220,7 +226,7 @@ namespace WebParqueadero.Controllers
             Imprimir imprimir = new Imprimir();
             using (var transaccion = db.Database.BeginTransaction())
             {
-
+                Mensaje mensaje = new Mensaje();
                 try
                 {
 
@@ -274,8 +280,10 @@ namespace WebParqueadero.Controllers
                 catch (Exception ex)
                 {
                     transaccion.Rollback();
-                    ModelState.AddModelError(string.Empty, string.Format("Error al facturar: {0}", ex.Message));
-                    return Json(new { data = ex.Message }, JsonRequestBehavior.AllowGet);
+                    //ModelState.AddModelError(string.Empty, string.Format("Error al facturar: {0}", ex.Message));
+                    //return Json(new { data = ex.Message }, JsonRequestBehavior.AllowGet);
+                    mensaje.DescripcionMensaje = string.Format("Error al ingresar vehiculo: {0}", ex.Message);
+                    return PartialView("AlertMensajerViewPartial", mensaje);
                     //return View("Index", CagarVista(ingresoVehiculoView));
                 }
             }

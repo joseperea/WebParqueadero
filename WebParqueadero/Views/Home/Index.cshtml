@@ -70,26 +70,41 @@
         }
 
     function IngresarVehiculoCargando(IdParqueadero) {
+        $("#MensajeErrorAlertIngreso").html("");
             var cargando = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Ingresando...`;
-            var terminar = `<i class="fas fa-check-square"></i> Finalizar Ingreso`;
+        var terminar = `<i class="fas fa-check-square"></i> Finalizar Ingreso`;
             $("#idIngresarVehiculobtn").html(cargando);
             var urlIngresar = '@Url.Action("IngresarVehiculos", "Home")';
         var RadioTipoVehiculo = $("input[name='TipoVehiculosView']:checked").val();
         var placa = $("#Vehiculo_Placa_Veh").val();
 
         $.post(urlIngresar, { Id_Parq: IdParqueadero, TipoVehiculosView: RadioTipoVehiculo, Placa: placa ,messmessage: false },
-                function (data) {
+            function (data) {
+                var contiene = data.includes("alert");
+                if (contiene) {
+                    var normal = `<i class="fas fa-file-download"></i> Ingresar Vehiculo`;
+                    $("#MensajeErrorAlertIngreso").append(data);
+                    $("#idIngresarVehiculobtn").html(normal);
+                } else {
                     $("#ImprimirIngreso").append(data);
                     PrintDiv();
                     $("#idIngresarVehiculobtn").hide();
                     $("#idTerminarIngresoVehiculobtn").html(terminar);
-                    
+                }
+
+
                 });
 
         }
 
 
-        function Facturar(IdDocumento, ValorPagado_Doc, Valor_Doc) {
+    function Facturar(IdDocumento, ValorPagado_Doc, Valor_Doc) {
+        $("#MensajeErrorAlertFactura").html("");
+        var efect = parseInt($("#idEfectivo").val());
+        if (isNaN(efect) || efect <= 0) {
+            var error = `<div class="alert alert-danger" role="alert"> Por favor ingrese el valor en efectivo </div>`;
+            $("#MensajeErrorAlertFactura").append(error);
+        } else {
             var cargando = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Generando factura...`;
             var terminar = `<i class="fas fa-check-square"></i> Finalizar Factura`;
             $("#idFacturarVehiculoCargandobtn").html(cargando);
@@ -97,12 +112,22 @@
 
             $.post(urlFacturar, { Id_Doc: IdDocumento, ValorPagado_Doc: ValorPagado_Doc, Valor_Doc: Valor_Doc, messmessage: false },
                 function (data) {
-                    $("#ImprimirFactura").append(data);
-                    PrintDiv();
-                    $("#idFacturarVehiculoCargandobtn").hide();
-                    $("#idTerminarFacturarVehiculobtn").html(terminar);
+
+                    var contiene = data.includes("alert");
+
+                    if (contiene) {
+                        var normal = `<i class="fas fa-receipt"></i> GENERAR FACTURA`;
+                        $("#MensajeErrorAlertFactura").append(data);
+                        $("#idFacturarVehiculoCargandobtn").html(normal);
+                    } else {
+                        $("#ImprimirFactura").append(data);
+                        PrintDiv();
+                        $("#idFacturarVehiculoCargandobtn").hide();
+                        $("#idTerminarFacturarVehiculobtn").html(terminar);
+                    }
                 });
         }
+    }
 
         function Cambio() {
             var efect = parseInt($("#idEfectivo").val());
