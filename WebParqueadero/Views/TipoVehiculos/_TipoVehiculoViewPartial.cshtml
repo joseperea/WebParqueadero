@@ -1,0 +1,121 @@
+﻿@model WebParqueadero.Models.TipoVehiculos
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="row">
+
+            <div class="form-group col-sm-6">
+                <div class="col-sm-12 col-md-12">
+                    @Html.LabelFor(model => model.Nombre_TVeh, htmlAttributes: new { @class = "control-label col-md-12" })
+                </div>
+                <div class="input-group col-sm-12 col-md-12">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupPrepend">
+                            <i class="fas fa-signature"></i>
+                        </span>
+                    </div>
+                    @Html.EditorFor(model => model.Nombre_TVeh, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Nombre_TVeh, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group col-sm-6">
+                <div class="col-sm-12 col-md-12">
+                    @Html.LabelFor(model => model.Descripcion_TVeh, htmlAttributes: new { @class = "control-label col-md-12" })
+                </div>
+                <div class="input-group col-sm-12 col-md-12">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupPrepend">
+                            <i class="fas fa-pen"></i>
+                        </span>
+                    </div>
+                    @Html.EditorFor(model => model.Descripcion_TVeh, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Descripcion_TVeh, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group col-sm-12">
+                <div class="col-sm-12 col-md-12">
+                    @Html.LabelFor(model => model.Valor_TVeh, htmlAttributes: new { @class = "control-label col-md-12" })
+                </div>
+                <div class="input-group col-sm-12 col-md-12">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupPrepend">
+                            <i class="fas fa-dollar-sign"></i>
+                        </span>
+                    </div>
+                    @Html.EditorFor(model => model.Valor_TVeh, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Valor_TVeh, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @if (ViewBag.Lavar)
+            {
+
+                <div class="form-group col-sm-3">
+                    <div class="col-sm-12 col-md-12">
+                        @Html.LabelFor(model => model.Lavar_TVeh, htmlAttributes: new { @class = "control-label col-sm-12", style = "", title = "Modificar valor del parqueadero ?" })
+                    </div>
+                    <div class="input-group col-sm-12 col-md-12">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroupPrepend">
+                                <i class="fas fa-money-check-alt"></i>
+                            </span>
+                        </div>
+                        @Html.EditorFor(model => model.Lavar_TVeh, new { htmlAttributes = new { @class = "form-control col-sm-12" } })
+                        @Html.ValidationMessageFor(model => model.Lavar_TVeh, "", new { @class = "text-danger col-sm-12" })
+                    </div>
+                </div>
+
+                <div class="form-group col-sm-9" id="idValorLavado">
+                    <div class="col-sm-12 col-md-12">
+                        @Html.LabelFor(model => model.ValorLavado_TVeh, htmlAttributes: new { @class = "control-label col-md-12" })
+                    </div>
+                    <div class="input-group col-sm-12 col-md-12">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroupPrepend">
+                                <i class="fas fa-dollar-sign"></i>
+                            </span>
+                        </div>
+                        @Html.EditorFor(model => model.ValorLavado_TVeh, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ValorLavado_TVeh, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            }
+
+            @if (ViewBag.Casillero)
+            {
+                <div class="form-group col-sm-3">
+                    <div class="col-sm-12 col-md-12">
+                        @Html.LabelFor(model => model.Casillero_TVeh, htmlAttributes: new { @class = "control-label col-sm-12", style = "", title = "Modificar valor del parqueadero ?" })
+                    </div>
+                    <div class="input-group col-sm-12 col-md-12">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroupPrepend">
+                                <i class="fas fa-money-check-alt"></i>
+                            </span>
+                        </div>
+                        @Html.EditorFor(model => model.Casillero_TVeh, new { htmlAttributes = new { @class = "form-control col-sm-12" } })
+                        @Html.ValidationMessageFor(model => model.Casillero_TVeh, "", new { @class = "text-danger col-sm-12" })
+                    </div>
+                </div>
+
+                <div class="form-group  col-sm-9" id="idValorCasillero">
+                    <div class="col-sm-12 col-md-12">
+                        @Html.LabelFor(model => model.ValorCasillero_TVeh, htmlAttributes: new { @class = "control-label col-md-12" })
+                    </div>
+                    <div class="input-group col-sm-12 col-md-12">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroupPrepend">
+                                <i class="fas fa-dollar-sign"></i>
+                            </span>
+                        </div>
+                        @Html.EditorFor(model => model.ValorCasillero_TVeh, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ValorCasillero_TVeh, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            }
+
+        </div>
+
+    </div>
+

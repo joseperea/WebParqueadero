@@ -5,107 +5,178 @@
     ViewBag.Title = "Lista tipo de vehiuclos";
 }
 
-<div class="container-fluid">
-    <div class="card shadow mb-4 my-2">
-        <div class="card-header py-3">
-            @*<h6 class="col-sm-2 col-md-2 col-lg-2 font-weight-bold text-primary">Tipos Vehiculos</h6>*@
-            <div class="col-sm-12 col-md-12 col-lg-12">
-                <button type="button" id="idCrearTipoVehiculosbtn" onclick="CrearTipoVehiculos()" class="btn btn-outline-success btn-sm btn-block col-sm-2" title="Crear nuevo tipo">
-                    <i class="fas fa-plus"></i>
-                    Crear nuevo tipo
-                </button>
+    <div class="container-fluid">
+        <div class="card shadow mb-4 my-2">
+            <div class="card-header py-3">
+                @*<h6 class="col-sm-2 col-md-2 col-lg-2 font-weight-bold text-primary">Tipos Vehiculos</h6>*@
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                    <button type="button" id="idCrearTipoVehiculosbtn" onclick="CrearTipoVehiculos()" class="btn btn-outline-success btn-sm btn-block col-sm-2" title="Crear nuevo tipo">
+                        <i class="fas fa-plus"></i>
+                        Crear nuevo tipo
+                    </button>
+                    <button onclick="Cargar()"> Cargar..</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Nombre_TVeh)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CaracterImagen_TVeh)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Descripcion_TVeh)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Valor_TVeh)
+                                </th>
+                                @if (ViewBag.Lavar)
+                                {
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ValorLavado_TVeh)
+                                    </th>
+                                }
+                                @if (ViewBag.Casillero)
+                                {
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ValorCasillero_TVeh)
+                                    </th>
+                                }
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Estado_TVeh)
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Nombre_TVeh)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CaracterImagen_TVeh)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Descripcion_TVeh)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Valor_TVeh)
+                                </th>
+                                @if (ViewBag.Lavar)
+                                {
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ValorLavado_TVeh)
+                                    </th>
+                                }
+                                @if (ViewBag.Casillero)
+                                {
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ValorCasillero_TVeh)
+                                    </th>
+                                }
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Estado_TVeh)
+                                </th>
+                                <th></th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Nombre_TVeh)
+                                    </td>
+                                    <td>
+                                        <img src="~/@string.Format("Imagenes/{0}.svg", item.CaracterImagen_TVeh)" alt="Error al cargar la imagen" class="offset-1" style="max-width: 100%" width="60" height="50" />
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Descripcion_TVeh)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Valor_TVeh)
+                                    </td>
+                                    @if (ViewBag.Lavar)
+                                    {
+                                        <td>
+                                            @if (item.Lavar_TVeh)
+                                            {
+                                                @Html.DisplayFor(modelItem => item.ValorLavado_TVeh)
+                                            }
+                                            else
+                                            {
+                                                <p style="text-transform:uppercase">Sin Configurar</p>
+                                            }
+                                        </td>
+                                    }
+
+                                    @if (ViewBag.Casillero)
+                                    {
+                                        <td>
+                                            @if (item.Casillero_TVeh)
+                                            {
+                                                @Html.DisplayFor(modelItem => item.ValorCasillero_TVeh)
+                                            }
+                                            else
+                                            {
+                                                <p style="text-transform:uppercase">Sin Configurar</p>
+                                            }
+                                        </td>
+                                    }
+                                    <td>
+                                        @if (item.Estado_TVeh)
+                                        {
+                                            <p style="text-transform:uppercase">Activo</p>
+                                        }
+                                        else
+                                        {
+                                            <p style="text-transform:uppercase">Inactivo</p>
+                                        }
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <button class="btn btn-outline-primary" title="Editar" onclick="ModalEditar('@item.Id_TVeh', '@ViewBag.Id_Paq')"><i class="fas fa-edit"></i></button>
+                                            @if (!item.Estado_TVeh)
+                                            {
+
+                                                <a class="btn btn-outline-success" title="Activar" href="@Url.Action("Delete","TipoVehiculos", new { id = item.Id_TVeh,Id_Paq = ViewBag.Id_Paq  })"><i class="fas fa-check-circle"></i></a>
+                                            }
+                                            else
+                                            {
+                                                <a class="btn btn-outline-danger" title="Desactivar" href="@Url.Action("Delete","TipoVehiculos", new { id = item.Id_TVeh,Id_Paq = ViewBag.Id_Paq  })"><i class="fas fa-times-circle"></i></a>
+                                            }
+                                        </div>
+                                        @*@Html.ActionLink("Edit", "Edit", new { id = item.Id_TVeh }, new { @class = "btn btn-primary" })*@
+                                        @*@Html.ActionLink("Details", "Details", new { id = item.Id_TVeh }, new { @class = "btn btn-secondary" })
+                                        @Html.ActionLink("Delete", "Delete", new { id = item.Id_TVeh }, new { @class = "btn btn-secondary" })*@
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Nombre_TVeh)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.CaracterImagen_TVeh)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Descripcion_TVeh)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Valor_TVeh)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Estado_TVeh)
-                            </th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Nombre_TVeh)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.CaracterImagen_TVeh)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Descripcion_TVeh)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Valor_TVeh)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Estado_TVeh)
-                            </th>
-                            <th></th>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Nombre_TVeh)
-                                </td>
-                                <td>
-                                    <img src="~/@string.Format("Imagenes/{0}.svg", item.CaracterImagen_TVeh)" alt="Error al cargar la imagen" class="offset-1" style="max-width: 100%" width="60" height="50" />
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Descripcion_TVeh)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Valor_TVeh)
-                                </td>
-                                <td>
-                                    @if (item.Estado_TVeh)
-                                    {
-                                        <p style="text-transform:uppercase">Activo</p>
-                                    }
-                                    else
-                                    {
-                                        <p style="text-transform:uppercase">Inactivo</p>
-                                    }
-                                </td>
-                                <td>
-                                    <div class="btn-group btn-group-sm">
-                                        <button class="btn btn-outline-primary" onclick="ModalEditar('@item.Id_TVeh')"><i class="fas fa-edit"></i></button>
-                                    </div>
-                                    @*@Html.ActionLink("Edit", "Edit", new { id = item.Id_TVeh }, new { @class = "btn btn-primary" })*@
-                                    @*@Html.ActionLink("Details", "Details", new { id = item.Id_TVeh }, new { @class = "btn btn-secondary" })
-                                        @Html.ActionLink("Delete", "Delete", new { id = item.Id_TVeh }, new { @class = "btn btn-secondary" })*@
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+        <div id="idModalEditar"></div>
+        @{
+            TipoVehiculos tipoVehiculos = new TipoVehiculos();
+        }
+        @Html.Partial("_ModalCrearViewPartial", tipoVehiculos)
+
+        <div id="divLoading" style="margin: 0px; padding: 0px; position: fixed; right: 0px;
+         top: 0px; width: 100%; height: 100%; background-color: white; z-index: 30001;
+         opacity: .8; filter: alpha(opacity=80);display:none">
+            <p style="position: absolute; top: 50%; left: 40%; color: #990000;">
+                <span class="sr-only">Loading...</span>
+                Espere por favor, Generando Reporte....
+                <img src="~/Imagenes/DON_LEO_P.gif" />
+            </p>
         </div>
     </div>
-    <div id="idModalEditar"></div>
-    @{
-        TipoVehiculos tipoVehiculos = new TipoVehiculos();
-    }
-    @Html.Partial("_ModalCrearViewPartial", tipoVehiculos)
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
@@ -121,25 +192,53 @@
             $('#idShowMensajeError').hide();
         }
 
+        function Cargar() {
+            $("#divLoading").show();
 
-        function ModalEditar(Id_TVeh) {
-            var urlEditar = ('@Url.Action("Edit","TipoVehiculos")' + '?id='+Id_TVeh);
+        }
 
-            $.ajax({
-                type: "GET",
-                url: urlEditar,
-                async: false,
-                success: function (data) {
+        function ModalEditar(Id_TVeh, Id_Paq) {
+            var urlEditar = '@Url.Action("Edit","TipoVehiculos")';
+
+            $.get(urlEditar, { id_Paq: Id_Paq, id: Id_TVeh, messmessage: false },
+                function (data) {
                     $("#idModalEditar").empty();
                     $("#idModalEditar").html(data);
                     $('#idEditarTipoVehiculo').modal("show");
-                }
-            })
+                });
+
+            //$.ajax({
+            //    type: "GET",
+            //    url: urlEditar,
+            //    async: false,
+            //    success: function (data) {
+            //        $("#idModalEditar").empty();
+            //        $("#idModalEditar").html(data);
+            //        $('#idEditarTipoVehiculo').modal("show");
+            //    }
+            //})
         }
 
         function CrearTipoVehiculos() {
             $('#idCrearTipoVehiculo').modal("show");
         }
+
+        //$("#Lavar_TVeh").click(function () {
+        //    if ($(this).is(':checked'))
+        //    {
+        //        $("#idValorLavado").show();
+        //    } else {
+        //        $("#idValorLavado").hide();
+        //    }
+        //});
+
+        //$("#Casillero_TVeh").click(function () {
+        //    if ($(this).is(':checked')) {
+        //        $("#idValorCasillero").show();
+        //    } else {
+        //        $("#idValorCasillero").hide();
+        //    }
+        //});
 
         $("#idDivBuscarPlaca").hide();
     </script>

@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Net;
-using System.Web;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using WebParqueadero.Models;
 
@@ -13,13 +11,33 @@ namespace WebParqueadero.Controllers
 {
     public class TipoVehiculosController : Controller
     {
-        private WebParqueaderoContext db = new WebParqueaderoContext();
+        private readonly WebParqueaderoContext db = new WebParqueaderoContext();
 
+        
         // GET: TipoVehiculos
         [Authorize]
-        public async Task<ActionResult> Index()
-        { 
-            return View(await db.TipoVehiculos.ToListAsync());
+        public async Task<ActionResult> Index(Guid? id)
+        {
+            try
+            {
+                if (id == null || id == Guid.Empty)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                Parqueadero parqueadero = db.Parqueaderoes.Find(id);
+
+                ViewBag.Lavar = parqueadero.Lavar;
+                ViewBag.Casillero = parqueadero.Casillero;
+                ViewBag.Id_Paq = parqueadero.Id_Parq;
+
+                return View(await db.TipoVehiculos.OrderBy(t => t.Estado_TVeh).OrderBy(x => x.Nombre_TVeh).ToListAsync());
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, string.Format("Error al ingresar vehiculo: {0}", ex.Message));
+                return View("Index", await db.TipoVehiculos.OrderBy(t => t.Estado_TVeh).OrderBy(x => x.Nombre_TVeh).ToListAsync());
+            }
         }
 
         // GET: TipoVehiculos/Details/5
@@ -51,17 +69,28 @@ namespace WebParqueadero.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<ActionResult> Create(TipoVehiculos tipoVehiculos)
+        public async Task<ActionResult> Create(TipoVehiculos tipoVehiculos, Guid? Id_Paq)
         {
-            using (var transaccion = db.Database.BeginTransaction())
+            using (DbContextTransaction transaccion = db.Database.BeginTransaction())
             {
+                if (Id_Paq == null || Id_Paq == Guid.Empty)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                Parqueadero parqueadero = db.Parqueaderoes.Find(Id_Paq);
+
+                ViewBag.Lavar = parqueadero.Lavar;
+                ViewBag.Casillero = parqueadero.Casillero;
+                ViewBag.Id_Paq = parqueadero.Id_Parq;
+
                 try
                 {
                     if (ModelState.IsValid)
                     {
                         tipoVehiculos.Id_TVeh = Guid.NewGuid();
                         tipoVehiculos.Nombre_TVeh.ToUpper();
-                        tipoVehiculos.CaracterImagen_TVeh = tipoVehiculos.Nombre_TVeh.Trim().Substring(0,1).ToUpper();
+                        tipoVehiculos.CaracterImagen_TVeh = tipoVehiculos.Nombre_TVeh.Trim().Substring(0, 1).ToUpper();
                         tipoVehiculos.Estado_TVeh = true;
                         if (db.TipoVehiculos.Where(t => t.CaracterImagen_TVeh == tipoVehiculos.CaracterImagen_TVeh).ToList().Count > 0)
                         {
@@ -70,25 +99,37 @@ namespace WebParqueadero.Controllers
                         db.TipoVehiculos.Add(tipoVehiculos);
                         await db.SaveChangesAsync();
                         transaccion.Commit();
-                        return RedirectToAction("Index");
+                        return View("Index", await db.TipoVehiculos.OrderBy(t => t.Estado_TVeh).OrderBy(x => x.Nombre_TVeh).ToListAsync());
                     }
                 }
                 catch (Exception ex)
                 {
                     transaccion.Rollback();
                     ModelState.AddModelError(string.Empty, string.Format("Error al ingresar vehiculo: {0}", ex.Message));
-                    return View("Index");
+                    return View("Index", await db.TipoVehiculos.OrderBy(t => t.Estado_TVeh).OrderBy(x => x.Nombre_TVeh).ToListAsync());
                 }
             }
 
-            return View("Index");
+            return View("Index", await db.TipoVehiculos.OrderBy(t => t.Estado_TVeh).OrderBy(x => x.Nombre_TVeh).ToListAsync());
         }
 
         // GET: TipoVehiculos/Edit/5
         [Authorize]
-        public async Task<ActionResult> Edit(Guid? id)
+        public async Task<ActionResult> Edit(Guid? id, Guid? Id_Paq)
         {
             TipoVehiculos tipoVehiculos = new TipoVehiculos();
+
+            if (Id_Paq == null || Id_Paq == Guid.Empty)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Parqueadero parqueadero = db.Parqueaderoes.Find(Id_Paq);
+
+            ViewBag.Lavar = parqueadero.Lavar;
+            ViewBag.Casillero = parqueadero.Casillero;
+            ViewBag.Id_Paq = parqueadero.Id_Parq;
+
             try
             {
                 if (id == null)
@@ -100,11 +141,12 @@ namespace WebParqueadero.Controllers
                 {
                     return HttpNotFound();
                 }
+
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError(string.Empty, string.Format("Error al cargar modal: {0}", ex.Message));
-                return View("Index");
+                return View("Index", await db.TipoVehiculos.OrderBy(t => t.Estado_TVeh).OrderBy(x => x.Nombre_TVeh).ToListAsync());
             }
             return PartialView("_ModalEditarViewPartial", tipoVehiculos);
         }
@@ -115,36 +157,69 @@ namespace WebParqueadero.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<ActionResult> Edit(TipoVehiculos tipoVehiculos)
+        public async Task<ActionResult> Edit(TipoVehiculos tipoVehiculos, Guid? Id_Paq)
         {
-            using (var transaccion = db.Database.BeginTransaction())
+            using (DbContextTransaction transaccion = db.Database.BeginTransaction())
             {
+                if (Id_Paq == null || Id_Paq == Guid.Empty)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                Parqueadero parqueadero = db.Parqueaderoes.Find(Id_Paq);
+
+                ViewBag.Lavar = parqueadero.Lavar;
+                ViewBag.Casillero = parqueadero.Casillero;
+                ViewBag.Id_Paq = parqueadero.Id_Parq;
+
                 try
                 {
                     if (ModelState.IsValid)
                     {
+                        if (tipoVehiculos.Lavar_TVeh)
+                        {
+                            if (tipoVehiculos.ValorLavado_TVeh <= 0)
+                            {
+                                throw new Exception("Por favor ingrese el valor del lavado del vehiculo.");
+                            }
+                        }
+
+                        if (tipoVehiculos.Casillero_TVeh)
+                        {
+                            if (tipoVehiculos.ValorCasillero_TVeh <= 0)
+                            {
+                                throw new Exception("Por favor ingrese el valor de casillero por articulo.");
+                            }
+                        }
+
                         db.Entry(tipoVehiculos).State = EntityState.Modified;
                         await db.SaveChangesAsync();
+
                         transaccion.Commit();
-                        return RedirectToAction("Index");
+                        return View("Index", await db.TipoVehiculos.OrderBy(t => t.Estado_TVeh).OrderBy(x => x.Nombre_TVeh).ToListAsync());
                     }
                 }
                 catch (Exception ex)
                 {
                     transaccion.Rollback();
                     ModelState.AddModelError(string.Empty, string.Format("Error al editar tipo de vehiculo: {0}", ex.Message));
-                    return View("Index");
+
+                    return View("Index", await db.TipoVehiculos.OrderBy(t => t.Estado_TVeh).OrderBy(x => x.Nombre_TVeh).ToListAsync());
                 }
             }
 
-            return View("Index");
+            return View("Index", await db.TipoVehiculos.OrderBy(t => t.Estado_TVeh).ToListAsync());
         }
 
         // GET: TipoVehiculos/Delete/5
         [Authorize]
-        public async Task<ActionResult> Delete(Guid? id)
+        public async Task<ActionResult> Delete(Guid? id, Guid? Id_Paq)
         {
             if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            if (Id_Paq == null || Id_Paq == Guid.Empty)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -153,7 +228,18 @@ namespace WebParqueadero.Controllers
             {
                 return HttpNotFound();
             }
-            return View(tipoVehiculos);
+            
+            tipoVehiculos.Estado_TVeh = tipoVehiculos.Estado_TVeh ? false : true;
+            db.Entry(tipoVehiculos).State = EntityState.Modified;
+            await db.SaveChangesAsync();
+
+            Parqueadero parqueadero = db.Parqueaderoes.Find(Id_Paq);
+
+            ViewBag.Lavar = parqueadero.Lavar;
+            ViewBag.Casillero = parqueadero.Casillero;
+            ViewBag.Id_Paq = parqueadero.Id_Parq;
+
+            return View("Index", await db.TipoVehiculos.OrderBy(t => t.Estado_TVeh).OrderBy(x => x.Nombre_TVeh).ToListAsync());
         }
 
         // POST: TipoVehiculos/Delete/5

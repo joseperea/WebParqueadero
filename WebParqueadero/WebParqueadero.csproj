@@ -1902,6 +1902,9 @@
     <Content Include="Content\Site.css" />
     <Content Include="Imagenes\B.svg" />
     <Content Include="Imagenes\C.svg" />
+    <Content Include="Imagenes\DON_LEO_G.gif" />
+    <Content Include="Imagenes\DON_LEO_M.gif" />
+    <Content Include="Imagenes\DON_LEO_P.gif" />
     <Content Include="Imagenes\loading_transp.gif" />
     <Content Include="Imagenes\M.svg" />
     <Content Include="Imagenes\parking-solid.svg" />
@@ -2168,6 +2171,7 @@
     <Content Include="Views\Home\_MensajeViewPartial.cshtml" />
     <Content Include="Views\Home\_FacturaViewPartial.cshtml" />
     <Content Include="Views\Home\AlertMensajerViewPartial.cshtml" />
+    <Content Include="Views\TipoVehiculos\_TipoVehiculoViewPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

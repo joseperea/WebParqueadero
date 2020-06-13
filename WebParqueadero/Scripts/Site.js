@@ -12,6 +12,8 @@ function EditarTipoVehiculoCargando() {
     var Nombre = $("Nombre_TVeh").val();
     var descripcion = $("Descripcion_TVeh").val();
     var Valor = $("Valor_TVeh").val();
+    var ValorLavado = parseInt($("#ValorLavado_TVeh").val());
+    var ValorCasillero = parseInt($("#ValorCasillero_TVeh").val());
 
     if (Nombre != "" && descripcion != "" && Valor != "") {
         var cargando = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Editando...`;       
@@ -23,6 +25,8 @@ function CrearTipoVehiculoCargando() {
     var Nombre = $("Nombre_TVeh").val();
     var descripcion = $("Descripcion_TVeh").val();
     var Valor = $("Valor_TVeh").val();
+    var ValorLavado = parseInt($("#ValorLavado_TVeh").val());
+    var ValorCasillero = parseInt($("#ValorCasillero_TVeh").val());
 
     if (Nombre != "" && descripcion != "" && Valor != "") {
         var cargando = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Creando...`;

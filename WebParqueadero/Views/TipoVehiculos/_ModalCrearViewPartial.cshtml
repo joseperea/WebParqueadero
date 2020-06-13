@@ -1,5 +1,5 @@
 ﻿@model WebParqueadero.Models.TipoVehiculos
-@using (Html.BeginForm("Crear","TipoVehiculos", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Create", "TipoVehiculos", new { Id_Paq = ViewBag.Id_Paq },FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="modal fade" id="idCrearTipoVehiculo" tabindex="-1" role="dialog" aria-labelledby="CrearTipoVehiculoLabel" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -17,55 +17,7 @@
                                 <div class="form-horizontal">
                                     <div id="idEditar">
                                         @Html.AntiForgeryToken()
-
-                                        <div class="form-horizontal">
-                                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-                                            <div class="form-group">
-                                                <div class="col-sm-12 col-md-12">
-                                                    @Html.LabelFor(model => model.Nombre_TVeh, htmlAttributes: new { @class = "control-label col-md-2" })
-                                                </div>
-                                                <div class="input-group col-sm-12 col-md-12">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text" id="inputGroupPrepend">
-                                                            <i class="fas fa-signature"></i>
-                                                        </span>
-                                                    </div>
-                                                    @Html.EditorFor(model => model.Nombre_TVeh, new { htmlAttributes = new { @class = "form-control" } })
-                                                    @Html.ValidationMessageFor(model => model.Nombre_TVeh, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <div class="col-sm-12 col-md-12">
-                                                    @Html.LabelFor(model => model.Descripcion_TVeh, htmlAttributes: new { @class = "control-label col-md-2" })
-                                                </div>
-                                                <div class="input-group col-sm-12 col-md-12">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text" id="inputGroupPrepend">
-                                                            <i class="fas fa-pen"></i>
-                                                        </span>
-                                                    </div>
-                                                    @Html.EditorFor(model => model.Descripcion_TVeh, new { htmlAttributes = new { @class = "form-control" } })
-                                                    @Html.ValidationMessageFor(model => model.Descripcion_TVeh, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <div class="col-sm-12 col-md-12">
-                                                    @Html.LabelFor(model => model.Valor_TVeh, htmlAttributes: new { @class = "control-label col-md-2" })
-                                                </div>
-                                                <div class="input-group col-sm-12 col-md-12">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text" id="inputGroupPrepend">
-                                                            <i class="fas fa-dollar-sign"></i>
-                                                        </span>
-                                                    </div>
-                                                    @Html.EditorFor(model => model.Valor_TVeh, new { htmlAttributes = new { @class = "form-control" } })
-                                                    @Html.ValidationMessageFor(model => model.Valor_TVeh, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
-                                        </div>
+                                        @Html.Partial("_TipoVehiculoViewPartial", Model)
                                     </div>
                                 </div>
                             </div>

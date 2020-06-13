@@ -81,10 +81,10 @@ namespace WebParqueadero.Controllers
                 //ingresoVehiculoView.Documento = ltsDocumentos.Where(t => t.Estado_Doc == true && t.FechaCreacion_Doc.Date == DateTime.Now.Date).ToList();
                 ingresoVehiculoView = CagarVista(ingresoVehiculoView);
 
-                if (string.IsNullOrEmpty(ingresoVehiculoView.Parqueadero.Impresora_Parq))
-                {
-                    return RedirectToAction("Edit", "Parqueadero", new { id = ingresoVehiculoView.Parqueadero.Id_Parq });
-                }
+                //if (string.IsNullOrEmpty(ingresoVehiculoView.Parqueadero.Impresora_Parq))
+                //{
+                //    return RedirectToAction("Edit", "Parqueadero", new { id = ingresoVehiculoView.Parqueadero.Id_Parq });
+                //}
             }
             catch (Exception)
             {

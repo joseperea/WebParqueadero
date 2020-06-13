@@ -87,6 +87,12 @@ namespace WebParqueadero.Models
         [Display(Name = "Modificar Valor Total?")]
         public bool ModificarValor_Parq { get; set; }
 
+        [Display(Name = "Casillero?")]
+        public bool Casillero { get; set; }
+
+        [Display(Name = "Lavar?")]
+        public bool Lavar { get; set; }
+
 
         //Relaciones
         public virtual ICollection<Documento> Documento { get; set; }

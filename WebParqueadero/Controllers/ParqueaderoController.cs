@@ -169,14 +169,14 @@ namespace WebParqueadero.Controllers
                     return HttpNotFound();
                 }
 
-                if (string.IsNullOrEmpty(parqueadero.Impresora_Parq))
-                {
-                    ViewBag.ltsImpresoras = new SelectList(Impresoras.ObtenerImpresoras().OrderBy(m => m.Id_Imp), "Nombre_Imp", "Nombre_Imp");
-                }
-                else
-                {
-                    ViewBag.ltsImpresoras = new SelectList(Impresoras.ObtenerImpresoras().OrderBy(m => m.Id_Imp), "Nombre_Imp", "Nombre_Imp", parqueadero.Impresora_Parq);
-                }
+                //if (string.IsNullOrEmpty(parqueadero.Impresora_Parq))
+                //{
+                //    ViewBag.ltsImpresoras = new SelectList(Impresoras.ObtenerImpresoras().OrderBy(m => m.Id_Imp), "Nombre_Imp", "Nombre_Imp");
+                //}
+                //else
+                //{
+                //    ViewBag.ltsImpresoras = new SelectList(Impresoras.ObtenerImpresoras().OrderBy(m => m.Id_Imp), "Nombre_Imp", "Nombre_Imp", parqueadero.Impresora_Parq);
+                //}
                 
             }
             catch (Exception ex)
@@ -203,17 +203,17 @@ namespace WebParqueadero.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-                        string Impresora = Request["ltsImpresoras"];
-                        if (string.IsNullOrEmpty(Impresora) || Impresora == "Seleccionar impresora")
-                        {
-                            if (string.IsNullOrEmpty(parqueadero.Impresora_Parq))
-                                ViewBag.ltsImpresoras = new SelectList(Impresoras.ObtenerImpresoras().OrderBy(m => m.Id_Imp), "Nombre_Imp", "Nombre_Imp");
-                            else
-                                ViewBag.ltsImpresoras = new SelectList(Impresoras.ObtenerImpresoras().OrderBy(m => m.Id_Imp), "Nombre_Imp", "Nombre_Imp", parqueadero.Impresora_Parq);
+                        //string Impresora = Request["ltsImpresoras"];
+                        //if (string.IsNullOrEmpty(Impresora) || Impresora == "Seleccionar impresora")
+                        //{
+                        //    if (string.IsNullOrEmpty(parqueadero.Impresora_Parq))
+                        //        ViewBag.ltsImpresoras = new SelectList(Impresoras.ObtenerImpresoras().OrderBy(m => m.Id_Imp), "Nombre_Imp", "Nombre_Imp");
+                        //    else
+                        //        ViewBag.ltsImpresoras = new SelectList(Impresoras.ObtenerImpresoras().OrderBy(m => m.Id_Imp), "Nombre_Imp", "Nombre_Imp", parqueadero.Impresora_Parq);
 
-                            throw new Exception("Por favor selecciona la impresora.");
-                        }
-                        parqueadero.Impresora_Parq = Impresora;
+                        //    throw new Exception("Por favor selecciona la impresora.");
+                        //}
+                        //parqueadero.Impresora_Parq = Impresora;
                         db.Entry(parqueadero).State = EntityState.Modified;
                         await db.SaveChangesAsync();
                         transaccion.Commit();
@@ -223,10 +223,10 @@ namespace WebParqueadero.Controllers
                 catch (Exception ex)
                 {
                     transaccion.Rollback();
-                    if (string.IsNullOrEmpty(parqueadero.Impresora_Parq))
-                        ViewBag.ltsImpresoras = new SelectList(Impresoras.ObtenerImpresoras().OrderBy(m => m.Id_Imp), "Nombre_Imp", "Nombre_Imp");
-                    else
-                        ViewBag.ltsImpresoras = new SelectList(Impresoras.ObtenerImpresoras().OrderBy(m => m.Id_Imp), "Nombre_Imp", "Nombre_Imp", parqueadero.Impresora_Parq);
+                    //if (string.IsNullOrEmpty(parqueadero.Impresora_Parq))
+                    //    ViewBag.ltsImpresoras = new SelectList(Impresoras.ObtenerImpresoras().OrderBy(m => m.Id_Imp), "Nombre_Imp", "Nombre_Imp");
+                    //else
+                    //    ViewBag.ltsImpresoras = new SelectList(Impresoras.ObtenerImpresoras().OrderBy(m => m.Id_Imp), "Nombre_Imp", "Nombre_Imp", parqueadero.Impresora_Parq);
                     ModelState.AddModelError(string.Empty, string.Format("Error al editar: {0}", ex.Message));
                     return View(parqueadero);
                 }
