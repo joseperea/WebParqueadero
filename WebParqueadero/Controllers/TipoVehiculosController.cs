@@ -99,7 +99,7 @@ namespace WebParqueadero.Controllers
                         db.TipoVehiculos.Add(tipoVehiculos);
                         await db.SaveChangesAsync();
                         transaccion.Commit();
-                        return View("Index", await db.TipoVehiculos.OrderBy(t => t.Estado_TVeh).OrderBy(x => x.Nombre_TVeh).ToListAsync());
+                        return RedirectToAction("Index", new { id = parqueadero.Id_Parq });
                     }
                 }
                 catch (Exception ex)
@@ -109,8 +109,7 @@ namespace WebParqueadero.Controllers
                     return View("Index", await db.TipoVehiculos.OrderBy(t => t.Estado_TVeh).OrderBy(x => x.Nombre_TVeh).ToListAsync());
                 }
             }
-
-            return View("Index", await db.TipoVehiculos.OrderBy(t => t.Estado_TVeh).OrderBy(x => x.Nombre_TVeh).ToListAsync());
+            return RedirectToAction("Index");
         }
 
         // GET: TipoVehiculos/Edit/5
@@ -196,7 +195,7 @@ namespace WebParqueadero.Controllers
                         await db.SaveChangesAsync();
 
                         transaccion.Commit();
-                        return View("Index", await db.TipoVehiculos.OrderBy(t => t.Estado_TVeh).OrderBy(x => x.Nombre_TVeh).ToListAsync());
+                        return RedirectToAction("Index", new { id = parqueadero.Id_Parq });
                     }
                 }
                 catch (Exception ex)
@@ -207,8 +206,7 @@ namespace WebParqueadero.Controllers
                     return View("Index", await db.TipoVehiculos.OrderBy(t => t.Estado_TVeh).OrderBy(x => x.Nombre_TVeh).ToListAsync());
                 }
             }
-
-            return View("Index", await db.TipoVehiculos.OrderBy(t => t.Estado_TVeh).ToListAsync());
+            return RedirectToAction("Index");
         }
 
         // GET: TipoVehiculos/Delete/5
@@ -239,20 +237,21 @@ namespace WebParqueadero.Controllers
             ViewBag.Casillero = parqueadero.Casillero;
             ViewBag.Id_Paq = parqueadero.Id_Parq;
 
-            return View("Index", await db.TipoVehiculos.OrderBy(t => t.Estado_TVeh).OrderBy(x => x.Nombre_TVeh).ToListAsync());
+            return RedirectToAction("Index", new { id = parqueadero.Id_Parq });
         }
 
         // POST: TipoVehiculos/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        [Authorize]
-        public async Task<ActionResult> DeleteConfirmed(Guid id)
-        {
-            TipoVehiculos tipoVehiculos = await db.TipoVehiculos.FindAsync(id);
-            db.TipoVehiculos.Remove(tipoVehiculos);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
+        
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //[Authorize]
+        //public async Task<ActionResult> DeleteConfirmed(Guid id)
+        //{
+        //    TipoVehiculos tipoVehiculos = await db.TipoVehiculos.FindAsync(id);
+        //    db.TipoVehiculos.Remove(tipoVehiculos);
+        //    await db.SaveChangesAsync();
+        //    return RedirectToAction("Index");
+        //}
 
         protected override void Dispose(bool disposing)
         {

@@ -46,6 +46,65 @@
                                     </div>
                                 }
                             </div>
+                            <div class="col-lg-12 row">
+                                @if (Model.Parqueadero.Lavar)
+                                {
+                                    <div class="col-sm-6">
+                                        <div class="col-lg-12">
+                                            @Html.LabelFor(model => model.Parqueadero.Lavar, htmlAttributes: new { @class = "control-label col-sm-12", style = "", title = "Opción de lavar vehiculo" })
+                                        </div>
+                                        <div class="input-group col-lg-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="inputGroupPrepend">
+                                                    <i class="fab fa-slack"></i>
+                                                </span>
+                                            </div>
+                                            @Html.EditorFor(model => model.Parqueadero.Lavar, new { htmlAttributes = new { @class = "form-control col-sm-12", title = "Opción de lavar vehiculo" } })
+                                            @Html.ValidationMessageFor(model => model.Parqueadero.Lavar, "", new { @class = "text-danger col-sm-12" })
+                                        </div>
+
+                                    </div>
+                                }
+
+                                @if (Model.Parqueadero.Casillero)
+                                {
+                                    <div class="col-sm-6">
+                                        <div class="col-lg-12">
+                                            @Html.LabelFor(model => model.Parqueadero.Casillero, htmlAttributes: new { @class = "control-label col-sm-12", style = "", title = "Opcion guardar en casillero" })
+                                        </div>
+
+                                        <div class="input-group col-lg-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="inputGroupPrepend">
+                                                    <i class="fas fa-door-closed"></i>
+                                                </span>
+                                            </div>
+                                            @Html.EditorFor(model => model.Parqueadero.Casillero, new { htmlAttributes = new { @class = "form-control col-sm-12", title = "Opcion guardar en casillero" } })
+                                            @Html.ValidationMessageFor(model => model.Parqueadero.Casillero, "", new { @class = "text-danger col-sm-12" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="col-lg-12">
+                                            @Html.LabelFor(model => model.Observacion_Casillero, htmlAttributes: new { @class = "control-label col-sm-12", style = "", title = "Imprimir ticket de factura" })
+                                        </div>
+
+                                        <div class="input-group col-lg-12">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="inputGroupPrepend">
+                                                    <i class="fas fa-door-closed"></i>
+                                                </span>
+                                            </div>
+                                            @Html.EditorFor(model => model.Cantidad_Articulos_Casillero, new { htmlAttributes = new { @class = "form-control col-sm-3", title = "Opción gardar en casillero" } })
+                                            @Html.ValidationMessageFor(model => model.Cantidad_Articulos_Casillero, "", new { @class = "text-danger col-sm-3" })
+                                            @Html.EditorFor(model => model.Observacion_Casillero, new { htmlAttributes = new { @class = "form-control col-sm-9", title = "Observación casillero" } })
+                                            @Html.ValidationMessageFor(model => model.Observacion_Casillero, "", new { @class = "text-danger col-sm-9" })
+                                        </div>
+                                    </div>
+                                }
+
+
+
+                            </div>
                         </div>
                     </div>
                 </div>

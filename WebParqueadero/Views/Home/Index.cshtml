@@ -3,61 +3,61 @@
 @{
     ViewBag.Title = string.Format("{0} - Inicio", Model.Parqueadero.NombreEmpresa_Parq.ToUpper());
 }
-    <link href="~/Content/Paginas.css" rel="stylesheet" />
+<link href="~/Content/Paginas.css" rel="stylesheet" />
 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-12 container my-2">
-                <div class="row">
-                    <div class="col-8 col-sm-8 col-md-10 my-2">
-                        <button type="button" class="btn btn-dark">
-                            Cantidad Vehiculos <span class="badge badge-light">@Model.Documento.Count</span>
-                            <span class="sr-only">unread messages</span>
-                        </button>
-                    </div>
-                    <div class="offset-1 offset-sm-2 offset-md-1" title="Ingresar Vehiculo">
-                        <button type="submit" class="btn btn-lg btn-dark rounded-circle" data-backdrop="static" data-toggle="modal" data-target="#IngresoVehiculo">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </div>
-                    <div class="col-12 col-sm-12 col-md-12">
-                        @Html.Partial("_MensajeErrorViewParial")
-                    </div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 container my-2">
+            <div class="row">
+                <div class="col-8 col-sm-8 col-md-10 my-2">
+                    <button type="button" class="btn btn-dark">
+                        Cantidad Vehiculos <span class="badge badge-light">@Model.Documento.Count</span>
+                        <span class="sr-only">unread messages</span>
+                    </button>
+                </div>
+                <div class="offset-1 offset-sm-2 offset-md-1" title="Ingresar Vehiculo">
+                    <button type="submit" class="btn btn-lg btn-dark rounded-circle" data-backdrop="static" data-toggle="modal" data-target="#IngresoVehiculo">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                </div>
+                <div class="col-12 col-sm-12 col-md-12">
+                    @Html.Partial("_MensajeErrorViewParial")
                 </div>
             </div>
-            @Html.Partial("_FacturarVehiculoViewPartial", Model)
         </div>
-        @Html.Partial("_IngresoVehiculosViewPartial", Model)
-        @{
-            if (Model.Documento.Count <= 0)
+        @Html.Partial("_FacturarVehiculoViewPartial", Model)
+    </div>
+    @Html.Partial("_IngresoVehiculosViewPartial", Model)
+    @{
+        if (Model.Documento.Count <= 0)
+        {
+            Model.Documento.Add(new Documento
             {
-                Model.Documento.Add(new Documento
-                {
-                    Id_Doc = Guid.NewGuid(),
-                    Parqueadero = Model.Parqueadero,
-                    DetalleDocumento = new List<DetalleDocumento>(),
-                    Vehiculo = new Vehiculo()
-                });
-            }
+                Id_Doc = Guid.NewGuid(),
+                Parqueadero = Model.Parqueadero,
+                DetalleDocumento = new List<DetalleDocumento>(),
+                Vehiculo = new Vehiculo()
+            });
         }
-        <div id="idModalFactiurar">
-            @Html.Partial("_ModalFacturarViewPartial", Model.Documento.FirstOrDefault())
-        </div>
+    }
+    <div id="idModalFactiurar">
+        @Html.Partial("_ModalFacturarViewPartial", Model.Documento.FirstOrDefault())
+    </div>
 
-        <div id="ImprimirFactura">
-
-        </div>
-        <div id="ImprimirIngreso">
-
-        </div>
+    <div id="ImprimirFactura">
 
     </div>
+    <div id="ImprimirIngreso">
+
+    </div>
+
+</div>
 
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
-<script>
+    <script>
 
     var MensajeError = `@Html.ValidationSummary(true,"", new { @class = "text-danger" })`;
 
@@ -71,10 +71,10 @@
 
     function IngresarVehiculoCargando(IdParqueadero) {
         $("#MensajeErrorAlertIngreso").html("");
-            var cargando = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Ingresando...`;
+        var cargando = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Ingresando...`;
         var terminar = `<i class="fas fa-check-square"></i> Finalizar Ingreso`;
-            $("#idIngresarVehiculobtn").html(cargando);
-            var urlIngresar = '@Url.Action("IngresarVehiculos", "Home")';
+        $("#idIngresarVehiculobtn").html(cargando);
+        var urlIngresar = '@Url.Action("IngresarVehiculos", "Home")';
         var RadioTipoVehiculo = $("input[name='TipoVehiculosView']:checked").val();
         var placa = $("#Vehiculo_Placa_Veh").val();
 
@@ -221,5 +221,5 @@
             return false;
         }
 
-</script>
+    </script>
 }

@@ -14,7 +14,6 @@
                         <i class="fas fa-plus"></i>
                         Crear nuevo tipo
                     </button>
-                    <button onclick="Cargar()"> Cargar..</button>
                 </div>
             </div>
             <div class="card-body">
@@ -167,15 +166,7 @@
         }
         @Html.Partial("_ModalCrearViewPartial", tipoVehiculos)
 
-        <div id="divLoading" style="margin: 0px; padding: 0px; position: fixed; right: 0px;
-         top: 0px; width: 100%; height: 100%; background-color: white; z-index: 30001;
-         opacity: .8; filter: alpha(opacity=80);display:none">
-            <p style="position: absolute; top: 50%; left: 40%; color: #990000;">
-                <span class="sr-only">Loading...</span>
-                Espere por favor, Generando Reporte....
-                <img src="~/Imagenes/DON_LEO_P.gif" />
-            </p>
-        </div>
+       
     </div>
 
 @section Scripts {
@@ -192,10 +183,7 @@
             $('#idShowMensajeError').hide();
         }
 
-        function Cargar() {
-            $("#divLoading").show();
-
-        }
+       
 
         function ModalEditar(Id_TVeh, Id_Paq) {
             var urlEditar = '@Url.Action("Edit","TipoVehiculos")';
