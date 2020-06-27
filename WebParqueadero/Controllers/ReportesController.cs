@@ -43,12 +43,26 @@ namespace WebParqueadero.Controllers
                     timeSpan = detalleDocumentos[1].Horas_DDoc.Subtract(detalleDocumentos[0].Horas_DDoc);
                 
                 decimal totalMinutos = Convert.ToDecimal(timeSpan.TotalMinutes);
-                int m = timeSpan.Days / 30;
+
+                int m = 0;
+                if (timeSpan.Days > 0)
+                {
+                    m = timeSpan.Days / 30;
+                }
 
                 resultado = valorTipoVehiculo / tiempoPagoMinutos;
                 resultado = resultado * totalMinutos;
 
                 documento1.Valor_Doc = resultado;
+
+                if (documento1.Parqueadero.Lavar)
+                    if (documento1.ValorLavado > 0)
+                        resultado = resultado + documento1.ValorLavado;
+
+                if (documento1.Parqueadero.Casillero)
+                    if (documento1.ValorCasillero > 0)
+                        resultado = resultado + documento1.ValorCasillero;
+
                 documento1.ValorPagado_Doc = resultado;
 
                 if (timeSpan.Days > 0 && timeSpan.Days <= 30)
@@ -100,8 +114,12 @@ namespace WebParqueadero.Controllers
                 
 
                 decimal totalMinutos = Convert.ToDecimal(timeSpan.TotalMinutes);
-                int meses = timeSpan.Days / 30;
-                
+                int meses = 0;
+                if (timeSpan.Days > 0)
+                {
+                    meses = timeSpan.Days / 30;
+                }
+
 
                 string Transcurrido_DDoc = string.Empty;
 
@@ -113,7 +131,10 @@ namespace WebParqueadero.Controllers
                     Transcurrido_DDoc = string.Format("{0}:{1}:{2}", timeSpan.Hours.ToString("D2"), timeSpan.Minutes.ToString("D2"), timeSpan.Seconds.ToString("D2"));
 
                 reportes.TiempoTranscurrido = Transcurrido_DDoc;
-
+                reportes.Casillero = item.Parqueadero.Casillero;
+                reportes.Lavar = item.Parqueadero.Lavar;
+                reportes.ValorLavado = item.ValorLavado;
+                reportes.ValorCasillero = item.ValorCasillero;
                 ltsReportes.Add(reportes);
                 i++;
             }

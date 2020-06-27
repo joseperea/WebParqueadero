@@ -191,6 +191,9 @@ namespace WebParqueadero.Controllers
                             }
                         }
 
+                        tipoVehiculos.Lavar_TVeh = (tipoVehiculos.ValorLavado_TVeh > 0 && !tipoVehiculos.Lavar_TVeh) ? true : tipoVehiculos.Lavar_TVeh;
+                        tipoVehiculos.Casillero_TVeh = (tipoVehiculos.ValorCasillero_TVeh > 0 && !tipoVehiculos.Casillero_TVeh) ? true : tipoVehiculos.Casillero_TVeh;
+
                         db.Entry(tipoVehiculos).State = EntityState.Modified;
                         await db.SaveChangesAsync();
 

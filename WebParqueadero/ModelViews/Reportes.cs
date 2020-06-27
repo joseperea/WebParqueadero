@@ -49,6 +49,20 @@ namespace WebParqueadero.ModelViews
         [Display(Name = "Valor Total Modificado")]
         public decimal ValorTotalModificado { get; set; }
 
+        public bool Lavar { get; set; }
+
+        [DataType(DataType.Currency)]
+        [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
+        [Display(Name = "Valor Lavado")]
+        public decimal ValorLavado { get; set; }
+
+        public bool Casillero { get; set; }
+
+        [DataType(DataType.Currency)]
+        [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
+        [Display(Name = "Valor Casillero")]
+        public decimal ValorCasillero { get; set; }
+
         public bool ModificarValor { get; set; }
 
     }

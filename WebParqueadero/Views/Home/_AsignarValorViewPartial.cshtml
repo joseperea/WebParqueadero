@@ -1,5 +1,4 @@
 ﻿@model WebParqueadero.Models.Documento
-@Html.HiddenFor(m => m.Valor_Doc)
 @Html.HiddenFor(m => m.Id_Doc)
 @if (!Model.Parqueadero.ModificarValor_Parq)
 {
@@ -29,21 +28,93 @@
         </div>
     </div>
 </div>
+@if (Model.Parqueadero.Lavar)
+{
+    if (Model.ValorLavado > 0)
+    {
+        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+            <div class="row">
+                <div class="col-lg-7">
+                    <i class="fas fa-dollar-sign"></i>
+                    VALOR LAVADO:
+                </div>
+                <div class="input-group col-lg-5">
+                    <div class="input-group-prepend">
+                        @if (Model.Parqueadero.ModificarValor_Parq)
+                        {
+                            @Html.EditorFor(model => model.ValorLavado, new { htmlAttributes = new { @class = "form-control col-sm-12 col-md-12 col-lg-12", placeholder = "Total Lavado", title = "Total Lavado", onkeyup = "ValorTotalAPagar();" } })
+                        }
+                        else
+                        {
+                            @Html.EditorFor(model => model.ValorLavado, new { htmlAttributes = new { @class = "form-control col-sm-12 col-md-12 col-lg-12", placeholder = "Total Lavado", title = "Total Lavado", onkeyup = "ValorTotalAPagar();", disabled = "disabled" } })
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+@if (Model.Parqueadero.Casillero)
+{
+    if (Model.ValorCasillero > 0)
+    {
+        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+            <div class="row">
+                <div class="col-lg-7">
+                    <i class="fas fa-dollar-sign"></i>
+                    VALOR CASELLERO:
+                </div>
+                <div class="input-group col-lg-5">
+                    <div class="input-group-prepend">
+                        @if (Model.Parqueadero.ModificarValor_Parq)
+                        {
+                            @Html.EditorFor(model => model.ValorCasillero, new { htmlAttributes = new { @class = "form-control col-sm-12 col-md-12 col-lg-12", placeholder = "Total Casillero", title = "Total Casillero", onkeyup = "ValorTotalAPagar();" } })
+                        }
+                        else
+                        {
+                            @Html.EditorFor(model => model.ValorCasillero, new { htmlAttributes = new { @class = "form-control col-sm-12 col-md-12 col-lg-12", placeholder = "Total Casillero", title = "Total Casillero", onkeyup = "ValorTotalAPagar();", disabled = "disabled" } })
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
 <div class="form-group col-sm-12 col-md-12 col-lg-12">
     <div class="row">
         <div class="col-lg-7">
             <i class="fas fa-dollar-sign"></i>
-            VALOR :
+            VALOR PARQUEADERO:
         </div>
         <div class="input-group col-lg-5">
             <div class="input-group-prepend">
                 @if (Model.Parqueadero.ModificarValor_Parq)
                 {
-                    @Html.EditorFor(model => model.ValorPagado_Doc, new { htmlAttributes = new { @class = "form-control col-sm-12 col-md-12 col-lg-12", placeholder = "Ingrese placa", title = "Ingrese placa", onkeyup = "Cambio();" } })
+                    @Html.EditorFor(model => model.Valor_Doc, new { htmlAttributes = new { @class = "form-control col-sm-12 col-md-12 col-lg-12", placeholder = "Total Parqueadero", title = "Total Parqueadero", onkeyup = "ValorTotalAPagar();" } })
                 }
                 else
                 {
-                    @Html.EditorFor(model => model.ValorPagado_Doc, new { htmlAttributes = new { @class = "form-control col-sm-12 col-md-12 col-lg-12", placeholder = "Ingrese placa", title = "Ingrese placa", onkeyup = "Cambio();", disabled = "disabled" } })
+                    @Html.EditorFor(model => model.Valor_Doc, new { htmlAttributes = new { @class = "form-control col-sm-12 col-md-12 col-lg-12", placeholder = "Total Parqueadero", title = "Total Parqueadero", onkeyup = "ValorTotalAPagar();", disabled = "disabled" } })
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<div class="form-group col-sm-12 col-md-12 col-lg-12">
+    <div class="row">
+        <div class="col-lg-7">
+            <i class="fas fa-dollar-sign"></i>
+            VALOR TOTAL:
+        </div>
+        <div class="input-group col-lg-5">
+            <div class="input-group-prepend">
+                @if (Model.Parqueadero.ModificarValor_Parq)
+                {
+                    @Html.EditorFor(model => model.ValorPagado_Doc, new { htmlAttributes = new { @class = "form-control col-sm-12 col-md-12 col-lg-12", placeholder = "Valor Total", title = "Valor Total", onkeyup = "Cambio();" } })
+                }
+                else
+                {
+                    @Html.EditorFor(model => model.ValorPagado_Doc, new { htmlAttributes = new { @class = "form-control col-sm-12 col-md-12 col-lg-12", placeholder = "Valor Total", title = "Valor Total", onkeyup = "Cambio();", disabled = "disabled" } })
                 }
             </div>
         </div>

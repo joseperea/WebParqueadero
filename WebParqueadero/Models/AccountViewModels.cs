@@ -77,7 +77,7 @@ namespace WebParqueadero.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirmar Contraseña")]
-        [Compare("Password", ErrorMessage = "Las cotraseñas deben de ser iguales")]
+        [Compare("Password", ErrorMessage = "Las contraseñas deben de ser iguales")]
         public string ConfirmPassword { get; set; }
     }
 
@@ -96,7 +96,7 @@ namespace WebParqueadero.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirmar Contraseña")]
-        [Compare("Password", ErrorMessage = "Las cotraseña deben de ser iguales")]
+        [Compare("Password", ErrorMessage = "Las contraseña deben de ser iguales")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }

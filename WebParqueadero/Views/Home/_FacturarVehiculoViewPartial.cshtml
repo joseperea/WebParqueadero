@@ -18,15 +18,51 @@
                         <div class="row card-body">
                             @foreach (var item in Model.Documento.Where(t => t.VehiculosHoy == false).OrderBy(t => t.Consecutivo).ToList())
                             {
-                                <div class="img-thumbnail col-sm-4 col-md-4 col-lg-4 my-1 text-secondary" style="border:2px solid #808080; border-radius:5px" id="idCalculoAutomatico" title="@string.Format("{0}{2}PLACA: {1}", item.Vehiculo.TipoVehiculo.Nombre_TVeh.ToUpper(),item.Vehiculo.Placa_Veh.ToUpper(), Environment.NewLine)">
+                                List<string> title = new List<string>();
+                                title.Add("VEHICULO: " + item.Vehiculo.TipoVehiculo.Nombre_TVeh.ToUpper());
+                                title.Add("PLACA: " + item.Vehiculo.Placa_Veh.ToUpper());
+                                title.Add("FECHA: " + item.FechaCreacion_Doc.ToShortDateString());
+                                if (item.Parqueadero.Lavar)
+                                {
+                                    if (item.ValorLavado > 0)
+                                    {
+                                        title.Add("VALOR LAVADO: " + item.ValorLavado);
+                                    }
+                                }
+                                if (item.Parqueadero.Casillero)
+                                {
+                                    if (item.ValorCasillero > 0)
+                                    {
+                                        title.Add("VALOR CASILLERO: " + item.ValorCasillero);
+                                        title.Add("OBSERVACION:" + item.Observaciones);
+                                    }
+                                }
+
+                                <div class="img-thumbnail col-sm-4 col-md-4 col-lg-4 my-1 text-secondary" style="border:2px solid #808080; border-radius:5px" id="idCalculoAutomatico" title="@string.Join(Environment.NewLine,title)">
                                     <div class="row">
-                                        <h3 class="col-12 col-sm-12 col-md-12 text-uppercase text-center text-md-center text-sm-center text-lg-center text-black-50">
-                                            <strong>
-                                                @Html.DisplayFor(m => item.Vehiculo.Placa_Veh)
-                                            </strong>
-                                        </h3>
+                                        <div class="col-12 col-sm-12 col-md-12">
+                                            <h3 class="text-uppercase text-center text-md-center text-sm-center text-lg-center text-black-50">
+                                                <strong>
+                                                    @Html.DisplayFor(m => item.Vehiculo.Placa_Veh)
+                                                </strong>
+                                                @if (item.Parqueadero.Lavar)
+                                                {
+                                                    if (item.ValorLavado > 0)
+                                                    {
+                                                        <i class="fab fa-slack" title="VALOR LAVADO: @item.ValorLavado"></i>
+                                                    }
+                                                }
+                                                @if (item.Parqueadero.Casillero)
+                                                {
+                                                    if (item.ValorCasillero > 0)
+                                                    {
+                                                        <i class="fas fa-door-closed" title="@string.Format("VALOR CASILLERO: {0}{2}OBSERVACION: {1}", item.ValorCasillero, item.Observaciones, Environment.NewLine)"></i>
+                                                    }
+                                                }
+                                            </h3>
+                                        </div>
                                         <div class="col-sm-12 col-md-12 col-lg-12">
-                                            <img src="~/@string.Format("Imagenes/{0}.svg", item.Vehiculo.TipoVehiculo.CaracterImagen_TVeh)" alt="Error al cargar la imagen" class="col-sm-12" style="height:200px;color:burlywood" />
+                                            <img src="~/@string.Format("Imagenes/{0}.svg", item.Vehiculo.TipoVehiculo.CaracterImagen_TVeh)" alt="Error al cargar la imagen" class="col-sm-12" style="height:200px" />
                                         </div>
                                         <div class="caption col-12 col-sm-12 col-md-12">
                                             <div id="@item.Id_Doc">
@@ -50,13 +86,49 @@
 
             foreach (var item in Model.Documento.Where(t => t.VehiculosHoy == true).OrderBy(t => t.Consecutivo).ToList())
             {
-                <div class="img-thumbnail col-sm-4 col-md-3 col-lg-3 my-1 text-secondary" style="border:2px solid #808080; border-radius:5px" id="idCalculoAutomatico" title="@string.Format("{0}{2}PLACA: {1}", item.Vehiculo.TipoVehiculo.Nombre_TVeh.ToUpper(),item.Vehiculo.Placa_Veh.ToUpper(), Environment.NewLine)">
+                List<string> title = new List<string>();
+                title.Add("VEHICULO: " + item.Vehiculo.TipoVehiculo.Nombre_TVeh.ToUpper());
+                title.Add("PLACA: " + item.Vehiculo.Placa_Veh.ToUpper());
+                title.Add("FECHA: " + item.FechaCreacion_Doc.ToShortDateString());
+                if (item.Parqueadero.Lavar)
+                {
+                    if (item.ValorLavado > 0)
+                    {
+                        title.Add("VALOR LAVADO: " + item.ValorLavado);
+                    }
+                }
+                if (item.Parqueadero.Casillero)
+                {
+                    if (item.ValorCasillero > 0)
+                    {
+                        title.Add("VALOR CASILLERO: " + item.ValorCasillero);
+                        title.Add("OBSERVACION: " + item.Observaciones);
+                    }
+                }
+
+                <div class="img-thumbnail col-sm-4 col-md-3 col-lg-3 my-1 text-secondary" style="border:2px solid #808080; border-radius:5px" id="idCalculoAutomatico" title="@string.Join(Environment.NewLine,title)">
                     <div class="row">
-                        <h3 class="col-12 col-sm-12 col-md-12 text-uppercase text-center text-md-center text-sm-center text-lg-center text-black-50">
-                            <strong>
-                                @Html.DisplayFor(m => item.Vehiculo.Placa_Veh)
-                            </strong>
-                        </h3>
+                        <div class="col-12 col-sm-12 col-md-12">
+                            <h3 class="text-uppercase text-center text-md-center text-sm-center text-lg-center text-black-50">
+                                <strong>
+                                    @Html.DisplayFor(m => item.Vehiculo.Placa_Veh)
+                                </strong>
+                                @if (item.Parqueadero.Lavar)
+                                {
+                                    if (item.ValorLavado > 0)
+                                    {
+                                        <i class="fab fa-slack" title="VALOR LAVADO: @item.ValorLavado"></i>
+                                    }
+                                }
+                                @if (item.Parqueadero.Casillero)
+                                {
+                                    if (item.ValorCasillero > 0)
+                                    {
+                                        <i class="fas fa-door-closed" title="@string.Format("VALOR CASILLERO: {0}{2}OBSERVACION: {1}", item.ValorCasillero, item.Observaciones, Environment.NewLine)"></i>
+                                    }
+                                }
+                            </h3>
+                        </div>
                         <div class="col-sm-12 col-md-12 col-lg-12">
                             <img src="~/@string.Format("Imagenes/{0}.svg", item.Vehiculo.TipoVehiculo.CaracterImagen_TVeh)" alt="Error al cargar la imagen" class="col-sm-12" style="height:200px;color:burlywood" />
                         </div>

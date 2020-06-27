@@ -69,6 +69,16 @@
             $('#idShowMensajeError').hide();
         }
 
+        $("#IdCantidadObservacionArticulo").hide();
+
+        $("#Casillero").click(function () {
+            if ($(this).is(':checked')) {
+                $("#IdCantidadObservacionArticulo").show();
+            } else {
+                $("#IdCantidadObservacionArticulo").hide();
+            }
+        });
+
     function IngresarVehiculoCargando(IdParqueadero) {
         $("#MensajeErrorAlertIngreso").html("");
         var cargando = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Ingresando...`;
@@ -77,8 +87,20 @@
         var urlIngresar = '@Url.Action("IngresarVehiculos", "Home")';
         var RadioTipoVehiculo = $("input[name='TipoVehiculosView']:checked").val();
         var placa = $("#Vehiculo_Placa_Veh").val();
+        if ($("#Lavar").is(':checked')) {
+            var lavar = true;
+        } else {
+            var lavar = false;
+        }
+        if ($("#Casillero").is(':checked')) {
+            var casillero = true;
+        } else {
+            var casillero = false;
+        }
+        var cantidadCasillero = $("#Cantidad_Articulos_Casillero").val();
+        var observacionCasillero = $("#Observacion_Casillero").val();
 
-        $.post(urlIngresar, { Id_Parq: IdParqueadero, TipoVehiculosView: RadioTipoVehiculo, Placa: placa ,messmessage: false },
+        $.post(urlIngresar, { Id_Parq: IdParqueadero, TipoVehiculosView: RadioTipoVehiculo, Placa: placa, Lavar: lavar, Casillero: casillero, CantidadCasillero: cantidadCasillero, ObservacionCasillero: observacionCasillero  ,messmessage: false },
             function (data) {
                 var contiene = data.includes("alert");
                 if (contiene) {
@@ -96,7 +118,7 @@
         }
 
 
-    function Facturar(IdDocumento, ValorPagado_Doc, Valor_Doc) {
+        function Facturar(IdDocumento, ValorPagado_Doc, Valor_Doc, ValorLavado, ValorCasillero) {
         $("#MensajeErrorAlertFactura").html("");
         var efect = parseInt($("#idEfectivo").val());
         if (isNaN(efect) || efect <= 0) {
@@ -108,7 +130,17 @@
             $("#idFacturarVehiculoCargandobtn").html(cargando);
             var urlFacturar = '@Url.Action("Facturar", "Home")';
 
-            $.post(urlFacturar, { Id_Doc: IdDocumento, ValorPagado_Doc: ValorPagado_Doc, Valor_Doc: Valor_Doc, messmessage: false },
+            var lavado = parseInt(ValorLavado);
+            var Casillero = parseInt(ValorCasillero);
+
+            if (isNaN(lavado)) {
+                lavado = 0;
+            }
+            if (isNaN(Casillero)) {
+                Casillero = 0;
+            }
+
+            $.post(urlFacturar, { Id_Doc: IdDocumento, ValorPagado_Doc: ValorPagado_Doc, Valor_Doc: Valor_Doc, ValorLavado: lavado, ValorCasillero: Casillero, messmessage: false },
                 function (data) {
 
                     var contiene = data.includes("alert");
@@ -125,11 +157,31 @@
                     }
                 });
         }
-    }
+        }
+        function ValorTotalAPagar() {
+            var valorLavado = parseInt($("#ValorLavado").val())
+            var valorCasillero = parseInt($("#ValorCasillero").val())
+            var valor_Doc = parseInt($("#Valor_Doc").val())
+
+            if (isNaN(valorLavado)) {
+                valorLavado = 0;
+            }
+            if (isNaN(valorCasillero)) {
+                valorCasillero = 0;
+            }
+            if (isNaN(valor_Doc)) {
+                valor_Doc = 0;
+            }
+
+            var resultado = valorLavado + valorCasillero + valor_Doc;
+            $("#ValorPagado_Doc").val(resultado);
+            
+        }
 
         function Cambio() {
             var efect = parseInt($("#idEfectivo").val());
             var valor = parseInt($("#ValorPagado_Doc").val());
+
             if (isNaN(efect) || isNaN(valor)) {
                 $("#idCambio").val(0);
             } else {

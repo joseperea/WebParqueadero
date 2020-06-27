@@ -18,7 +18,7 @@ namespace WebParqueadero.Utilidades
         {
             Reportes reports = new Reportes();
             dts.Tables.Add();
-            string TituloExcel = "#,Tipo,Placa,Fecha Ingreso,Fecha Salida,Hora Ingreso,Hora Salida,Duración,Valor Total,Valor Total Modificado";
+            string TituloExcel = "#,Tipo,Placa,Fecha Ingreso,Fecha Salida,Hora Ingreso,Hora Salida,Duración,Valor Total,Valor Lavado,Valor Casillero,Valor Total Modificado";
             foreach (var item in TituloExcel.Split(','))
             {
                 dts.Tables[0].Columns.Add(item, typeof(string));
@@ -36,6 +36,8 @@ namespace WebParqueadero.Utilidades
                     record.HoraSalida,
                     record.TiempoTranscurrido,
                     record.ValorTotal,
+                    record.ValorLavado,
+                    record.ValorCasillero,
                     record.ValorTotalModificado
                     );
             }

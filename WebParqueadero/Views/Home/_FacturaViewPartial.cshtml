@@ -20,6 +20,36 @@
         {
             <samp class="text-left">DURACIÓN: @Model.Transcurrido</samp><br />
         }
+        @if (Model.Casillero)
+        {
+            if (Model.ValotCasillero > 0)
+            {
+                <samp class="text-left">OBSERVACIONES: @Model.Observaciones</samp><br />
+            }
+        }
+        @if ((Model.ValorParqueadero > 0) || ((Model.Lavar || Model.Casillero) && (Model.ValotLavar > 0 || Model.ValotCasillero > 0)))
+        {
+            <samp>****************************************</samp><br />
+            <samp>****************************************</samp><br />
+        }
+        @if (Model.ValorParqueadero > 0)
+        {
+            <samp class="text-left">TOTAL PARQUEADERO: @Model.ValorParqueadero.ToString("C2", CultureInfo.CurrentCulture)</samp><br />
+        }
+        @if (Model.Lavar)
+        {
+            if (Model.ValotLavar > 0)
+            {
+                <samp class="text-left">VALOR LAVADO: @Model.ValotLavar.ToString("C2", CultureInfo.CurrentCulture)</samp><br />
+            }
+        }
+        @if (Model.Casillero)
+        {
+            if (Model.ValotCasillero > 0)
+            {
+                <samp class="text-left">VALOR CASILLERO: @Model.ValotCasillero.ToString("C2", CultureInfo.CurrentCulture)</samp><br />
+            }
+        }
         <samp>****************************************</samp><br />
         <samp>****************************************</samp><br />
         @if (Model.ValotTotal > 0)

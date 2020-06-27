@@ -22,6 +22,13 @@ namespace WebParqueadero.ModelViews
         [Display(Name ="Observación casillero")]
         public string Observacion_Casillero { get; set; }
 
+        [Display(Name = "Cantidad de Articulos en el casillero")]
         public int Cantidad_Articulos_Casillero { get; set; }
+
+        [Display(Name = "Lavar?")]
+        public bool Lavar { get; set; }
+
+        [Display(Name = "Casillero?")]
+        public bool Casillero { get; set; }
     }
 }

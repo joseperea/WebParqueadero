@@ -51,7 +51,7 @@
                                 {
                                     <div class="col-sm-6">
                                         <div class="col-lg-12">
-                                            @Html.LabelFor(model => model.Parqueadero.Lavar, htmlAttributes: new { @class = "control-label col-sm-12", style = "", title = "Opción de lavar vehiculo" })
+                                            @Html.LabelFor(model => model.Lavar, htmlAttributes: new { @class = "control-label col-sm-12", style = "", title = "Opción de lavar vehiculo" })
                                         </div>
                                         <div class="input-group col-lg-12">
                                             <div class="input-group-prepend">
@@ -59,8 +59,8 @@
                                                     <i class="fab fa-slack"></i>
                                                 </span>
                                             </div>
-                                            @Html.EditorFor(model => model.Parqueadero.Lavar, new { htmlAttributes = new { @class = "form-control col-sm-12", title = "Opción de lavar vehiculo" } })
-                                            @Html.ValidationMessageFor(model => model.Parqueadero.Lavar, "", new { @class = "text-danger col-sm-12" })
+                                            @Html.EditorFor(model => model.Lavar, new { htmlAttributes = new { @class = "form-control col-sm-12", title = "Opción de lavar vehiculo" } })
+                                            @Html.ValidationMessageFor(model => model.Lavar, "", new { @class = "text-danger col-sm-12" })
                                         </div>
 
                                     </div>
@@ -70,7 +70,7 @@
                                 {
                                     <div class="col-sm-6">
                                         <div class="col-lg-12">
-                                            @Html.LabelFor(model => model.Parqueadero.Casillero, htmlAttributes: new { @class = "control-label col-sm-12", style = "", title = "Opcion guardar en casillero" })
+                                            @Html.LabelFor(model => model.Casillero, htmlAttributes: new { @class = "control-label col-sm-12", style = "", title = "Opcion guardar en casillero" })
                                         </div>
 
                                         <div class="input-group col-lg-12">
@@ -79,31 +79,23 @@
                                                     <i class="fas fa-door-closed"></i>
                                                 </span>
                                             </div>
-                                            @Html.EditorFor(model => model.Parqueadero.Casillero, new { htmlAttributes = new { @class = "form-control col-sm-12", title = "Opcion guardar en casillero" } })
-                                            @Html.ValidationMessageFor(model => model.Parqueadero.Casillero, "", new { @class = "text-danger col-sm-12" })
+                                            @Html.EditorFor(model => model.Casillero, new { htmlAttributes = new { @class = "form-control col-sm-12", title = "Opcion guardar en casillero" } })
+                                            @Html.ValidationMessageFor(model => model.Casillero, "", new { @class = "text-danger col-sm-12" })
                                         </div>
                                     </div>
-                                    <div class="col-sm-12">
-                                        <div class="col-lg-12">
-                                            @Html.LabelFor(model => model.Observacion_Casillero, htmlAttributes: new { @class = "control-label col-sm-12", style = "", title = "Imprimir ticket de factura" })
-                                        </div>
-
+                                    <div class="col-sm-12" style="margin-top: 5px" id="IdCantidadObservacionArticulo">
                                         <div class="input-group col-lg-12">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="inputGroupPrepend">
-                                                    <i class="fas fa-door-closed"></i>
-                                                </span>
-                                            </div>
-                                            @Html.EditorFor(model => model.Cantidad_Articulos_Casillero, new { htmlAttributes = new { @class = "form-control col-sm-3", title = "Opción gardar en casillero" } })
-                                            @Html.ValidationMessageFor(model => model.Cantidad_Articulos_Casillero, "", new { @class = "text-danger col-sm-3" })
-                                            @Html.EditorFor(model => model.Observacion_Casillero, new { htmlAttributes = new { @class = "form-control col-sm-9", title = "Observación casillero" } })
-                                            @Html.ValidationMessageFor(model => model.Observacion_Casillero, "", new { @class = "text-danger col-sm-9" })
+                                            @Html.EditorFor(model => model.Cantidad_Articulos_Casillero, new { htmlAttributes = new { @class = "form-control col-sm-3", title = "Cantidad de articulos en el casillero", PlaceHolder = "Cantidad Articulos" } })
+                                            @Html.EditorFor(model => model.Observacion_Casillero, new { htmlAttributes = new { @class = "form-control col-sm-9", title = "Observación casillero", PlaceHolder = "Nombre Articulos" } })
+                                            @Html.ValidationMessageFor(model => model.Cantidad_Articulos_Casillero, "", new { @class = "text-danger col-sm-12" })
+                                            @Html.ValidationMessageFor(model => model.Observacion_Casillero, "", new { @class = "text-danger col-sm-12" })
                                         </div>
+                                        <p class="font-italic text-justify text-muted text-break">
+                                            Por favor ingresar la cantidad y nombre de cada uno de los articulos.
+                                            Ej: Cantidad Articulos = 2 : Nombre Articulo = Caso y chaleco
+                                        </p>
                                     </div>
                                 }
-
-
-
                             </div>
                         </div>
                     </div>

@@ -9,6 +9,7 @@ using System.Web.Routing;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using NPOI.SS.Formula.Functions;
 using WebParqueadero.Models;
 
 namespace WebParqueadero.Controllers
@@ -263,6 +264,7 @@ namespace WebParqueadero.Controllers
                 // Don't reveal that the user does not exist
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
+            model.Code = UserManager.GeneratePasswordResetToken(model.Code);
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
             if (result.Succeeded)
             {

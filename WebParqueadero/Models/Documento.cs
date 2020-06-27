@@ -35,9 +35,16 @@ namespace WebParqueadero.Models
         public bool Estado_Doc { get; set; }
         public int Consecutivo { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
+        public decimal ValorLavado { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
+        public decimal ValorCasillero { get; set; }
+
+        public string Observaciones { get; set; }
+
         [NotMapped]
         public bool VehiculosHoy { get; set; }
-
 
         //Realaciones
         public virtual Parqueadero Parqueadero { get; set; }
