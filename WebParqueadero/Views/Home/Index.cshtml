@@ -118,7 +118,7 @@
         }
 
 
-        function Facturar(IdDocumento, ValorPagado_Doc, Valor_Doc, ValorLavado, ValorCasillero) {
+        function Facturar(IdDocumento) {
         $("#MensajeErrorAlertFactura").html("");
         var efect = parseInt($("#idEfectivo").val());
         if (isNaN(efect) || efect <= 0) {
@@ -130,8 +130,10 @@
             $("#idFacturarVehiculoCargandobtn").html(cargando);
             var urlFacturar = '@Url.Action("Facturar", "Home")';
 
-            var lavado = parseInt(ValorLavado);
-            var Casillero = parseInt(ValorCasillero);
+            var lavado = parseInt($("#ValorLavado").val())
+            var Casillero = parseInt($("#ValorCasillero").val())
+            var Valor_Doc = parseInt($("#Valor_Doc").val())
+            var ValorPagado_Doc = parseInt($("#ValorPagado_Doc").val())
 
             if (isNaN(lavado)) {
                 lavado = 0;
@@ -175,7 +177,8 @@
 
             var resultado = valorLavado + valorCasillero + valor_Doc;
             $("#ValorPagado_Doc").val(resultado);
-            
+
+            $("#ValorLavado").val(valorLavado);
         }
 
         function Cambio() {

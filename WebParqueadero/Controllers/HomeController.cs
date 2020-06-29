@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 
 namespace WebParqueadero.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private WebParqueaderoContext db = new WebParqueaderoContext();
@@ -53,13 +54,12 @@ namespace WebParqueadero.Controllers
             }
             return ingresoVehiculoView;
         }
-
-        [Authorize]
         public ActionResult Index()
         {
             IngresoVehiculoView ingresoVehiculoView = new IngresoVehiculoView();
             try
             {
+               
                 ingresoVehiculoView = CagarVista(ingresoVehiculoView);
 
             }
@@ -92,7 +92,6 @@ namespace WebParqueadero.Controllers
             return View();
         }
 
-        [Authorize]
         [HttpPost]
         public ActionResult IngresarVehiculos(Guid? TipoVehiculosView, Guid? Id_Parq, string Placa, bool? Lavar, bool? Casillero, int? CantidadCasillero, string ObservacionCasillero)
         {
@@ -246,7 +245,6 @@ namespace WebParqueadero.Controllers
             return RedirectToAction("Index");
         }
 
-        [Authorize]
         [HttpPost]
         public ActionResult Facturar(Guid? Id_Doc, decimal ValorPagado_Doc, decimal Valor_Doc, decimal ValorLavado, decimal ValorCasillero)
         {
@@ -333,7 +331,6 @@ namespace WebParqueadero.Controllers
             //return View("Index", CagarVista(ingresoVehiculoView));
         }
 
-        [Authorize]
         [HttpGet]
         public ActionResult CalculoActomatico(Guid Id_Doc)
         {
@@ -367,7 +364,6 @@ namespace WebParqueadero.Controllers
             return PartialView("_CalcularValorViewPartial", documento);
         }
 
-        [Authorize]
         [HttpGet]
         public ActionResult ViewModalFacturar(Guid Id_Doc)
         {

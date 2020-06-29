@@ -21,6 +21,7 @@ namespace WebParqueadero.Controllers
         private ApplicationUserManager _userManager;
         private ApplicationSignInManager _signInManager;
 
+        [Authorize(Roles = "Administrador")]
         // GET: Parqueadero
         public async Task<ActionResult> Index()
         {
@@ -28,6 +29,7 @@ namespace WebParqueadero.Controllers
             return View(await db.Parqueaderoes.ToListAsync());
         }
 
+        [Authorize(Roles = "Administrador")]
         // GET: Parqueadero/Details/5
         public async Task<ActionResult> Details(Guid? id)
         {
@@ -88,6 +90,7 @@ namespace WebParqueadero.Controllers
                 {
                     if (ModelState.IsValid)
                     {
+                        RolesParqueadero rolesParqueadero = new RolesParqueadero();
                         var ResultadoParqueadero = db.Parqueaderoes.Where(t => t.NitEmpresa_Parq == parqueadero.NitEmpresa_Parq).ToList();
                         if (ResultadoParqueadero.Count > 0)
                         {
@@ -99,6 +102,7 @@ namespace WebParqueadero.Controllers
                         if (result.Succeeded)
                         {
                             await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                            rolesParqueadero.AddPermisionToUser(user.Email, "Administrador");
 
                             parqueadero.Id_Parq = Guid.NewGuid();
                             db.Parqueaderoes.Add(parqueadero);
@@ -151,7 +155,7 @@ namespace WebParqueadero.Controllers
             return View(parqueadero);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Administrador")]
         // GET: Parqueadero/Edit/5
         public async Task<ActionResult> Edit(Guid? id)
         {
@@ -193,7 +197,7 @@ namespace WebParqueadero.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize(Roles = "Administrador")]
         public async Task<ActionResult> Edit(Parqueadero parqueadero)
         {
             using (var transaccion = db.Database.BeginTransaction())
@@ -235,6 +239,7 @@ namespace WebParqueadero.Controllers
             return View(parqueadero);
         }
 
+        [Authorize(Roles = "Administrador")]
         // GET: Parqueadero/Delete/5
         public async Task<ActionResult> Delete(Guid? id)
         {
@@ -254,6 +259,7 @@ namespace WebParqueadero.Controllers
         // POST: Parqueadero/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador")]
         public async Task<ActionResult> DeleteConfirmed(Guid id)
         {
             Parqueadero parqueadero = await db.Parqueaderoes.FindAsync(id);

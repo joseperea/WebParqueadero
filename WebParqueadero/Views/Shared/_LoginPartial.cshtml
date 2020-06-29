@@ -25,10 +25,18 @@
                     Perfil
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="@Url.Action("ResetPassword","Account", new { code = User.Identity.GetUserId() })">                  
-                    <i class="fas fa-key fa-sm fa-fw mr-2 text-gray-400"></i>
+                <a class="dropdown-item" href="@Url.Action("ResetPassword","Account", new { code = User.Identity.GetUserId() })">
+                    <i class="fas fa-user-edit fa-sm fa-fw mr-2 text-gray-400"></i>
                     Modificar Contraseña
                 </a>
+                @if (User.IsInRole("Administrador"))
+                {
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="@Url.Action("Register","Account", new { code = User.Identity.GetUserId() })">
+                        <i class="fas fa-user-plus fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Agregar Usuario
+                    </a>
+                }
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="javascript:document.getElementById('logoutForm').submit()">
                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>

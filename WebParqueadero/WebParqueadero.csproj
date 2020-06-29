@@ -290,6 +290,7 @@
     <Compile Include="Utilidades\ImprimirTicket.cs" />
     <Compile Include="Utilidades\IngresarVehiculos.cs" />
     <Compile Include="Utilidades\ObtenerListaImpresoras.cs" />
+    <Compile Include="Utilidades\Roles.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-grid.css" />

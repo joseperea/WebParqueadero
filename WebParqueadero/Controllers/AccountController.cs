@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using NPOI.SS.Formula.Functions;
@@ -19,6 +20,8 @@ namespace WebParqueadero.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private WebParqueaderoContext db = new WebParqueaderoContext();
+        private ApplicationDbContext dbContext = new ApplicationDbContext();
 
         public AccountController()
         {
@@ -147,9 +150,15 @@ namespace WebParqueadero.Controllers
         //
         // GET: /Account/Register
         [AllowAnonymous]
-        public ActionResult Register()
+        public ActionResult Register(string code)
         {
-            return View();
+            var RoleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(dbContext));
+            var ListaRoles = RoleManager.Roles.ToList();
+            ListaRoles.Add(new IdentityRole { Id = "0", Name = "seleccione el Rol..." });
+            ViewBag.Roles = new SelectList(ListaRoles.OrderBy(r => r.Id), "Id", "Name");
+            RegisterViewModel registerView = new RegisterViewModel();
+            registerView.Id_Parq = db.ParqueaderoUsuarioDetalle.Where(t => t.IdUser_PUD == code).FirstOrDefault().Id_Parq;
+            return View(registerView);
         }
 
         //
@@ -159,14 +168,32 @@ namespace WebParqueadero.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+            var RoleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(dbContext));
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    Utilidades.RolesParqueadero rolesParqueadero = new Utilidades.RolesParqueadero();
+                    string id = Request["Roles"];
+
+                    if (id != "0")
+                        rolesParqueadero.AddPermisionToUser(model.Email, RoleManager.Roles.Where(t => t.Id == id).FirstOrDefault().Name);
+                    else
+                        result.Errors.Append("Por favor seleccionar rol.");
+
+                    ParqueaderoUsuarioDetalle parqueaderoUsuarioDetalle = new ParqueaderoUsuarioDetalle();
+
+                    parqueaderoUsuarioDetalle.Id_Parq = db.Parqueaderoes.Find(model.Id_Parq).Id_Parq;
+                    parqueaderoUsuarioDetalle.Id_PUD = Guid.NewGuid();
+                    parqueaderoUsuarioDetalle.IdUser_PUD = user.Id;
+
+                    db.ParqueaderoUsuarioDetalle.Add(parqueaderoUsuarioDetalle);
+                    await db.SaveChangesAsync();
+
+                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -177,6 +204,9 @@ namespace WebParqueadero.Controllers
                 }
                 AddErrors(result);
             }
+            var ListaRoles = RoleManager.Roles.ToList();
+            ListaRoles.Add(new IdentityRole { Id = "0", Name = "seleccione el Rol..." });
+            ViewBag.Roles = new SelectList(ListaRoles.OrderBy(r => r.Id), "Id", "Name");
 
             // If we got this far, something failed, redisplay form
             return View(model);
@@ -244,7 +274,11 @@ namespace WebParqueadero.Controllers
         [AllowAnonymous]
         public ActionResult ResetPassword(string code)
         {
-            return code == null ? View("Error") : View();
+            ViewBag.Admin = (User.IsInRole("Administrador") ? true : false);
+            ResetPasswordViewModel model = new ResetPasswordViewModel();
+            model.Code = code;
+            model.Email = User.Identity.GetUserName();
+            return code == null ? View("Error") : View(model);
         }
 
         //
@@ -254,10 +288,12 @@ namespace WebParqueadero.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
         {
+            ViewBag.Admin = (User.IsInRole("Administrador") ? true : false);
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
+
             var user = await UserManager.FindByNameAsync(model.Email);
             if (user == null)
             {
@@ -268,7 +304,11 @@ namespace WebParqueadero.Controllers
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
             if (result.Succeeded)
             {
-                return RedirectToAction("ResetPasswordConfirmation", "Account");
+                var parqueaderoUsuarioDetalle = db.ParqueaderoUsuarioDetalle.Where(t => t.IdUser_PUD == user.Id).FirstOrDefault().Parqueadero;
+                parqueaderoUsuarioDetalle.CorreoContra_Parq = model.Password;
+                db.Entry(parqueaderoUsuarioDetalle).State = System.Data.Entity.EntityState.Modified;
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index", "Home");
             }
             AddErrors(result);
             return View();

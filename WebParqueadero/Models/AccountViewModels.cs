@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using NPOI.HPSF;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace WebParqueadero.Models
@@ -79,6 +81,11 @@ namespace WebParqueadero.Models
         [Display(Name = "Confirmar Contraseña")]
         [Compare("Password", ErrorMessage = "Las contraseñas deben de ser iguales")]
         public string ConfirmPassword { get; set; }
+
+        [Display(Name = "Seleccionar Rol")]
+        public string Roles { get; set; }
+
+        public Guid Id_Parq { get; set; }
     }
 
     public class ResetPasswordViewModel

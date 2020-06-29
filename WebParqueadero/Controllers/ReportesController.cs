@@ -14,6 +14,7 @@ using WebParqueadero.ModelViews;
 
 namespace WebParqueadero.Controllers
 {
+    [Authorize(Roles = "Administrador")]
     public class ReportesController : Controller
     {
         private WebParqueaderoContext db = new WebParqueaderoContext();

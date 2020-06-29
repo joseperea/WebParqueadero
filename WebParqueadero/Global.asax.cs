@@ -28,7 +28,16 @@ namespace WebParqueadero
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             ingresarVehiculos.Ingresar(db);
+            CrearRoles();
 
         }
+
+        private void CrearRoles()
+        {
+            RolesParqueadero roles = new RolesParqueadero(); 
+            roles.CrearRoles("Administrador");
+            roles.CrearRoles("Cajero");
+        }
+
     }
 }

@@ -9,13 +9,13 @@ using WebParqueadero.Models;
 
 namespace WebParqueadero.Controllers
 {
+    [Authorize(Roles = "Administrador")]
     public class TipoVehiculosController : Controller
     {
         private readonly WebParqueaderoContext db = new WebParqueaderoContext();
 
         
         // GET: TipoVehiculos
-        [Authorize]
         public async Task<ActionResult> Index(Guid? id)
         {
             try
@@ -41,7 +41,6 @@ namespace WebParqueadero.Controllers
         }
 
         // GET: TipoVehiculos/Details/5
-        [Authorize]
         public async Task<ActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -57,7 +56,6 @@ namespace WebParqueadero.Controllers
         }
 
         // GET: TipoVehiculos/Create
-        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -68,7 +66,6 @@ namespace WebParqueadero.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
         public async Task<ActionResult> Create(TipoVehiculos tipoVehiculos, Guid? Id_Paq)
         {
             using (DbContextTransaction transaccion = db.Database.BeginTransaction())
@@ -113,7 +110,6 @@ namespace WebParqueadero.Controllers
         }
 
         // GET: TipoVehiculos/Edit/5
-        [Authorize]
         public async Task<ActionResult> Edit(Guid? id, Guid? Id_Paq)
         {
             TipoVehiculos tipoVehiculos = new TipoVehiculos();
@@ -155,7 +151,6 @@ namespace WebParqueadero.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
         public async Task<ActionResult> Edit(TipoVehiculos tipoVehiculos, Guid? Id_Paq)
         {
             using (DbContextTransaction transaccion = db.Database.BeginTransaction())
@@ -213,7 +208,6 @@ namespace WebParqueadero.Controllers
         }
 
         // GET: TipoVehiculos/Delete/5
-        [Authorize]
         public async Task<ActionResult> Delete(Guid? id, Guid? Id_Paq)
         {
             if (id == null)
