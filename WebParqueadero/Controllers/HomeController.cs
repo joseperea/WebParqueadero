@@ -185,7 +185,7 @@ namespace WebParqueadero.Controllers
                         }
                     }
 
-                    if (CantidadCasillero > 0 && !string.IsNullOrWhiteSpace(ObservacionCasillero)) 
+                    if (CantidadCasillero > 0 && !string.IsNullOrWhiteSpace(ObservacionCasillero))
                     {
                         documento.Observaciones = $"{CantidadCasillero.Value}, {ObservacionCasillero}";
                     }
@@ -226,6 +226,10 @@ namespace WebParqueadero.Controllers
                     imprimir.ValotLavar = documento.ValorLavado;
                     imprimir.ValotCasillero = documento.ValorCasillero;
                     imprimir.Observaciones = documento.Observaciones;
+                    imprimir.ValorXVehiculo = vehiculo.TipoVehiculo.Valor_TVeh;
+                    imprimir.TiempoXVehiculo = parqueadero.PagoMinutos_Parq;
+                    imprimir.HoraApertura = parqueadero.HoraApertura_Parq;
+                    imprimir.HoraCierre = parqueadero.HoraCierre_Parq;
                     //imprimir.Transcurrido = GetCalculoHoraValor(documento).DetalleDocumento.FirstOrDefault().Transcurrido_DDoc;
                     imprimir.Transcurrido = "Inicio";
                     //imprimirTicket.Generar(imprimir, documento.Parqueadero.ImprimirIngreso_Parq, false);
@@ -295,7 +299,8 @@ namespace WebParqueadero.Controllers
                     db.DetalleDocumento.Add(detalleDocumento);
                     db.SaveChanges();
 
-            
+                    Parqueadero parqueadero = db.Parqueaderoes.Find(documento1.Id_Parq);
+
                     imprimir.NombreParqueadero = documento1.Parqueadero.NombreEmpresa_Parq.ToUpper();
                     imprimir.Direccion = documento1.Parqueadero.Direccion_Parq.ToUpper();
                     imprimir.NitParqueadero = documento1.Parqueadero.NitEmpresa_Parq.ToUpper();
@@ -312,6 +317,10 @@ namespace WebParqueadero.Controllers
                     imprimir.ValotLavar = ValorLavado;
                     imprimir.Observaciones = documento1.Observaciones;
                     imprimir.Transcurrido = GetCalculoHoraValor(documento1).DetalleDocumento.FirstOrDefault().Transcurrido_DDoc;
+                    imprimir.ValorXVehiculo = documento1.Vehiculo.TipoVehiculo.Valor_TVeh;
+                    imprimir.TiempoXVehiculo =  parqueadero.PagoMinutos_Parq;
+                    imprimir.HoraApertura = parqueadero.HoraApertura_Parq;
+                    imprimir.HoraCierre = parqueadero.HoraCierre_Parq;
                     //imprimirTicket.Generar(imprimir, documento1.Parqueadero.ImprimirFactura_Parq, true);
 
                     transaccion.Commit();

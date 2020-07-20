@@ -40,5 +40,17 @@ namespace WebParqueadero.ModelViews
 
         public string Observaciones { get; set; }
 
+        public int TiempoXVehiculo { get; set; }
+
+        [DataType(DataType.Currency)]
+        [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
+        public decimal ValorXVehiculo { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:hh:mm:ss}", ApplyFormatInEditMode = true)]
+        public DateTime HoraApertura { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:hh:mm:ss}", ApplyFormatInEditMode = true)]
+        public DateTime HoraCierre { get; set; }
+
     }
 }

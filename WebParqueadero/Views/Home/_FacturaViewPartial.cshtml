@@ -9,10 +9,12 @@
         <samp class="text-left">NOMBRE: @Model.NombreParqueadero</samp><br />
         <samp class="text-left">NIT: @Model.NitParqueadero</samp><br />
         <samp class="text-left">DIRECCIÓN: @Model.Direccion</samp><br />
+        <samp class="text-left">HORARIO: @string.Format("{0} Hasta {1}",Model.HoraApertura.ToShortTimeString(),Model.HoraCierre.ToShortTimeString())</samp><br />
         <samp>****************************************</samp><br />
         <samp class="text-center">VEHICULO</samp><br />
         <samp>========================================</samp><br />
         <samp class="text-left">VEHICULO: @Model.TipoVehiculo</samp><br />
+        <samp class="text-left">@string.Format("VALOR POR {0}min", Model.TiempoXVehiculo): @Model.ValorXVehiculo.ToString("C2", CultureInfo.CurrentCulture)</samp><br />
         <samp class="text-left">PLACA: @Model.Placa</samp><br />
         <samp class="text-left">FECHA: @Model.Fecha.ToShortDateString()</samp><br />
         <samp class="text-left">HORA: @Model.Horas.ToShortTimeString()</samp><br />
@@ -34,7 +36,7 @@
         }
         @if (Model.ValorParqueadero > 0)
         {
-            <samp class="text-left">TOTAL PARQUEADERO: @Model.ValorParqueadero.ToString("C2", CultureInfo.CurrentCulture)</samp><br />
+            <samp class="text-left">VALOR PARQUEADERO: @Model.ValorParqueadero.ToString("C2", CultureInfo.CurrentCulture)</samp><br />
         }
         @if (Model.Lavar)
         {
